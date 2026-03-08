@@ -1,0 +1,438 @@
+/* =========================
+   RESET
+========================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* =========================
+   BASE
+========================= */
+body {
+  font-family: "Libre Baskerville", serif;
+  color: #222;
+  line-height: 1.75;
+  background:
+    radial-gradient(circle at 20% 10%, rgba(255,255,255,0.55), transparent 40%),
+    radial-gradient(circle at 80% 0%, rgba(255,255,255,0.35), transparent 45%),
+    #fff7f7;
+}
+
+.container {
+  width: 90%;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* =========================
+   HEADER PRETO
+========================= */
+header{
+  background:
+    radial-gradient(circle at 30% 20%, rgba(255,255,255,0.06), transparent 35%),
+    linear-gradient(#1c1c1c, #0a0a0a);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  padding: 56px 0 44px;
+  text-align: center;
+  color: #fff;
+}
+
+header h1{
+  font-family:"Playfair Display", serif;
+  font-size: 56px;
+  letter-spacing: 2px;
+  text-transform: none;
+}
+
+.subtitle{
+  max-width: 920px;
+  margin: 14px auto 0;
+  opacity: 0.9;
+  font-size: 16px;
+   font-style: italic;
+   letter-spacing: .3px;
+}
+
+/* =========================
+   MENU VINTAGE
+========================= */
+.topnav{
+  background: linear-gradient(#dfd2ad, #d2c295);
+  border-top: 1px solid rgba(0,0,0,0.25);
+  border-bottom: 2px solid #8f7a49;
+}
+
+.topnav .container{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+}
+
+.navlink{
+  padding: 12px 16px;
+  text-decoration:none;
+  color:#1b1b1b;
+  font-size: 13px;
+  letter-spacing: .5px;
+  border-right: 1px solid rgba(0,0,0,0.15);
+}
+
+.navlink:first-child{
+  border-left: 1px solid rgba(0,0,0,0.15);
+}
+
+.navlink:hover{
+  background: rgba(143,122,73,0.18);
+}
+
+.navlink.active{
+  background: #8f7a49;
+  color:#fff;
+  font-weight:700;
+}
+
+/* =========================
+   CONTEÚDO
+========================= */
+.content {
+  background: #f7f4ec;
+  padding: 50px;
+  margin: 40px auto;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.18);
+   margin-bottom: 22px;
+  text-align: justify;
+   border-radius: 12px;
+   
+}
+
+.content h2 {
+  font-family: "Playfair Display", serif;
+  margin-bottom: 25px;
+     margin-top: 50px;
+  font-size: 30px;
+  letter-spacing: 1px;
+}
+
+.content p {
+  margin-bottom: 20px;
+}
+
+
+.content{
+  max-width: 860px;
+  margin: 50px auto;
+  font-size: 17px;
+  line-height: 1.85;
+}
+
+.content p{
+  margin-bottom: 22px;
+}
+
+
+/* =========================
+   IMAGENS
+========================= */
+.post-figure {
+  margin: 30px 0;
+  text-align: center;
+}
+
+.post-img{
+  display:block;
+  margin: 34px auto;
+  width: 76%;
+  max-width: 780px;
+  height:auto;
+  border-radius: 10px;
+  border: 1px solid rgba(0,0,0,0.12);
+  box-shadow: 0 16px 35px rgba(0,0,0,0.16);
+}
+
+.post-caption{
+  margin-top: 10px;
+  font-size: 13px;
+  letter-spacing: .2px;
+  opacity: .8;
+  text-align:center;
+  font-style: italic;
+}
+
+/* =========================
+   FOOTER
+========================= */
+footer {
+  text-align: center;
+  padding: 25px 0;
+  background: #000;
+  color: #fff;
+  font-size: 14px;
+}
+
+
+.sep{
+  border: none;
+  border-top: 1px solid rgba(0,0,0,0.18);
+  margin: 18px 0 28px;
+}
+
+
+
+/* =========================
+   RESPONSIVO
+========================= */
+
+@media (max-width: 700px){
+  header h1{ font-size: 36px; }
+  .content{ padding: 26px; border-radius: 8px; }
+  .post-img{ width: 100%; border-radius: 8px; }
+  .navlink{ padding: 10px 12px; }
+}
+
+
+
+
+/* =========================
+   HOME CARDS (BLOG/MUSEU)
+========================= */
+.card-grid{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.card{
+  display:block;
+  text-decoration:none;
+  color: inherit;
+  background: #fbf8f0;
+  border: 1px solid rgba(0,0,0,0.10);
+  border-radius: 12px;
+  padding: 16px 16px 18px;
+  box-shadow: 0 10px 22px rgba(0,0,0,0.10);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+
+.card:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 16px 30px rgba(0,0,0,0.14);
+}
+
+.card__tag{
+  display:inline-block;
+  font-size: 11px;
+  letter-spacing: .6px;
+  text-transform: uppercase;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(143,122,73,0.15);
+  border: 1px solid rgba(143,122,73,0.25);
+  margin-bottom: 10px;
+}
+
+.card__title{
+  font-family:"Playfair Display", serif;
+  font-size: 18px;
+  letter-spacing: .3px;
+  margin-bottom: 8px;
+}
+
+.card__text{
+  font-size: 14px;
+  line-height: 1.6;
+  opacity: .92;
+}
+
+/* Responsivo cards */
+@media (max-width: 900px){
+  .card-grid{ grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px){
+  .card-grid{ grid-template-columns: 1fr; }
+}
+
+
+
+/* =========================
+   ARTIGO (MUSEU CLÁSSICO)
+========================= */
+.content{
+  border-radius: 12px;
+}
+
+.content p{
+  margin-bottom: 22px;
+  text-align: justify;
+}
+
+.content h2{
+  font-family: "Playfair Display", serif;
+  font-size: 30px;
+  letter-spacing: 1px;
+  margin-top: 44px;
+  margin-bottom: 14px;
+}
+
+.sep{
+  border: none;
+  border-top: 1px solid rgba(0,0,0,0.18);
+  margin: 10px 0 22px;
+}
+
+
+/* ================================
+   # LEITURA MAIS LEVE (ARTIGOS)
+   # Não remove texto, só melhora layout/ritmo
+   ================================ */
+
+.article {
+  background-color: #000;
+  max-width: 72ch;          /* # largura ideal de leitura */
+  margin: 0 auto;           /* # centra */
+  padding: 24px 16px;       /* # respiro */
+  font-size: 18px;          /* # texto mais confortável */
+  line-height: 1.75;        /* # respiração entre linhas */
+}
+
+.article p {
+  margin: 0 0 1.05em;       /* # separa parágrafos */
+}
+
+.article h1 {
+  line-height: 1.15;
+  margin: 0 0 0.6em;
+}
+
+.article h2 {
+  margin: 1.6em 0 0.55em;   /* # mais espaço antes de secções */
+  line-height: 1.2;
+}
+
+.article h3 {
+  margin: 1.2em 0 0.5em;
+  line-height: 1.25;
+}
+
+.article img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 14px;
+  margin: 0.9em 0 1.2em;    /* # “quebra” visual */
+}
+
+.article hr {
+  margin: 1.6em 0;
+  opacity: 0.22;
+}
+
+/* # Melhor leitura em ecrãs grandes */
+@media (min-width: 900px) {
+  .article {
+    font-size: 19px;
+    padding: 36px 18px;
+  }
+}
+
+/* # Melhor leitura em telemóvel */
+@media (max-width: 480px) {
+  .article {
+    font-size: 16.5px;
+    line-height: 1.7;
+  }
+}
+
+
+
+
+@media (max-width: 480px) {
+  .article { font-size: 16.5px; line-height: 1.7; }
+}
+
+
+
+/* ================================
+   # ARTIGOS: leitura mais apetecível
+   # Mantém o estilo do site
+   ================================ */
+
+.article{
+  max-width: 860px;
+  margin: 0 auto;
+  padding-top: 10px;
+}
+
+.article p{
+  margin: 0 0 1.05em;
+  line-height: 1.85;
+}
+
+.article .lead{
+  font-size: 1.08em;
+  line-height: 1.9;
+  margin: 10px 0 18px;
+}
+
+/* cards */
+.fact-grid{
+  display:grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap:12px;
+  margin: 18px 0 26px;
+}
+@media (min-width: 900px){
+  .fact-grid{ grid-template-columns: repeat(4, minmax(0,1fr)); }
+}
+.fact-card{
+  border:1px solid rgba(0,0,0,.10);
+  border-radius:14px;
+  padding:14px 14px;
+  background:#fff;
+}
+.fact-k{
+  display:block;
+  font-size:12px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  opacity:.65;
+  margin-bottom:6px;
+}
+.fact-v{
+  display:block;
+  font-size:16px;
+  line-height:1.3;
+}
+
+/* índice */
+.toc{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  padding:12px;
+  border:1px solid rgba(0,0,0,.10);
+  border-radius:14px;
+  background:#fff;
+  margin: 10px 0 30px;
+}
+.toc a{
+  text-decoration:none;
+  padding:8px 10px;
+  border-radius:12px;
+  border:1px solid rgba(0,0,0,.10);
+  color: inherit;
+  font-size: 14px;
+  opacity:.85;
+}
+.toc a:hover{ opacity:1; }
+
+/* callout */
+.callout{
+  border-left:4px solid rgba(0,0,0,.35);
+  background: rgba(0,0,0,.03);
+  padding:14px 16px;
+  border-radius:12px;
+  margin: 22px 0;
+}
