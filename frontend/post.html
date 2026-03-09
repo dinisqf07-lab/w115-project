@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<title>Artigo</title>
+
+<style>
+
+body{
+    font-family: Arial;
+    max-width:800px;
+    margin:40px auto;
+}
+
+h1{
+    margin-bottom:20px;
+}
+
+.content{
+    line-height:1.7;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1 id="title"></h1>
+
+<p id="excerpt"></p>
+
+<div class="content" id="content"></div>
+
+<script>
+
+const params = new URLSearchParams(window.location.search)
+const slug = params.get("slug")
+
+async function carregarPost(){
+
+const res = await fetch("http://localhost:5000/api/posts")
+const posts = await res.json()
+
+const post = posts.find(p => p.slug === slug)
+
+if(!post){
+document.body.innerHTML = "Post não encontrado"
+return
+}
+
+document.getElementById("title").innerText = post.title
+document.getElementById("excerpt").innerText = post.excerpt
+document.getElementById("content").innerText = post.content
+
+}
+
+carregarPost()
+
+</script>
+
+</body>
+</html>

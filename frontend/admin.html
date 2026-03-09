@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<title>Admin - Criar Post</title>
+
+
+<style>
+body{
+    font-family: Arial;
+    max-width:700px;
+    margin:40px auto;
+}
+
+input, textarea{
+    width:100%;
+    padding:10px;
+    margin-bottom:10px;
+}
+
+button{
+    padding:10px 20px;
+    cursor:pointer;
+}
+</style>
+
+</head>
+<body>
+
+<h1>Criar novo artigo</h1>
+
+
+<input id="slug" placeholder="slug (ex: historia-classe-e)">
+<input id="title" placeholder="Título">
+<textarea id="excerpt" placeholder="Resumo"></textarea>
+<textarea id="content" placeholder="Conteúdo completo do artigo"></textarea>
+
+<button id="submit-btn" onclick="criarPost()">Criar Post</button>
+
+<p id="msg"></p>
+
+<hr>
+
+<h2>Artigos existentes</h2>
+<div id="posts-list">
+  <p>A carregar artigos...</p>
+</div>
+
+
+<script>
+
+let postEmEdicao = null;
+
+// # Função para criar post
+async function criarPost() {
+
+  const slug = document.getElementById("slug").value;
+  const title = document.getElementById("title").value;
+  const excerpt = document.getElementById("excerpt").value;
+  const content = document.getElementById("content").value;
+
+  let url = "http://localhost:5000/api/posts";
+  let method = "POST";
+
+  // # Se estiver a editar, muda para PUT
+  if (postEmEdicao !== null) {
+    url = `http://localhost:5000/api/posts/${postEmEdicao}`;
+    method = "PUT";
+  }
+
+  const res = await fetch(url, {
+    method: method,
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      slug,
+      title,
+      excerpt,
+      content
+    })
+  });
+
+  const data = await res.json();
+
+  document.getElementById("msg").innerText = data.message;
+
+  // # Limpar campos
+  document.getElementById("slug").value = "";
+  document.getElementById("title").value = "";
+  document.getElementById("excerpt").value = "";
+  document.getElementById("content").value = "";
+
+  // # Sair do modo edição
+  postEmEdicao = null;
+
+  // # Voltar texto do botão ao normal
+  document.getElementById("submit-btn").innerText = "Criar Post";
+
+  carregarPosts();
+}
+
+// # Função para carregar posts
+async function carregarPosts() {
+
+  const res = await fetch("http://localhost:5000/api/posts");
+  const posts = await res.json();
+
+  const container = document.getElementById("posts-list");
+  container.innerHTML = "";
+
+  posts.forEach((post) => {
+    const div = document.createElement("div");
+    div.style.border = "1px solid #ccc";
+    div.style.padding = "12px";
+    div.style.marginBottom = "12px";
+    div.style.borderRadius = "8px";
+
+div.innerHTML = `
+  <strong>${post.title}</strong><br>
+  <small>Slug: ${post.slug}</small>
+  <p>${post.excerpt}</p>
+
+<button onclick="editarPost(${post.id}, '${post.slug}', '${post.title}', '${post.excerpt}', '${post.content || ""}')">
+    Editar
+  </button>
+
+  <button onclick="apagarPost(${post.id})">
+    Apagar
+  </button>
+`;
+
+    container.appendChild(div);
+  });
+}
+
+// # Carregar posts ao abrir a página
+carregarPosts();
+
+
+async function apagarPost(id){
+
+  const confirmacao = confirm("Apagar este post?");
+
+  if(!confirmacao) return;
+
+  await fetch(`http://localhost:5000/api/posts/${id}`,{
+    method:"DELETE"
+  });
+
+  carregarPosts();
+
+}
+
+//Função para editar post
+function editarPost(id, slug, title, excerpt, content) {
+  document.getElementById("slug").value = slug;
+  document.getElementById("title").value = title;
+  document.getElementById("excerpt").value = excerpt;
+  document.getElementById("content").value = content;
+
+  postEmEdicao = id;
+
+  document.getElementById("submit-btn").innerText = "Atualizar Post";
+}
+
+
+</script>
+
+</body>
+</html>
