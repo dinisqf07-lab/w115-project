@@ -107,6 +107,12 @@
       transform: translateY(-1px);
     }
 
+    .contact-submit:disabled {
+      opacity: 0.7;
+      cursor: wait;
+      transform: none;
+    }
+
     .contact-note {
       margin-top: 10px;
       font-size: 0.92rem;
@@ -286,10 +292,10 @@
 
             <div>
               <label for="message">Mensagem</label>
-              <textarea id="message" name="message" placeholder="Escreve aqui a tua mensagem..."></textarea>
+              <textarea id="message" name="message" placeholder="Escreve aqui a tua mensagem..." required></textarea>
             </div>
 
-            <button type="submit" class="contact-submit">Enviar mensagem</button>
+            <button type="submit" class="contact-submit" id="submitButton">Enviar mensagem</button>
 
             <p class="contact-note">
               Resposta habitual em 24–48 horas.
@@ -344,7 +350,11 @@
 </button>
 
 <script>
-  const API_BASE = "https://w115-project.onrender.com";
+  // # Usa localhost em desenvolvimento e Render em produção
+  const API_BASE =
+    window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+      ? "http://localhost:5000"
+      : "https://w115-project.onrender.com";
 
   function atualizarBarraScroll() {
     const scrollTop = window.scrollY;
@@ -356,6 +366,7 @@
   const backToTopBtn = document.getElementById("backToTop");
   const contactForm = document.getElementById("contactForm");
   const formFeedback = document.getElementById("formFeedback");
+  const submitButton = document.getElementById("submitButton");
 
   function toggleBackToTop() {
     if (window.scrollY > 300) {
@@ -363,6 +374,11 @@
     } else {
       backToTopBtn.classList.remove("show");
     }
+  }
+
+  function setFeedback(type, message) {
+    formFeedback.className = `form-feedback ${type}`;
+    formFeedback.textContent = message;
   }
 
   backToTopBtn.addEventListener("click", () => {
@@ -377,6 +393,9 @@
 
     formFeedback.className = "form-feedback";
     formFeedback.textContent = "";
+
+    submitButton.disabled = true;
+    submitButton.textContent = "A enviar...";
 
     const formData = {
       name: document.getElementById("name").value.trim(),
@@ -395,22 +414,32 @@
         body: JSON.stringify(formData)
       });
 
-      const result = await response.json();
+      let result = null;
+      const responseText = await response.text();
 
-      if (!response.ok || !result.ok) {
+      try {
+        result = responseText ? JSON.parse(responseText) : null;
+      } catch {
+        result = null;
+      }
+
+      if (!response.ok) {
+        throw new Error(result?.message || "Erro ao enviar mensagem.");
+      }
+
+      if (result && result.ok === false) {
         throw new Error(result.message || "Erro ao enviar mensagem.");
       }
 
-      formFeedback.className = "form-feedback success";
-      formFeedback.textContent = "Mensagem enviada com sucesso. Obrigado pelo contacto.";
-
+      setFeedback("success", "Mensagem enviada com sucesso. Obrigado pelo contacto.");
       contactForm.reset();
 
     } catch (error) {
       console.error("Erro no envio do formulário:", error);
-
-      formFeedback.className = "form-feedback error";
-      formFeedback.textContent = error.message || "Não foi possível enviar a mensagem.";
+      setFeedback("error", error.message || "Não foi possível enviar a mensagem.");
+    } finally {
+      submitButton.disabled = false;
+      submitButton.textContent = "Enviar mensagem";
     }
   });
 
