@@ -29,7 +29,7 @@ const isProduction = process.env.NODE_ENV === "production";
 
 // # URLs do ambiente
 const FRONTEND_URL = process.env.FRONTEND_URL;
-const BACKEND_URL = process.env.BACKEND_URL;
+const BACKEND_URL = process.env.BACKEND_URL || "https://w115-project.onrender.com";
 
 // # Validar variáveis importantes em produção
 if (isProduction) {
@@ -53,6 +53,8 @@ if (isProduction) {
 const allowedOrigins = [
   "http://127.0.0.1:5500",
   "http://localhost:5500",
+  "http://127.0.0.1:5173",
+  "http://localhost:5173",
   FRONTEND_URL
 ].filter(Boolean);
 
@@ -316,6 +318,8 @@ app.listen(PORT, () => {
     port: PORT,
     environment: process.env.NODE_ENV || "development",
     isProduction,
+    FRONTEND_URL,
+    BACKEND_URL,
     allowedOrigins
   });
 });
