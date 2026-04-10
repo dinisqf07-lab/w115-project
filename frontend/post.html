@@ -1,62 +1,402 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-<meta charset="UTF-8">
-<title>Artigo</title>
+  <meta charset="UTF-8">
+  <title>Artigo - Mercedes W115</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Libre+Baskerville&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/css/style.css">
 
-body{
-    font-family: Arial;
-    max-width:800px;
-    margin:40px auto;
-}
+  <style>
+    .post-shell {
+      max-width: 860px;
+      margin: 0 auto;
+    }
 
-h1{
-    margin-bottom:20px;
-}
+    .post-header {
+      margin-bottom: 28px;
+    }
 
-.content{
-    line-height:1.7;
-}
+    .post-kicker {
+      display: inline-block;
+      margin-bottom: 10px;
+      padding: 6px 10px;
+      border: 1px solid #d8d8d8;
+      border-radius: 999px;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #666;
+      background: #fafafa;
+    }
 
-</style>
+    .post-title {
+      margin: 0 0 12px;
+      line-height: 1.15;
+    }
 
+    .post-meta {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+      color: #666;
+      font-size: 14px;
+    }
+
+    .post-excerpt {
+      font-size: 1.1rem;
+      line-height: 1.75;
+      color: #555;
+      margin: 0 0 22px;
+    }
+
+    .post-divider {
+      margin: 26px 0 34px;
+    }
+
+    .post-cover {
+      margin: 0 0 30px;
+    }
+
+    .post-cover img {
+      display: block;
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      border-radius: 10px;
+    }
+
+    .post-content {
+      line-height: 1.85;
+      color: #222;
+    }
+
+    .post-content p {
+      margin: 0 0 1.2em;
+    }
+
+    .post-content h2,
+    .post-content h3,
+    .post-content h4 {
+      margin-top: 2em;
+      margin-bottom: 0.7em;
+      line-height: 1.25;
+    }
+
+    .post-content ul,
+    .post-content ol {
+      margin: 0 0 1.2em 1.4em;
+      line-height: 1.8;
+    }
+
+    .post-content img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      margin: 28px auto;
+      border-radius: 8px;
+    }
+
+    .post-content blockquote {
+      margin: 28px 0;
+      padding: 12px 18px;
+      border-left: 4px solid #222;
+      background: #f7f7f7;
+      color: #444;
+    }
+
+    .post-back {
+      margin-top: 40px;
+    }
+
+    .post-back a {
+      display: inline-block;
+      text-decoration: none;
+      border: 1px solid #ccc;
+      padding: 10px 14px;
+      border-radius: 8px;
+      color: #222;
+      background: #fafafa;
+    }
+
+    .post-back a:hover {
+      background: #f0f0f0;
+    }
+
+    .related-posts {
+      margin-top: 48px;
+    }
+
+    .related-posts h3 {
+      margin-bottom: 18px;
+    }
+
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+    }
+
+    .related-card {
+      display: block;
+      text-decoration: none;
+      color: inherit;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 16px;
+      background: #fafafa;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    .related-card:hover {
+      transform: translateY(-2px);
+      background: #f3f3f3;
+    }
+
+    .related-card h4 {
+      margin: 0 0 10px;
+      line-height: 1.3;
+    }
+
+    .related-card p {
+      margin: 0;
+      color: #555;
+      line-height: 1.6;
+      font-size: 15px;
+    }
+
+    .post-loading,
+    .post-error {
+      color: #555;
+    }
+
+    @media (max-width: 700px) {
+      .post-title {
+        font-size: 1.8rem;
+      }
+
+      .post-excerpt {
+        font-size: 1rem;
+      }
+
+      .post-content {
+        line-height: 1.75;
+      }
+    }
+  </style>
 </head>
 
 <body>
 
-<h1 id="title"></h1>
+<header>
+  <div class="container">
+    <h1>Mercedes-Benz W115</h1>
+    <p class="subtitle">
+      Este blogue pretende ser um testemunho sobre a minha experiência com o restauro de um Mercedes W115.
+    </p>
+  </div>
+</header>
 
-<p id="excerpt"></p>
+<nav class="topnav">
+  <div class="container">
+    <a class="navlink" href="./index.html">HOME</a>
+    <a class="navlink" href="./pages/historia-classe-e.html">História Classe E</a>
+    <a class="navlink" href="./pages/restauro-220d-1974.html">Restauro 220D (1974)</a>
+    <a class="navlink" href="./pages/restauro-240d-30-1976.html">Restauro 240D 3.0 (1976)</a>
+    <a class="navlink" href="./pages/faszinaton.html">Faszinaton</a>
+    <a class="navlink" href="./pages/dados-tecnicos.html">Dados Técnicos</a>
+    <a class="navlink" href="./pages/contactos.html">Contactos</a>
+  </div>
+</nav>
 
-<div class="content" id="content"></div>
+<section class="content container">
+  <div class="post-shell">
+
+    <div class="post-header">
+      <span class="post-kicker">Artigo</span>
+      <h2 id="post-title" class="post-title post-loading">A carregar...</h2>
+
+      <div class="post-meta">
+        <span id="post-date">—</span>
+        <span id="post-slug">—</span>
+      </div>
+
+      <p id="post-excerpt" class="post-excerpt"></p>
+      <hr class="sep post-divider">
+    </div>
+
+    <figure id="post-cover" class="post-cover" style="display:none;">
+      <img id="post-cover-img" src="" alt="Imagem de capa do artigo">
+    </figure>
+
+    <div id="post-content" class="post-content"></div>
+
+    <div class="post-back">
+      <a href="./index.html">← Voltar à página inicial</a>
+    </div>
+
+    <div class="related-posts">
+      <h3>Artigos relacionados</h3>
+      <div id="related-posts" class="related-grid">
+        <p>A carregar artigos relacionados...</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <p>© 2026 Mercedes W115 · Conteúdos e restauro: Pedro Gomes</p>
+  </div>
+</footer>
 
 <script>
+  const API_BASE = "http://127.0.0.1:5000";
+  const POSTS_API = `${API_BASE}/api/posts`;
 
-const params = new URLSearchParams(window.location.search)
-const slug = params.get("slug")
+  function formatarData(post) {
+    const valorData = post.published_at || post.created_at;
 
-async function carregarPost(){
+    if (valorData) {
+      const data = new Date(valorData);
+      if (!Number.isNaN(data.getTime())) {
+        return data.toLocaleDateString("pt-PT", {
+          day: "2-digit",
+          month: "long",
+          year: "numeric"
+        });
+      }
+    }
 
-const res = await fetch("http://localhost:5000/api/posts")
-const posts = await res.json()
+    return "Sem data";
+  }
 
-const post = posts.find(p => p.slug === slug)
+  function criarRelacionados(posts, slugAtual, lang) {
+    const container = document.getElementById("related-posts");
 
-if(!post){
-document.body.innerHTML = "Post não encontrado"
-return
-}
+    const relacionados = posts
+      .filter((p) => p.slug !== slugAtual && p.status === "published")
+      .slice(0, 3);
 
-document.getElementById("title").innerText = post.title
-document.getElementById("excerpt").innerText = post.excerpt
-document.getElementById("content").innerText = post.content
+    container.innerHTML = "";
 
-}
+    if (relacionados.length === 0) {
+      container.innerHTML = "<p>Não existem outros artigos para mostrar.</p>";
+      return;
+    }
 
-carregarPost()
+    relacionados.forEach((post) => {
+      const tituloRelacionado =
+        lang === "en" && post.title_en ? post.title_en : post.title;
 
+      const resumoRelacionado =
+        lang === "en" && post.excerpt_en ? post.excerpt_en : post.excerpt;
+
+      const card = document.createElement("a");
+      card.className = "related-card";
+      card.href = `./post.html?slug=${post.slug}${lang === "en" ? "&lang=en" : ""}`;
+
+      card.innerHTML = `
+        <h4>${tituloRelacionado || "Sem título"}</h4>
+        <p>${resumoRelacionado || ""}</p>
+      `;
+
+      container.appendChild(card);
+    });
+  }
+
+  async function carregarPost() {
+    const params = new URLSearchParams(window.location.search);
+    const slug = params.get("slug");
+    const lang = params.get("lang") || "pt";
+
+    const titleEl = document.getElementById("post-title");
+    const excerptEl = document.getElementById("post-excerpt");
+    const contentEl = document.getElementById("post-content");
+    const dateEl = document.getElementById("post-date");
+    const slugEl = document.getElementById("post-slug");
+    const coverEl = document.getElementById("post-cover");
+    const coverImgEl = document.getElementById("post-cover-img");
+    const relatedEl = document.getElementById("related-posts");
+
+    if (!slug) {
+      titleEl.innerText = "Artigo não encontrado";
+      titleEl.classList.remove("post-loading");
+      titleEl.classList.add("post-error");
+      excerptEl.innerText = "";
+      contentEl.innerHTML = "<p>Falta o slug no URL.</p>";
+      relatedEl.innerHTML = "<p>Sem artigos relacionados.</p>";
+      return;
+    }
+
+    try {
+      const postResponse = await fetch(`${POSTS_API}/${slug}`);
+
+      if (!postResponse.ok) {
+        throw new Error("Artigo não encontrado.");
+      }
+
+      const post = await postResponse.json();
+
+      // # Bloquear drafts na parte pública
+      if (post.status && post.status !== "published") {
+        throw new Error("Artigo não encontrado.");
+      }
+
+      const titulo =
+        lang === "en" && post.title_en ? post.title_en : post.title;
+
+      const resumo =
+        lang === "en" && post.excerpt_en ? post.excerpt_en : post.excerpt;
+
+      const conteudo =
+        lang === "en" && post.content_en ? post.content_en : post.content;
+
+      const content = conteudo
+        ? conteudo
+        : "<p>Este artigo ainda não tem conteúdo completo.</p>";
+
+      document.title = `${titulo} - Mercedes W115`;
+      titleEl.innerText = titulo || "Sem título";
+      titleEl.classList.remove("post-loading");
+      excerptEl.innerText = resumo || "";
+      contentEl.innerHTML = content;
+
+      dateEl.innerText = `Data: ${formatarData(post)}`;
+      slugEl.innerText = `Slug: ${post.slug}`;
+
+      if (post.cover_image) {
+        coverImgEl.src = post.cover_image;
+        coverEl.style.display = "block";
+      } else {
+        coverEl.style.display = "none";
+      }
+
+      const allPostsResponse = await fetch(POSTS_API);
+
+      if (!allPostsResponse.ok) {
+        throw new Error("Erro ao carregar lista de posts.");
+      }
+
+      const allPosts = await allPostsResponse.json();
+      criarRelacionados(allPosts, post.slug, lang);
+
+    } catch (error) {
+      console.error("Erro ao carregar artigo:", error);
+      titleEl.innerText = "Erro ao carregar artigo";
+      titleEl.classList.remove("post-loading");
+      titleEl.classList.add("post-error");
+      excerptEl.innerText = "";
+      contentEl.innerHTML = "<p>Não foi possível carregar o artigo.</p>";
+      relatedEl.innerHTML = "<p>Não foi possível carregar artigos relacionados.</p>";
+      coverEl.style.display = "none";
+    }
+  }
+
+  carregarPost();
 </script>
 
 </body>

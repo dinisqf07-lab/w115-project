@@ -1,0 +1,209 @@
+const express = require("express");
+const nodemailer = require("nodemailer");
+const logger = require("../utils/logger");
+
+const router = express.Router();
+
+// # Tipos de contacto permitidos
+const TIPOS_PERMITIDOS = [
+  "sugestao",
+  "pergunta",
+  "partilha de restauro",
+  "informacao",
+  "compra",
+  "venda",
+  "pecas",
+  "outro"
+];
+
+// # Função simples para escapar HTML
+function escapeHtml(text) {
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+// # Remove quebras de linha e espaços estranhos de campos curtos
+function cleanSingleLine(text) {
+  return String(text || "")
+    .replace(/[\r\n]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+// # Validação simples de email
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+// # Validar dados do formulário
+function validateContactData({ name, email, phone, type, message, website }) {
+  if (website && website.trim() !== "") {
+    return "Pedido inválido.";
+  }
+
+  if (!name || !email || !message) {
+    return "Nome, email e mensagem são obrigatórios.";
+  }
+
+  if (name.length < 2 || name.length > 100) {
+    return "O nome deve ter entre 2 e 100 caracteres.";
+  }
+
+  if (email.length > 150) {
+    return "O email é demasiado grande.";
+  }
+
+  if (!isValidEmail(email)) {
+    return "O email introduzido não é válido.";
+  }
+
+  if (phone && phone.length > 30) {
+    return "O telefone é demasiado grande.";
+  }
+
+  if (type && !TIPOS_PERMITIDOS.includes(type)) {
+    return "O tipo de contacto é inválido.";
+  }
+
+  if (message.length < 2 || message.length > 5000) {
+    return "A mensagem deve ter entre 2 e 5000 caracteres.";
+  }
+
+  return null;
+}
+
+// # Verificar config mínima
+if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+  logger.error("CONTACT_CONFIG_MISSING_ON_STARTUP", {
+    missingEmailUser: !process.env.EMAIL_USER,
+    missingEmailPass: !process.env.EMAIL_PASS
+  });
+}
+
+// # Criar transporter uma vez
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
+  }
+});
+
+// # POST /api/contact
+// # Recebe os dados do formulário e envia por email
+router.post("/", async (req, res) => {
+  try {
+    const body = req.body && typeof req.body === "object" ? req.body : {};
+
+    const name = cleanSingleLine(body.name);
+    const email = cleanSingleLine(body.email).toLowerCase();
+    const phone = cleanSingleLine(body.phone || "");
+    const type = cleanSingleLine(body.type || "").toLowerCase();
+    const message = String(body.message || "").trim();
+    const website = String(body.website || "").trim(); // # honeypot
+
+    const erroValidacao = validateContactData({
+      name,
+      email,
+      phone,
+      type,
+      message,
+      website
+    });
+
+    if (erroValidacao) {
+      logger.warn("CONTACT_VALIDATION_FAILED", {
+        ip: req.ip,
+        email: email || null,
+        type: type || null,
+        reason: erroValidacao
+      });
+
+      return res.status(400).json({
+        ok: false,
+        message: erroValidacao
+      });
+    }
+
+    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS || !process.env.EMAIL_TO) {
+      logger.error("CONTACT_CONFIG_MISSING", {
+        ip: req.ip,
+        missingEmailUser: !process.env.EMAIL_USER,
+        missingEmailPass: !process.env.EMAIL_PASS,
+        missingEmailTo: !process.env.EMAIL_TO
+      });
+
+      return res.status(500).json({
+        ok: false,
+        message: "Serviço de contacto indisponível."
+      });
+    }
+
+    const assunto = `Novo contacto do site Mercedes W115${type ? " - " + type : ""}`;
+
+    const texto = `Novo contacto recebido pelo site Mercedes W115
+
+Nome: ${name}
+Email: ${email}
+Telefone: ${phone || "Não indicado"}
+Tipo de contacto: ${type || "Não indicado"}
+
+Mensagem:
+${message}
+`;
+
+    const html = `
+      <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #222;">
+        <h2>Novo contacto recebido pelo site Mercedes W115</h2>
+
+        <p><strong>Nome:</strong> ${escapeHtml(name)}</p>
+        <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+        <p><strong>Telefone:</strong> ${escapeHtml(phone || "Não indicado")}</p>
+        <p><strong>Tipo de contacto:</strong> ${escapeHtml(type || "Não indicado")}</p>
+
+        <hr>
+
+        <p><strong>Mensagem:</strong></p>
+        <p>${escapeHtml(message).replace(/\n/g, "<br>")}</p>
+      </div>
+    `;
+
+    await transporter.sendMail({
+      from: `"Mercedes W115 Site" <${process.env.EMAIL_USER}>`,
+      to: process.env.EMAIL_TO,
+      replyTo: email,
+      subject: assunto,
+      text: texto,
+      html
+    });
+
+    logger.log("CONTACT_SENT", {
+      email,
+      type: type || "nao-indicado",
+      ip: req.ip
+    });
+
+    return res.json({
+      ok: true,
+      message: "Mensagem enviada com sucesso."
+    });
+  } catch (error) {
+    logger.error("CONTACT_SEND_ERROR", {
+      ip: req.ip,
+      message: error.message,
+      code: error.code || null,
+      responseCode: error.responseCode || null
+    });
+
+    return res.status(500).json({
+      ok: false,
+      message: "Não foi possível enviar a mensagem."
+    });
+  }
+});
+
+module.exports = router;

@@ -1,13 +1,132 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <meta charset="UTF-8">
   <title>Mercedes W115</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Libre+Baskerville&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/mercedes-w115-demo/assets/css/style.css">
+  <link rel="stylesheet" href="./assets/css/style.css">
+
+<style>
+  .dynamic-posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 22px;
+    margin-top: 20px;
+  }
+
+  .post-card-dynamic {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    background: #faf8f3;
+    border: 1px solid #ddd5c7;
+    border-radius: 14px;
+    overflow: hidden;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  }
+
+  .post-card-dynamic:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+    background: #f7f2ea;
+  }
+
+  .post-card-dynamic__image-wrap {
+    aspect-ratio: 16 / 9;
+    background: #e8e1d4;
+    overflow: hidden;
+  }
+
+  .post-card-dynamic__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .post-card-dynamic__placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 18px;
+    text-align: center;
+    color: #6d6558;
+    font-style: italic;
+    background: linear-gradient(135deg, #e9e1d3, #f5efe5);
+  }
+
+  .post-card-dynamic__body {
+    padding: 18px;
+  }
+
+  .post-card-dynamic__meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #6a6257;
+  }
+
+  .post-card-dynamic__tag {
+    display: inline-block;
+    padding: 5px 9px;
+    border: 1px solid #cfc5b5;
+    border-radius: 999px;
+    background: #f4eee3;
+  }
+
+  .post-card-dynamic__title {
+    margin: 0 0 10px;
+    font-family: "Playfair Display", serif;
+    font-size: 1.25rem;
+    line-height: 1.25;
+    color: #1e1b18;
+  }
+
+  .post-card-dynamic__text {
+    margin: 0 0 16px;
+    line-height: 1.7;
+    color: #4e4a43;
+    font-size: 0.98rem;
+  }
+
+  .post-card-dynamic__link {
+    font-weight: 700;
+    color: #2a2520;
+    font-size: 0.95rem;
+  }
+
+  .posts-feedback {
+    padding: 18px;
+    border-radius: 12px;
+    border: 1px solid #ddd5c7;
+    background: #faf8f3;
+    color: #4e4a43;
+  }
+</style>
+
 </head>
+
+<script>
+  function atualizarBarraScroll() {
+    const scrollTop = window.scrollY;
+    const alturaTotal = document.documentElement.scrollHeight - window.innerHeight;
+    const progresso = alturaTotal > 0 ? (scrollTop / alturaTotal) * 100 : 0;
+    document.documentElement.style.setProperty("--scroll", progresso + "%");
+  }
+
+  window.addEventListener("scroll", atualizarBarraScroll);
+  window.addEventListener("load", atualizarBarraScroll);
+</script>
 
 <body>
 
@@ -22,88 +141,231 @@
 
 <nav class="topnav">
   <div class="container">
-    <a class="navlink active" href="/mercedes-w115-demo/index.html">HOME</a>
-    <a class="navlink" href="/mercedes-w115-demo/pages/historia-classe-e.html">História Classe E</a>
-    <a class="navlink" href="/mercedes-w115-demo/pages/restauro-220d-1974.html">Restauro 220D (1974)</a>
-    <a class="navlink" href="/mercedes-w115-demo/pages/restauro-240d-30-1976.html">Restauro 240D 3.0 (1976)</a>
-    <a class="navlink" href="/mercedes-w115-demo/pages/faszinaton.html">Faszinaton</a>
-    <a class="navlink" href="/mercedes-w115-demo/pages/dados-tecnicos.html">Dados Técnicos</a>
-    <a class="navlink" href="/mercedes-w115-demo/pages/contactos.html">Contactos</a>
+    <a class="navlink active" href="./index.html">HOME</a>
+    <a class="navlink" href="./pages/historia-classe-e.html">História Classe E</a>
+    <a class="navlink" href="./pages/restauro-220d-1974.html">Restauro 220D (1974)</a>
+    <a class="navlink" href="./pages/restauro-240d-30-1976.html">Restauro 240D 3.0 (1976)</a>
+    <a class="navlink" href="./pages/faszinaton.html">Faszinaton</a>
+    <a class="navlink" href="./pages/dados-tecnicos.html">Dados Técnicos</a>
+    <a class="navlink" href="./pages/contactos.html">Contactos</a>
   </div>
 </nav>
 
 <section class="content container">
+  <article class="page-shell">
+    <h2 class="page-title">Bem-vindo</h2>
+    <hr class="sep">
 
-  <!-- # Imagem de destaque -->
-  <figure class="post-figure">
-    <img class="post-img" src="/mercedes-w115-demo/assets/img/imagem1.jpg" alt="Mercedes W115">
-    <figcaption class="post-caption">Mercedes W115 — início de uma história.</figcaption>
-  </figure>
+    <div class="page-body">
+      <p class="lead">
+        Este blogue pretende ser um testemunho sobre a minha experiência com o restauro de um Mercedes W115 — com fotos, notas e detalhes reais do processo.
+      </p>
 
-  <!-- # Introdução curta (home não deve ser artigo gigante) -->
-  <h2>Bem-vindo</h2>
-  <hr class="sep">
+      <p>
+        Se estás aqui pela história do modelo, pelos restauros ou pelos dados técnicos, tens tudo organizado abaixo.
+      </p>
 
-  <p>
-    Este blogue pretende ser um testemunho sobre a minha experiência com o restauro de um Mercedes W115 — com fotos,
-    notas e detalhes reais do processo.
-  </p>
+<div class="video-section">
+  <video controls preload="metadata">
+    <source src="./assets/img/mercedes-restauro.mp4" type="video/mp4">
+    O teu browser não suporta vídeo.
+  </video>
 
-  <p>
-    Se estás aqui pela história do modelo, pelos restauros ou pelos dados técnicos, tens tudo organizado abaixo.
-  </p>
+  <a href="https://www.youtube.com/watch?v=wnP6F_OTbhA" target="_blank" class="youtube-btn">
+    <i class="fa-brands fa-youtube"></i>
+    Ver vídeo
+  </a>
+</div>
 
-  <!-- # Cards -->
-  <h2>Explorar</h2>
-  <hr class="sep">
+</div>
 
-  <div class="card-grid">
+</div>
 
-    <a class="card" href="/mercedes-w115-demo/pages/historia-classe-e.html">
-      <div class="card__tag">Contexto</div>
-      <h3 class="card__title">História Classe E</h3>
-      <p class="card__text">Da série 200 ao legado que viria a influenciar a Classe E.</p>
-    </a>
 
-    <a class="card" href="/mercedes-w115-demo/pages/restauro-220d-1974.html">
-      <div class="card__tag">Restauro</div>
-      <h3 class="card__title">Restauro 220D (1974)</h3>
-      <p class="card__text">Fotos, decisões, problemas e soluções — do início ao detalhe final.</p>
-    </a>
+      <h3>Explorar</h3>
 
-    <a class="card" href="/mercedes-w115-demo/pages/restauro-240d-30-1976.html">
-      <div class="card__tag">Restauro</div>
-      <h3 class="card__title">Restauro 240D 3.0 (1976)</h3>
-      <p class="card__text">A versão longa e tudo o que muda na prática: conforto, mecânica e detalhes.</p>
-    </a>
+      <div class="card-grid">
+        <a class="card" href="./pages/historia-classe-e.html">
+          <div class="card__tag">Contexto</div>
+          <h3 class="card__title">História Classe E</h3>
+          <p class="card__text">Da série 200 ao legado que viria a influenciar a Classe E.</p>
+        </a>
 
-    <a class="card" href="/mercedes-w115-demo/pages/dados-tecnicos.html">
-      <div class="card__tag">Ficha</div>
-      <h3 class="card__title">Dados Técnicos</h3>
-      <p class="card__text">Motores, dimensões, desempenho e notas que interessam de verdade.</p>
-    </a>
+        <a class="card" href="./pages/restauro-220d-1974.html">
+          <div class="card__tag">Restauro</div>
+          <h3 class="card__title">Restauro 220D (1974)</h3>
+          <p class="card__text">Fotos, decisões, problemas e soluções — do início ao detalhe final.</p>
+        </a>
 
-    <a class="card" href="/mercedes-w115-demo/pages/faszinaton.html">
-      <div class="card__tag">Curiosidades</div>
-      <h3 class="card__title">Faszinaton</h3>
-      <p class="card__text">Detalhes e curiosidades que tornam o W115 especial.</p>
-    </a>
+        <a class="card" href="./pages/restauro-240d-30-1976.html">
+          <div class="card__tag">Restauro</div>
+          <h3 class="card__title">Restauro 240D 3.0 (1976)</h3>
+          <p class="card__text">A versão longa e tudo o que muda na prática: conforto, mecânica e detalhes.</p>
+        </a>
 
-    <a class="card" href="/mercedes-w115-demo/pages/contactos.html">
-      <div class="card__tag">Contacto</div>
-      <h3 class="card__title">Contactos</h3>
-      <p class="card__text">Sugestões, perguntas ou partilhas — fala comigo.</p>
-    </a>
+        <a class="card" href="./pages/dados-tecnicos.html">
+          <div class="card__tag">Ficha</div>
+          <h3 class="card__title">Dados Técnicos</h3>
+          <p class="card__text">Motores, dimensões, desempenho e notas que interessam de verdade.</p>
+        </a>
 
-  </div>
+        <a class="card" href="./pages/faszinaton.html">
+          <div class="card__tag">Curiosidades</div>
+          <h3 class="card__title">Faszinaton</h3>
+          <p class="card__text">Detalhes e curiosidades que tornam o W115 especial.</p>
+        </a>
 
+        <a class="card" href="./pages/contactos.html">
+          <div class="card__tag">Contacto</div>
+          <h3 class="card__title">Contactos</h3>
+          <p class="card__text">Sugestões, perguntas ou partilhas — fala comigo.</p>
+        </a>
+      </div>
+
+
+
+      
+
+      <h3>Artigos recentes</h3>
+
+      <div id="posts-dinamicos" class="dynamic-posts-grid">
+        <div class="posts-feedback">A carregar artigos...</div>
+      </div>
+    </div>
+  </article>
 </section>
 
 <footer>
   <div class="container">
-    <p>© 2026 Mercedes W115</p>
+    <p>© 2026 Mercedes W115 · Conteúdos e restauro: Pedro Gomes</p>
   </div>
 </footer>
+
+<script>
+  const API_BASE = "http://127.0.0.1:5000";
+  const POSTS_API = `${API_BASE}/api/posts`;
+
+  function formatarData(post) {
+    const valorData = post.published_at || post.created_at;
+
+    if (!valorData) return "Arquivo";
+
+    const data = new Date(valorData);
+
+    if (Number.isNaN(data.getTime())) return "Arquivo";
+
+    return data.toLocaleDateString("pt-PT", {
+      day: "2-digit",
+      month: "long",
+      year: "numeric"
+    });
+  }
+
+  async function carregarPostsDinamicos() {
+    const container = document.getElementById("posts-dinamicos");
+
+    try {
+      const res = await fetch(POSTS_API);
+
+      if (!res.ok) {
+        throw new Error("Resposta inválida do servidor.");
+      }
+
+      const posts = await res.json();
+
+      const postsPublicados = (posts || [])
+        .filter((post) => post.status === "published")
+        .sort((a, b) => {
+          const dataA = new Date(a.published_at || a.created_at || 0).getTime();
+          const dataB = new Date(b.published_at || b.created_at || 0).getTime();
+          return dataB - dataA;
+        })
+        .slice(0, 6);
+
+      container.innerHTML = "";
+
+      if (postsPublicados.length === 0) {
+        container.innerHTML = `
+          <div class="posts-feedback">
+            Ainda não existem artigos publicados.
+          </div>
+        `;
+        return;
+      }
+
+      postsPublicados.forEach((post) => {
+        const card = document.createElement("a");
+        card.className = "post-card-dynamic";
+        card.href = `./post.html?slug=${post.slug}`;
+
+        const excerpt = post.excerpt || "";
+        const excerptCurto =
+          excerpt.length > 140 ? excerpt.slice(0, 140) + "..." : excerpt;
+
+        const imagem = post.cover_image || "";
+
+        card.innerHTML = `
+          <div class="post-card-dynamic__image-wrap">
+            ${
+              imagem
+                ? `<img class="post-card-dynamic__image" src="${imagem}" alt="${post.title || "Artigo"}">`
+                : `<div class="post-card-dynamic__placeholder">Sem imagem de capa</div>`
+            }
+          </div>
+
+          <div class="post-card-dynamic__body">
+            <div class="post-card-dynamic__meta">
+              <span class="post-card-dynamic__tag">Artigo</span>
+              <span>${formatarData(post)}</span>
+            </div>
+
+            <h3 class="post-card-dynamic__title">${post.title || "Sem título"}</h3>
+            <p class="post-card-dynamic__text">${excerptCurto}</p>
+            <div class="post-card-dynamic__link">Ler artigo →</div>
+          </div>
+        `;
+
+        container.appendChild(card);
+      });
+
+    } catch (error) {
+      console.error("Erro ao carregar artigos:", error);
+      container.innerHTML = `
+        <div class="posts-feedback">
+          Não foi possível carregar os artigos neste momento.
+        </div>
+      `;
+    }
+  }
+
+  carregarPostsDinamicos();
+</script>
+
+<button id="backToTop" class="back-to-top" aria-label="Voltar ao topo">
+  ↑
+</button>
+
+<script>
+  const backToTopBtn = document.getElementById("backToTop");
+
+  function toggleBackToTop() {
+    if (window.scrollY > 300) {
+      backToTopBtn.classList.add("show");
+    } else {
+      backToTopBtn.classList.remove("show");
+    }
+  }
+
+  backToTopBtn.addEventListener("click", () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  });
+
+  window.addEventListener("scroll", toggleBackToTop);
+  window.addEventListener("load", toggleBackToTop);
+</script>
 
 </body>
 </html>

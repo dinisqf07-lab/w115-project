@@ -1,170 +1,1546 @@
 <!DOCTYPE html>
 <html lang="pt">
 <head>
-<meta charset="UTF-8">
-<title>Admin - Criar Post</title>
+  <meta charset="UTF-8">
+  <title>Painel de Administração - Mercedes W115</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <!-- # TinyMCE -->
+  <script src="https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js"></script>
 
-<style>
-body{
-    font-family: Arial;
-    max-width:700px;
-    margin:40px auto;
-}
+  <style>
+    :root {
+      --bg: #f6f3ec;
+      --panel: #fffdf8;
+      --border: rgba(0, 0, 0, 0.08);
+      --text: #1f1a14;
+      --muted: #6a6257;
+      --gold: #8f7a49;
+      --gold-dark: #7a683d;
+      --danger-bg: #fff3f3;
+      --danger-border: #e0b4b4;
+      --success-bg: #eef9f0;
+      --success-border: #b7e0be;
+      --success-text: #1f6b2a;
+      --error-bg: #fff1f1;
+      --error-border: #e7b8b8;
+      --error-text: #8a1f1f;
+      --info-bg: #f4f6f8;
+      --info-border: #d7dde3;
+      --info-text: #334;
+      --shadow: 0 14px 32px rgba(0, 0, 0, 0.08);
+    }
 
-input, textarea{
-    width:100%;
-    padding:10px;
-    margin-bottom:10px;
-}
+    * {
+      box-sizing: border-box;
+    }
 
-button{
-    padding:10px 20px;
-    cursor:pointer;
-}
-</style>
+    body {
+      visibility: hidden;
+      font-family: Arial, sans-serif;
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: 28px 16px 40px;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(255,255,255,0.55), transparent 40%),
+        radial-gradient(circle at 80% 0%, rgba(255,255,255,0.35), transparent 45%),
+        #f4f0e8;
+      color: var(--text);
+    }
 
+    body.admin-ready {
+      visibility: visible;
+    }
+
+    h1, h2, h3 {
+      margin: 0 0 14px;
+      line-height: 1.2;
+    }
+
+    h1, h2 {
+      font-family: "Georgia", "Times New Roman", serif;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+    }
+
+    .login-shell {
+      max-width: 430px;
+      margin: 70px auto;
+    }
+
+    .login-shell h2 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    .login-help {
+      margin: 0 0 18px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 22px;
+    }
+
+    .topbar-left h1 {
+      font-size: 2.2rem;
+      margin-bottom: 6px;
+    }
+
+    .topbar-left p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .topbar-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .stat-card {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .stat-card span {
+      display: block;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gold);
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .stat-card strong {
+      font-size: 1.2rem;
+      color: var(--text);
+      word-break: break-word;
+    }
+
+    .admin-grid {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 22px;
+      align-items: start;
+    }
+
+    .editor-header,
+    .posts-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .editor-mode {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 0.92rem;
+      background: rgba(143, 122, 73, 0.12);
+      color: #5f4f2d;
+      border: 1px solid rgba(143, 122, 73, 0.18);
+    }
+
+    .editor-mode.hidden {
+      display: none;
+    }
+
+    .field-label {
+      display: block;
+      margin: 4px 0 6px;
+      font-size: 0.94rem;
+      font-weight: 700;
+      color: #332d26;
+    }
+
+    .field-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .field-grid-3 {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      gap: 10px;
+      align-items: end;
+    }
+
+    input,
+    textarea,
+    select {
+      width: 100%;
+      padding: 12px 13px;
+      margin-bottom: 12px;
+      border: 1px solid #d8cfbf;
+      border-radius: 10px;
+      font: inherit;
+      background: #fffdf9;
+      color: var(--text);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      outline: none;
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(143, 122, 73, 0.14);
+    }
+
+    .search-input {
+      margin: 0;
+    }
+
+    .actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      padding: 11px 16px;
+      border-radius: 10px;
+      border: 1px solid #cfc8bc;
+      background: #f5f1ea;
+      color: var(--text);
+      font: inherit;
+      cursor: pointer;
+      transition: transform 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    button:hover {
+      background: #ece6dc;
+      transform: translateY(-1px);
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .primary-btn {
+      background: var(--gold);
+      color: white;
+      border-color: var(--gold);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+    }
+
+    .primary-btn:hover {
+      background: var(--gold-dark);
+    }
+
+    .secondary-btn {
+      background: #f6f3ec;
+      border-color: #d9cfbd;
+    }
+
+    .danger-btn {
+      background: var(--danger-bg);
+      border-color: var(--danger-border);
+      color: #7b2323;
+    }
+
+    .ghost-link {
+      text-decoration: none;
+      color: var(--text);
+      border: 1px solid #d8cfbf;
+      border-radius: 10px;
+      padding: 10px 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: #fbf8f1;
+      transition: background-color 0.18s ease, transform 0.18s ease;
+    }
+
+    .ghost-link:hover {
+      background: #f0e9de;
+      transform: translateY(-1px);
+    }
+
+    .feedback {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      font-weight: 600;
+      border: 1px solid transparent;
+      display: none;
+      line-height: 1.5;
+    }
+
+    .feedback.success {
+      display: block;
+      background: var(--success-bg);
+      border-color: var(--success-border);
+      color: var(--success-text);
+    }
+
+    .feedback.error {
+      display: block;
+      background: var(--error-bg);
+      border-color: var(--error-border);
+      color: var(--error-text);
+    }
+
+    .feedback.info {
+      display: block;
+      background: var(--info-bg);
+      border-color: var(--info-border);
+      color: var(--info-text);
+    }
+
+    .cover-preview-wrap {
+      display: none;
+      margin: 0 0 14px;
+    }
+
+    .cover-preview-wrap.active {
+      display: block;
+    }
+
+    .cover-preview-label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    .cover-preview {
+      display: block;
+      width: 100%;
+      max-width: 280px;
+      height: auto;
+      border-radius: 12px;
+      border: 1px solid #e1d8c9;
+      background: #fff;
+    }
+
+    .posts-list {
+      display: grid;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .post-item {
+      border: 1px solid #e1d8c9;
+      padding: 16px;
+      border-radius: 14px;
+      background: #faf8f2;
+    }
+
+    .post-item-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 8px;
+    }
+
+    .post-item h3 {
+      margin: 0 0 6px;
+      font-size: 1.15rem;
+      font-family: "Georgia", "Times New Roman", serif;
+    }
+
+    .post-slug {
+      display: inline-block;
+      margin-bottom: 8px;
+      font-size: 0.85rem;
+      color: var(--gold);
+      background: rgba(143, 122, 73, 0.10);
+      padding: 5px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(143, 122, 73, 0.14);
+    }
+
+    .post-meta {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 0 0 10px;
+    }
+
+    .meta-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 9px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      border: 1px solid #ddd2bf;
+      background: #f7f2e8;
+      color: #5c4d2f;
+    }
+
+    .meta-badge.draft {
+      background: #f3f0ea;
+      color: #6a6257;
+    }
+
+    .meta-badge.published {
+      background: #eef9f0;
+      color: #1f6b2a;
+      border-color: #b7e0be;
+    }
+
+    .post-cover-preview {
+      display: block;
+      width: 100%;
+      max-width: 220px;
+      height: auto;
+      border-radius: 12px;
+      border: 1px solid #e1d8c9;
+      margin: 0 0 12px;
+      background: #fff;
+    }
+
+    .post-item p {
+      margin: 0 0 12px;
+      color: #4d473f;
+      line-height: 1.55;
+    }
+
+    .post-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .empty-state {
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .logs-panel {
+      margin-top: 22px;
+    }
+
+    .logs-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .logs-list {
+      display: grid;
+      gap: 10px;
+      max-height: 420px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .log-item {
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid #e4dccf;
+      background: #faf8f2;
+      font-family: Consolas, Monaco, monospace;
+      font-size: 0.84rem;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .log-item.info {
+      border-left: 4px solid #8f7a49;
+    }
+
+    .log-item.warn {
+      border-left: 4px solid #d3a323;
+      background: #fff9ea;
+    }
+
+    .log-item.error {
+      border-left: 4px solid #b64a4a;
+      background: #fff4f4;
+    }
+
+    @media (max-width: 980px) {
+      .admin-grid,
+      .stats-grid,
+      .field-grid,
+      .field-grid-3 {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<h1>Criar novo artigo</h1>
+  <div id="login-box" class="panel login-shell">
+    <h2>Login de Administração</h2>
+    <p class="login-help">
+      Entra com a password de administração para gerir artigos, editar conteúdos e fazer uploads.
+    </p>
 
+    <input id="admin-password" type="password" placeholder="Password" autocomplete="current-password">
 
-<input id="slug" placeholder="slug (ex: historia-classe-e)">
-<input id="title" placeholder="Título">
-<textarea id="excerpt" placeholder="Resumo"></textarea>
-<textarea id="content" placeholder="Conteúdo completo do artigo"></textarea>
+    <div class="actions">
+      <button id="login-btn" class="primary-btn" onclick="loginAdmin()">Entrar</button>
+    </div>
 
-<button id="submit-btn" onclick="criarPost()">Criar Post</button>
+    <p id="login-msg" class="feedback"></p>
+  </div>
 
-<p id="msg"></p>
+  <div id="admin-app" style="display: none;">
+    <div class="topbar">
+      <div class="topbar-left">
+        <h1>Painel de Administração</h1>
+        <p>Gestão de artigos do projeto Mercedes W115.</p>
+      </div>
 
-<hr>
+      <div class="topbar-actions">
+        <a class="ghost-link" href="./index.html" target="_blank" rel="noopener noreferrer">Ver site</a>
+        <button id="logout-btn" class="secondary-btn" onclick="logoutAdmin()">Logout</button>
+      </div>
+    </div>
 
-<h2>Artigos existentes</h2>
-<div id="posts-list">
-  <p>A carregar artigos...</p>
-</div>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <span>Total de posts</span>
+        <strong id="stat-total-posts">0</strong>
+      </div>
 
+      <div class="stat-card">
+        <span>Modo</span>
+        <strong id="stat-mode">Criação</strong>
+      </div>
+
+      <div class="stat-card">
+        <span>Último slug</span>
+        <strong id="stat-last-slug">—</strong>
+      </div>
+
+      <div class="stat-card">
+        <span>API</span>
+        <strong id="stat-api-base">—</strong>
+      </div>
+    </div>
+
+    <div class="admin-grid">
+      <div class="panel">
+        <div class="editor-header">
+          <div>
+            <h2 id="editor-title">Criar artigo</h2>
+            <div id="editor-mode" class="editor-mode hidden">Modo edição ativo</div>
+          </div>
+        </div>
+
+        <div class="field-grid">
+          <div>
+            <label class="field-label" for="slug">Slug</label>
+            <input id="slug" placeholder="historia-classe-e">
+          </div>
+
+          <div>
+            <label class="field-label" for="title">Título</label>
+            <input id="title" placeholder="Título">
+          </div>
+        </div>
+
+        <div class="field-grid">
+          <div>
+            <label class="field-label" for="status">Status</label>
+            <select id="status">
+              <option value="draft">Rascunho</option>
+              <option value="published">Publicado</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="field-label" for="published_at">Data de publicação</label>
+            <input id="published_at" type="datetime-local">
+          </div>
+        </div>
+
+        <label class="field-label" for="cover_image">Imagem de capa</label>
+
+        <div class="field-grid-3">
+          <input id="cover_image" placeholder="/uploads/exemplo.jpg ou URL completa">
+          <button type="button" class="secondary-btn" onclick="selecionarImagemCapa()">Upload capa</button>
+          <button type="button" class="secondary-btn" onclick="removerImagemCapa()">Remover</button>
+        </div>
+
+        <!-- # Input escondido para upload da capa -->
+        <input id="cover-upload-input" type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" style="display:none;">
+
+        <div id="cover-preview-wrap" class="cover-preview-wrap">
+          <span class="cover-preview-label">Pré-visualização da capa</span>
+          <img id="cover-preview" class="cover-preview" alt="Pré-visualização da imagem de capa">
+        </div>
+
+        <label class="field-label" for="excerpt">Resumo</label>
+        <textarea id="excerpt" placeholder="Resumo do artigo"></textarea>
+
+        <label class="field-label" for="content">Conteúdo</label>
+        <textarea id="content"></textarea>
+
+        <div class="actions">
+          <button id="submit-btn" class="primary-btn" onclick="guardarPost()">Criar post</button>
+          <button id="cancel-edit-btn" class="secondary-btn" onclick="cancelarEdicao()" style="display:none;">Cancelar edição</button>
+          <button class="secondary-btn" onclick="limparFormulario()">Limpar</button>
+        </div>
+
+        <p id="msg" class="feedback"></p>
+      </div>
+
+      <div class="panel">
+        <div class="posts-header">
+          <div>
+            <h2>Artigos existentes</h2>
+            <p class="muted">Pesquisa, edição rápida e acesso ao artigo publicado.</p>
+          </div>
+        </div>
+
+        <input
+          id="search-posts"
+          class="search-input"
+          type="text"
+          placeholder="Pesquisar por título ou slug..."
+        >
+
+        <div id="posts-list" class="posts-list">
+          <p class="empty-state">A carregar artigos...</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel logs-panel">
+      <div class="logs-header">
+        <div>
+          <h2>Logs do sistema</h2>
+          <p class="muted">Últimos 100 eventos do backend.</p>
+        </div>
+
+        <div class="topbar-actions">
+          <button id="refresh-logs-btn" class="secondary-btn" onclick="carregarLogs()">Atualizar logs</button>
+        </div>
+      </div>
+
+      <div id="logs-list" class="logs-list">
+        <p class="empty-state">A carregar logs...</p>
+      </div>
+    </div>
+  </div>
 
 <script>
+  // # Configuração automática da API
+  function getApiBase() {
+    const host = window.location.hostname;
+    const protocol = window.location.protocol;
 
-let postEmEdicao = null;
+    // # Se estiveres em localhost, usa a porta 5000 do backend
+    if (host === "localhost" || host === "127.0.0.1") {
+      return `${protocol}//${host}:5000`;
+    }
 
-// # Função para criar post
-async function criarPost() {
-
-  const slug = document.getElementById("slug").value;
-  const title = document.getElementById("title").value;
-  const excerpt = document.getElementById("excerpt").value;
-  const content = document.getElementById("content").value;
-
-  let url = "http://localhost:5000/api/posts";
-  let method = "POST";
-
-  // # Se estiver a editar, muda para PUT
-  if (postEmEdicao !== null) {
-    url = `http://localhost:5000/api/posts/${postEmEdicao}`;
-    method = "PUT";
+    // # Em produção, assume mesmo domínio da página atual
+    return window.location.origin;
   }
 
-  const res = await fetch(url, {
-    method: method,
-    headers: {
-      "Content-Type": "application/json"
+  const API_BASE = getApiBase();
+  const AUTH_LOGIN = `${API_BASE}/api/auth/login`;
+  const AUTH_ME = `${API_BASE}/api/auth/me`;
+  const AUTH_LOGOUT = `${API_BASE}/api/auth/logout`;
+  const POSTS = `${API_BASE}/api/posts`;
+  const POSTS_ADMIN = `${API_BASE}/api/posts/admin/all`;
+  const UPLOAD = `${API_BASE}/api/upload`;
+  const ADMIN_LOGS = `${API_BASE}/api/admin/logs`;
+
+  let postsGuardados = [];
+  let postEmEdicao = null;
+  let loginEmCurso = false;
+  let guardarEmCurso = false;
+  let apagarEmCurso = false;
+  let duplicarEmCurso = false;
+  let logoutEmCurso = false;
+  let uploadCapaEmCurso = false;
+  let editorPronto = false;
+  let intervaloAutoSave = null;
+
+  // # Mostra mensagem de feedback
+  function mostrarMensagem(elementId, tipo, texto) {
+    const el = document.getElementById(elementId);
+    if (!el) return;
+
+    el.style.display = "block";
+    el.className = `feedback ${tipo}`;
+    el.innerHTML = texto;
+  }
+
+  // # Esconde mensagem de feedback
+  function esconderMensagem(elementId) {
+    const el = document.getElementById(elementId);
+    if (!el) return;
+
+    el.style.display = "none";
+    el.className = "feedback";
+    el.innerHTML = "";
+  }
+
+  // # Escapa HTML simples para evitar injeção no painel
+  function escapeHtml(text) {
+    return String(text || "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#039;");
+  }
+
+  // # Obtém o editor TinyMCE com segurança
+  function getEditor() {
+    return tinymce.get("content") || null;
+  }
+
+  // # Obtém o conteúdo do editor com segurança
+  function getEditorContent() {
+    const editor = getEditor();
+    return editor ? editor.getContent() : "";
+  }
+
+  // # Define conteúdo do editor com segurança
+  function setEditorContent(content) {
+    const editor = getEditor();
+    if (editor) {
+      editor.setContent(content || "");
+    }
+  }
+
+  // # Formata data ISO para input datetime-local
+  function formatarDataInput(valor) {
+    if (!valor) return "";
+
+    const data = new Date(valor);
+    if (Number.isNaN(data.getTime())) return "";
+
+    return new Date(data.getTime() - data.getTimezoneOffset() * 60000)
+      .toISOString()
+      .slice(0, 16);
+  }
+
+  // # Formata data para texto legível
+  function formatarDataTexto(valor) {
+    if (!valor) return "Sem data";
+
+    const data = new Date(valor);
+    if (Number.isNaN(data.getTime())) return valor;
+
+    return data.toLocaleString("pt-PT");
+  }
+
+  // # Normaliza URL/caminho de imagem para funcionar melhor no frontend
+  function resolverImagem(url) {
+    const valor = String(url || "").trim();
+    if (!valor) return "";
+
+    if (/^https?:\/\//i.test(valor)) {
+      return valor;
+    }
+
+    if (valor.startsWith("/")) {
+      return `${API_BASE}${valor}`;
+    }
+
+    return `${API_BASE}/${valor}`;
+  }
+
+  // # Atualiza preview da imagem de capa
+  function atualizarPreviewCapa() {
+    const wrap = document.getElementById("cover-preview-wrap");
+    const img = document.getElementById("cover-preview");
+    const valor = document.getElementById("cover_image").value.trim();
+
+    if (!valor) {
+      wrap.classList.remove("active");
+      img.removeAttribute("src");
+      return;
+    }
+
+    img.src = resolverImagem(valor);
+    wrap.classList.add("active");
+  }
+
+  // # Atualiza o estado visual do editor
+  function atualizarEstadoEditor() {
+    const mode = document.getElementById("editor-mode");
+    const title = document.getElementById("editor-title");
+    const submitBtn = document.getElementById("submit-btn");
+    const cancelBtn = document.getElementById("cancel-edit-btn");
+    const statMode = document.getElementById("stat-mode");
+    const statLastSlug = document.getElementById("stat-last-slug");
+
+    if (postEmEdicao !== null) {
+      mode.classList.remove("hidden");
+      title.innerText = "Editar artigo";
+      submitBtn.innerText = guardarEmCurso ? "A atualizar..." : "Atualizar post";
+      cancelBtn.style.display = "inline-flex";
+      statMode.innerText = "Edição";
+    } else {
+      mode.classList.add("hidden");
+      title.innerText = "Criar artigo";
+      submitBtn.innerText = guardarEmCurso ? "A guardar..." : "Criar post";
+      cancelBtn.style.display = "none";
+      statMode.innerText = "Criação";
+    }
+
+    submitBtn.disabled = guardarEmCurso || uploadCapaEmCurso;
+    statLastSlug.innerText = document.getElementById("slug").value.trim() || "—";
+  }
+
+  // # Atualiza botão de login
+  function atualizarBotaoLogin(ativo) {
+    const botao = document.getElementById("login-btn");
+    botao.disabled = ativo;
+    botao.innerText = ativo ? "A entrar..." : "Entrar";
+  }
+
+  // # Atualiza botão de logout
+  function atualizarBotaoLogout(ativo) {
+    const botao = document.getElementById("logout-btn");
+    if (!botao) return;
+
+    botao.disabled = ativo;
+    botao.innerText = ativo ? "A sair..." : "Logout";
+  }
+
+  // # Atualiza botões das ações dos posts
+  function atualizarBotoesAcao(ativo) {
+    document.querySelectorAll(".danger-btn, .duplicate-btn, .edit-btn").forEach((btn) => {
+      btn.disabled = ativo;
+    });
+  }
+
+  // # Seleciona ficheiro da capa
+  function selecionarImagemCapa() {
+    if (uploadCapaEmCurso) return;
+    document.getElementById("cover-upload-input").click();
+  }
+
+  // # Remove imagem de capa
+  function removerImagemCapa() {
+    document.getElementById("cover_image").value = "";
+    document.getElementById("cover-upload-input").value = "";
+    atualizarPreviewCapa();
+    atualizarEstadoEditor();
+    // # FIX: limpar também o draft guardado para não restaurar a capa antiga
+    try {
+      const draft = JSON.parse(localStorage.getItem("draft-post") || "{}");
+      draft.cover_image = "";
+      localStorage.setItem("draft-post", JSON.stringify(draft));
+    } catch (_) {}
+  }
+
+  // # Faz upload da imagem de capa
+  async function uploadImagemCapa(file) {
+    // # FIX: rejeitar imediatamente se não houver ficheiro real
+    if (!file || !file.size || uploadCapaEmCurso) return;
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    uploadCapaEmCurso = true;
+    mostrarMensagem("msg", "info", "A fazer upload da imagem de capa...");
+    atualizarEstadoEditor();
+
+    try {
+      const res = await fetch(UPLOAD, {
+        method: "POST",
+        credentials: "include",
+        body: formData
+      });
+
+      const data = await res.json();
+
+      if (res.status === 401) {
+        await logoutAdmin();
+        return;
+      }
+
+      if (!res.ok) {
+        throw new Error(data.message || "Erro no upload da capa.");
+      }
+
+      const imageValue = data.location || data.path || "";
+
+      if (!imageValue) {
+        throw new Error("O servidor não devolveu o caminho da imagem.");
+      }
+
+      const coverInput = document.getElementById("cover_image");
+      coverInput.value = imageValue;
+
+      // # FIX: actualizar o draft no localStorage imediatamente com o novo valor
+      try {
+        const draft = JSON.parse(localStorage.getItem("draft-post") || "{}");
+        draft.cover_image = imageValue;
+        localStorage.setItem("draft-post", JSON.stringify(draft));
+      } catch (_) {}
+
+      // # Atualizar preview
+      atualizarPreviewCapa();
+
+      mostrarMensagem("msg", "success", "Imagem de capa enviada com sucesso.");
+    } catch (error) {
+      console.error("Erro no upload da capa:", error);
+      mostrarMensagem("msg", "error", error.message || "Não foi possível enviar a imagem de capa.");
+    } finally {
+      uploadCapaEmCurso = false;
+      atualizarEstadoEditor();
+    }
+  }
+
+  // # Verifica se a sessão do admin ainda existe
+  async function verificarLogin() {
+    try {
+      const res = await fetch(AUTH_ME, {
+        method: "GET",
+        credentials: "include"
+      });
+
+      if (!res.ok) {
+        throw new Error("Sessão inválida.");
+      }
+
+      document.getElementById("login-box").style.display = "none";
+      document.getElementById("admin-app").style.display = "block";
+      document.body.classList.add("admin-ready");
+
+      await carregarPosts();
+      await carregarLogs();
+    } catch {
+      document.getElementById("login-box").style.display = "block";
+      document.getElementById("admin-app").style.display = "none";
+      document.body.classList.add("admin-ready");
+    }
+  }
+
+  // # Faz login no admin
+  async function loginAdmin() {
+    if (loginEmCurso) return;
+
+    const password = document.getElementById("admin-password").value.trim();
+
+    if (!password) {
+      mostrarMensagem("login-msg", "error", "Introduz a password.");
+      return;
+    }
+
+    esconderMensagem("login-msg");
+    loginEmCurso = true;
+    atualizarBotaoLogin(true);
+
+    try {
+      const res = await fetch(AUTH_LOGIN, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        credentials: "include",
+        body: JSON.stringify({ password })
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Erro no login.");
+      }
+
+      document.getElementById("admin-password").value = "";
+      await verificarLogin();
+    } catch (error) {
+      console.error("Erro no login:", error);
+      mostrarMensagem("login-msg", "error", error.message || "Não foi possível iniciar sessão.");
+    } finally {
+      loginEmCurso = false;
+      atualizarBotaoLogin(false);
+    }
+  }
+
+  // # Faz logout do admin
+  async function logoutAdmin() {
+    if (logoutEmCurso) return;
+
+    logoutEmCurso = true;
+    atualizarBotaoLogout(true);
+
+    try {
+      await fetch(AUTH_LOGOUT, {
+        method: "POST",
+        credentials: "include"
+      });
+    } catch (error) {
+      console.error("Erro no logout:", error);
+    } finally {
+      window.location.reload();
+    }
+  }
+
+  // # Inicializa o TinyMCE
+  tinymce.init({
+    selector: "#content",
+    height: 380,
+    menubar: false,
+    plugins: [
+      "lists",
+      "link",
+      "image",
+      "table",
+      "code"
+    ],
+    toolbar:
+      "undo redo | styles | bold italic | alignleft aligncenter alignright | bullist numlist | link image | code",
+    automatic_uploads: true,
+    file_picker_types: "image",
+
+    images_upload_handler: async (blobInfo) => {
+      const formData = new FormData();
+      formData.append("image", blobInfo.blob(), blobInfo.filename());
+
+      const res = await fetch(UPLOAD, {
+        method: "POST",
+        credentials: "include",
+        body: formData
+      });
+
+      let data = {};
+      try {
+        data = await res.json();
+      } catch (jsonError) {
+        console.error("Resposta não JSON no upload do editor:", jsonError);
+      }
+
+      if (res.status === 401) {
+        await logoutAdmin();
+        throw new Error("Sessão expirada. Inicia sessão novamente.");
+      }
+
+      const imagePath = data.location || data.path || data.url || "";
+
+      if (!res.ok || !imagePath) {
+        throw new Error(data.message || "Erro no upload.");
+      }
+
+      return resolverImagem(imagePath);
     },
-    body: JSON.stringify({
-      slug,
-      title,
-      excerpt,
-      content
-    })
+
+    setup: function (editor) {
+      editor.on("init", function () {
+        editorPronto = true;
+      });
+
+      editor.on("change keyup", function () {
+        editor.save();
+      });
+    }
   });
 
-  const data = await res.json();
+  // # Limpa o formulário todo
+  function limparFormulario() {
+    document.getElementById("slug").value = "";
+    document.getElementById("title").value = "";
+    document.getElementById("excerpt").value = "";
+    document.getElementById("status").value = "draft";
+    document.getElementById("cover_image").value = "";
+    document.getElementById("published_at").value = "";
+    document.getElementById("cover-upload-input").value = "";
+    setEditorContent("");
+    esconderMensagem("msg");
+    atualizarPreviewCapa();
+    atualizarEstadoEditor();
+  }
 
-  document.getElementById("msg").innerText = data.message;
+  // # Cancela a edição atual
+  function cancelarEdicao() {
+    postEmEdicao = null;
+    limparFormulario();
+    atualizarEstadoEditor();
+  }
 
-  // # Limpar campos
-  document.getElementById("slug").value = "";
-  document.getElementById("title").value = "";
-  document.getElementById("excerpt").value = "";
-  document.getElementById("content").value = "";
+  // # Guarda um post novo ou atualiza um existente
+  async function guardarPost() {
+    if (guardarEmCurso) return;
 
-  // # Sair do modo edição
-  postEmEdicao = null;
+    const slug = document.getElementById("slug").value.trim();
+    const title = document.getElementById("title").value.trim();
+    const excerpt = document.getElementById("excerpt").value.trim();
+    const content = getEditorContent();
+    const status = document.getElementById("status").value;
+    const cover_image = document.getElementById("cover_image").value.trim();
+    const publishedAtValue = document.getElementById("published_at").value;
+    const published_at = publishedAtValue ? new Date(publishedAtValue).toISOString() : null;
 
-  // # Voltar texto do botão ao normal
-  document.getElementById("submit-btn").innerText = "Criar Post";
+    if (!slug || !title || !excerpt || !content) {
+      mostrarMensagem("msg", "error", "Preenche slug, título, resumo e conteúdo.");
+      return;
+    }
 
-  carregarPosts();
-}
+    let url = POSTS;
+    let method = "POST";
+    let successText = "Post criado com sucesso.";
 
-// # Função para carregar posts
-async function carregarPosts() {
+    if (postEmEdicao !== null) {
+      url = `${POSTS}/${postEmEdicao}`;
+      method = "PUT";
+      successText = "Post atualizado com sucesso.";
+    }
 
-  const res = await fetch("http://localhost:5000/api/posts");
-  const posts = await res.json();
+    guardarEmCurso = true;
+    atualizarEstadoEditor();
+    esconderMensagem("msg");
 
-  const container = document.getElementById("posts-list");
-  container.innerHTML = "";
+    try {
+      const res = await fetch(url, {
+        method,
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          slug,
+          title,
+          excerpt,
+          content,
+          status,
+          cover_image,
+          published_at
+        })
+      });
 
-  posts.forEach((post) => {
-    const div = document.createElement("div");
-    div.style.border = "1px solid #ccc";
-    div.style.padding = "12px";
-    div.style.marginBottom = "12px";
-    div.style.borderRadius = "8px";
+      const data = await res.json();
 
-div.innerHTML = `
-  <strong>${post.title}</strong><br>
-  <small>Slug: ${post.slug}</small>
-  <p>${post.excerpt}</p>
+      if (res.status === 401) {
+        await logoutAdmin();
+        return;
+      }
 
-<button onclick="editarPost(${post.id}, '${post.slug}', '${post.title}', '${post.excerpt}', '${post.content || ""}')">
-    Editar
-  </button>
+      if (!res.ok) {
+        throw new Error(data.message || "Não foi possível guardar o artigo.");
+      }
 
-  <button onclick="apagarPost(${post.id})">
-    Apagar
-  </button>
-`;
+      mostrarMensagem(
+        "msg",
+        "success",
+        `${successText}${status === "published" ? `<br><a href="./post.html?slug=${encodeURIComponent(slug)}" target="_blank" rel="noopener noreferrer">Ver artigo</a>` : ""}`
+      );
 
-    container.appendChild(div);
+      localStorage.removeItem("draft-post");
+      postEmEdicao = null;
+      limparFormulario();
+      await carregarPosts();
+      await carregarLogs();
+    } catch (error) {
+      console.error("Erro ao guardar artigo:", error);
+      mostrarMensagem("msg", "error", error.message || "Não foi possível guardar o artigo.");
+    } finally {
+      guardarEmCurso = false;
+      atualizarEstadoEditor();
+    }
+  }
+
+  // # Duplica um artigo existente
+  async function duplicarPost(id) {
+    if (duplicarEmCurso) return;
+
+    duplicarEmCurso = true;
+    atualizarBotoesAcao(true);
+    mostrarMensagem("msg", "info", "A duplicar artigo...");
+
+    try {
+      const res = await fetch(`${POSTS}/${id}/duplicate`, {
+        method: "POST",
+        credentials: "include"
+      });
+
+      const data = await res.json();
+
+      if (res.status === 401) {
+        await logoutAdmin();
+        return;
+      }
+
+      if (!res.ok) {
+        throw new Error(data.message || "Não foi possível duplicar o artigo.");
+      }
+
+      mostrarMensagem("msg", "success", "Post duplicado com sucesso.");
+      await carregarPosts();
+      await carregarLogs();
+    } catch (error) {
+      console.error("Erro ao duplicar artigo:", error);
+      mostrarMensagem("msg", "error", error.message || "Não foi possível duplicar o artigo.");
+    } finally {
+      duplicarEmCurso = false;
+      atualizarBotoesAcao(false);
+    }
+  }
+
+  // # Carrega todos os posts para o admin
+  async function carregarPosts() {
+    const container = document.getElementById("posts-list");
+
+    try {
+      const res = await fetch(POSTS_ADMIN, {
+        credentials: "include"
+      });
+
+      if (res.status === 401) {
+        await logoutAdmin();
+        return;
+      }
+
+      if (!res.ok) {
+        throw new Error("Erro ao carregar artigos.");
+      }
+
+      const posts = await res.json();
+      postsGuardados = Array.isArray(posts) ? posts : [];
+
+      document.getElementById("stat-total-posts").innerText = postsGuardados.length;
+      document.getElementById("stat-last-slug").innerText =
+        postsGuardados.length > 0 ? (postsGuardados[0].slug || "—") : "—";
+
+      renderizarPosts(postsGuardados);
+    } catch (error) {
+      console.error("Erro ao carregar artigos:", error);
+      container.innerHTML = `<p class="empty-state">Não foi possível carregar os artigos.</p>`;
+      document.getElementById("stat-total-posts").innerText = "0";
+      document.getElementById("stat-last-slug").innerText = "—";
+    }
+  }
+
+  // # Renderiza a lista de posts
+  function renderizarPosts(lista) {
+    const container = document.getElementById("posts-list");
+    container.innerHTML = "";
+
+    if (!lista || lista.length === 0) {
+      container.innerHTML = `<p class="empty-state">Ainda não existem artigos.</p>`;
+      return;
+    }
+
+    lista.forEach((post) => {
+      const div = document.createElement("div");
+      div.className = "post-item";
+
+      const statusClass = post.status === "published" ? "published" : "draft";
+      const statusLabel = post.status === "published" ? "Publicado" : "Rascunho";
+
+      const verArtigo = post.status === "published"
+        ? `<a class="ghost-link" href="./post.html?slug=${encodeURIComponent(post.slug || "")}" target="_blank" rel="noopener noreferrer">Ver artigo</a>`
+        : `<span class="ghost-link" style="opacity:0.6; cursor:default;">Rascunho</span>`;
+
+      const coverHtml = post.cover_image
+        ? `<img class="post-cover-preview" src="${escapeHtml(resolverImagem(post.cover_image))}" alt="Imagem de capa">`
+        : "";
+
+      div.innerHTML = `
+        <div class="post-item-top">
+          <div>
+            <h3>${escapeHtml(post.title || "Sem título")}</h3>
+            <span class="post-slug">${escapeHtml(post.slug || "sem-slug")}</span>
+          </div>
+        </div>
+
+        <div class="post-meta">
+          <span class="meta-badge ${statusClass}">${statusLabel}</span>
+          <span class="meta-badge">Publicação: ${escapeHtml(formatarDataTexto(post.published_at))}</span>
+        </div>
+
+        ${coverHtml}
+
+        <p>${escapeHtml(post.excerpt || "")}</p>
+
+        <div class="post-actions">
+          <button class="secondary-btn edit-btn" onclick="editarPost(${post.id})">Editar</button>
+          <button class="secondary-btn duplicate-btn" onclick="duplicarPost(${post.id})">Duplicar</button>
+          ${verArtigo}
+          <button class="danger-btn" onclick="apagarPost(${post.id})">Apagar</button>
+        </div>
+      `;
+
+      container.appendChild(div);
+    });
+  }
+
+  // # Renderiza logs no painel
+  function renderizarLogs(logs) {
+    const container = document.getElementById("logs-list");
+    container.innerHTML = "";
+
+    if (!logs || logs.length === 0) {
+      container.innerHTML = `<p class="empty-state">Ainda não existem logs.</p>`;
+      return;
+    }
+
+    logs.forEach((linha) => {
+      const div = document.createElement("div");
+
+      let tipo = "info";
+      if (linha.includes("[WARN]")) tipo = "warn";
+      if (linha.includes("[ERROR]")) tipo = "error";
+
+      div.className = `log-item ${tipo}`;
+      div.textContent = linha;
+
+      container.appendChild(div);
+    });
+  }
+
+  // # Carrega logs do backend
+  async function carregarLogs() {
+    const container = document.getElementById("logs-list");
+    const refreshBtn = document.getElementById("refresh-logs-btn");
+
+    try {
+      refreshBtn.disabled = true;
+      container.innerHTML = `<p class="empty-state">A carregar logs...</p>`;
+
+      const res = await fetch(ADMIN_LOGS, {
+        method: "GET",
+        credentials: "include"
+      });
+
+      const data = await res.json();
+
+      if (res.status === 401) {
+        await logoutAdmin();
+        return;
+      }
+
+      if (!res.ok) {
+        throw new Error(data.message || "Erro ao carregar logs.");
+      }
+
+      renderizarLogs(data.logs || []);
+    } catch (error) {
+      console.error("Erro ao carregar logs:", error);
+      container.innerHTML = `<p class="empty-state">Não foi possível carregar os logs.</p>`;
+    } finally {
+      refreshBtn.disabled = false;
+    }
+  }
+
+  // # Carrega os dados de um post no formulário
+  function editarPost(id) {
+    const post = postsGuardados.find((p) => Number(p.id) === Number(id));
+    if (!post) return;
+
+    document.getElementById("slug").value = post.slug || "";
+    document.getElementById("title").value = post.title || "";
+    document.getElementById("excerpt").value = post.excerpt || "";
+    document.getElementById("status").value = post.status || "draft";
+    document.getElementById("cover_image").value = post.cover_image || "";
+    document.getElementById("published_at").value = formatarDataInput(post.published_at);
+    setEditorContent(post.content || "");
+
+    postEmEdicao = id;
+    atualizarPreviewCapa();
+    atualizarEstadoEditor();
+    esconderMensagem("msg");
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  }
+
+  // # Apaga um post
+  async function apagarPost(id) {
+    if (apagarEmCurso) return;
+
+    const confirmar = confirm("Tens a certeza que queres apagar este artigo?");
+    if (!confirmar) return;
+
+    apagarEmCurso = true;
+    atualizarBotoesAcao(true);
+    mostrarMensagem("msg", "info", "A apagar artigo...");
+
+    try {
+      const res = await fetch(`${POSTS}/${id}`, {
+        method: "DELETE",
+        credentials: "include"
+      });
+
+      const data = await res.json();
+
+      if (res.status === 401) {
+        await logoutAdmin();
+        return;
+      }
+
+      if (!res.ok) {
+        throw new Error(data.message || "Erro ao apagar artigo.");
+      }
+
+      if (postEmEdicao === id) {
+        cancelarEdicao();
+      }
+
+      mostrarMensagem("msg", "success", "Post apagado com sucesso.");
+      await carregarPosts();
+      await carregarLogs();
+    } catch (error) {
+      console.error("Erro ao apagar artigo:", error);
+      mostrarMensagem("msg", "error", error.message || "Não foi possível apagar o artigo.");
+    } finally {
+      apagarEmCurso = false;
+      atualizarBotoesAcao(false);
+    }
+  }
+
+  // # Restaura rascunho local do browser
+  // # FIX: não restaurar se já houver um post em edição ou se o upload estiver em curso
+  function restaurarDraftLocal() {
+    const draft = localStorage.getItem("draft-post");
+    if (!draft) return;
+
+    try {
+      const data = JSON.parse(draft);
+
+      document.getElementById("slug").value = data.slug || "";
+      document.getElementById("title").value = data.title || "";
+      document.getElementById("excerpt").value = data.excerpt || "";
+      document.getElementById("status").value = data.status || "draft";
+      // # FIX: só restaurar cover_image se tiver valor — nunca sobrescrever com vazio
+      if (data.cover_image) {
+        document.getElementById("cover_image").value = data.cover_image;
+      }
+      document.getElementById("published_at").value = data.published_at || "";
+
+      setTimeout(() => {
+        if (data.content) {
+          setEditorContent(data.content);
+        }
+        atualizarPreviewCapa();
+        atualizarEstadoEditor();
+      }, 500);
+    } catch (error) {
+      console.error("Erro ao restaurar rascunho:", error);
+    }
+  }
+
+  // # Ativa auto-save local
+  function iniciarAutoSave() {
+    if (intervaloAutoSave) {
+      clearInterval(intervaloAutoSave);
+    }
+
+    intervaloAutoSave = setInterval(() => {
+      // # FIX: não fazer auto-save durante um upload para não corromper o valor da capa
+      if (uploadCapaEmCurso) return;
+
+      const draft = {
+        slug: document.getElementById("slug").value,
+        title: document.getElementById("title").value,
+        excerpt: document.getElementById("excerpt").value,
+        status: document.getElementById("status").value,
+        cover_image: document.getElementById("cover_image").value,
+        published_at: document.getElementById("published_at").value,
+        content: getEditorContent()
+      };
+
+      localStorage.setItem("draft-post", JSON.stringify(draft));
+    }, 5000);
+  }
+
+  // # Atualiza slug automaticamente a partir do título
+  document.getElementById("title").addEventListener("input", function () {
+    if (postEmEdicao !== null) return;
+
+    const slug = this.value
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "");
+
+    document.getElementById("slug").value = slug;
+    atualizarEstadoEditor();
   });
-}
 
-// # Carregar posts ao abrir a página
-carregarPosts();
+  // # Atualiza stats e preview quando o slug muda
+  document.getElementById("slug").addEventListener("input", atualizarEstadoEditor);
 
+  // # Atualiza preview da capa quando o campo muda manualmente
+  document.getElementById("cover_image").addEventListener("input", atualizarPreviewCapa);
 
-async function apagarPost(id){
-
-  const confirmacao = confirm("Apagar este post?");
-
-  if(!confirmacao) return;
-
-  await fetch(`http://localhost:5000/api/posts/${id}`,{
-    method:"DELETE"
+  // # FIX: faz upload da capa apenas se houver ficheiro real (evita double-trigger ao limpar o input)
+  document.getElementById("cover-upload-input").addEventListener("change", async function () {
+    const file = this.files && this.files[0] && this.files[0].size > 0 ? this.files[0] : null;
+    if (!file) return;
+    await uploadImagemCapa(file);
   });
 
-  carregarPosts();
+  // # Pesquisa local na lista de posts
+  document.getElementById("search-posts").addEventListener("input", function () {
+    const termo = this.value.trim().toLowerCase();
 
-}
+    const filtrados = postsGuardados.filter((post) => {
+      const titulo = String(post.title || "").toLowerCase();
+      const slug = String(post.slug || "").toLowerCase();
+      return titulo.includes(termo) || slug.includes(termo);
+    });
 
-//Função para editar post
-function editarPost(id, slug, title, excerpt, content) {
-  document.getElementById("slug").value = slug;
-  document.getElementById("title").value = title;
-  document.getElementById("excerpt").value = excerpt;
-  document.getElementById("content").value = content;
+    renderizarPosts(filtrados);
+  });
 
-  postEmEdicao = id;
+  // # Permite login com Enter
+  document.getElementById("admin-password").addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      loginAdmin();
+    }
+  });
 
-  document.getElementById("submit-btn").innerText = "Atualizar Post";
-}
+  // # Guarda a API atual no cartão de stats
+  document.getElementById("stat-api-base").innerText = API_BASE;
 
-
+  // # Arranque inicial
+  restaurarDraftLocal();
+  iniciarAutoSave();
+  verificarLogin();
+  atualizarEstadoEditor();
 </script>
 
 </body>

@@ -2,18 +2,41 @@
 <html lang="pt">
 <head>
   <meta charset="UTF-8">
-  <title>Restauro 240D 3.0 (1976) - Mercedes-Benz W115</title>
+  <title>Restauro 240D 3.0 (1976) - Mercedes W115</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Libre+Baskerville&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/mercedes-w115-demo/assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+
+  <style>
+    .callout {
+      margin: 28px 0;
+      padding: 16px 18px;
+      border-left: 4px solid #8d7747;
+      background: #f4eee3;
+      color: #3b342d;
+      border-radius: 8px;
+    }
+  </style>
 </head>
+
+<script>
+  function atualizarBarraScroll() {
+    const scrollTop = window.scrollY;
+    const alturaTotal = document.documentElement.scrollHeight - window.innerHeight;
+    const progresso = alturaTotal > 0 ? (scrollTop / alturaTotal) * 100 : 0;
+    document.documentElement.style.setProperty("--scroll", progresso + "%");
+  }
+
+  window.addEventListener("scroll", atualizarBarraScroll);
+  window.addEventListener("load", atualizarBarraScroll);
+</script>
 
 <body>
 
 <header>
   <div class="container">
-    <h1>Mercedes-Benz W115</h1>
+    <h1>Mercedes W 115</h1>
     <p class="subtitle">
       Este blogue pretende ser um testemunho sobre a minha experiência com o restauro de um Mercedes W115.
     </p>
@@ -22,36 +45,72 @@
 
 <nav class="topnav">
   <div class="container">
-    <a class="navlink" href="/mercedes-w115-demo/index.html">HOME</a>
-    <a class="navlink" href="/mercedes-w115-demo/pages/historia-classe-e.html">História Classe E</a>
-    <a class="navlink" href="/mercedes-w115-demo/pages/restauro-220d-1974.html">Restauro 220D (1974)</a>
-    <a class="navlink active" href="/mercedes-w115-demo/pages/restauro-240d-30-1976.html">Restauro 240D 3.0 (1976)</a>
-    <a class="navlink" href="/mercedes-w115-demo/pages/faszinaton.html">Faszinaton</a>
-    <a class="navlink" href="/mercedes-w115-demo/pages/dados-tecnicos.html">Dados Técnicos</a>
-    <a class="navlink" href="/mercedes-w115-demo/pages/contactos.html">Contactos</a>
+    <a class="navlink" href="../index.html">HOME</a>
+    <a class="navlink" href="./historia-classe-e.html">História Classe E</a>
+    <a class="navlink" href="./restauro-220d-1974.html">Restauro 220D (1974)</a>
+    <a class="navlink active" href="./restauro-240d-30-1976.html">Restauro 240D 3.0 (1976)</a>
+    <a class="navlink" href="./faszinaton.html">Faszinaton</a>
+    <a class="navlink" href="./dados-tecnicos.html">Dados Técnicos</a>
+    <a class="navlink" href="./contactos.html">Contactos</a>
   </div>
 </nav>
 
 <section class="content container">
-  <h2>Restauro 240D 3.0 (1976)</h2>
-  <p>O NOVO PRJETO.</p>
+  <article class="page-shell">
+    <h2 class="page-title">Restauro 240D 3.0 (1976)</h2>
+    <hr class="sep">
 
- <figure class="post-figure">
-    <img class="post-img" src="/mercedes-w115-demo/assets/img/imagem31.jpg" alt="Linha completa">
-   <figcaption class="post-caption">Uma tarefa dificil...</figcaption>
-  </figure>
+    <div class="page-body">
 
- <figure class="post-figure">
-   <img class="post-img" src="/mercedes-w115-demo/assets/img/imagem32.jpg"  alt="Linha completa">
-    <figcaption class="post-caption">mas que certamente não será impossivel.</figcaption>
- </figure>
+      <p class="lead">
+        O novo projeto começa aqui: um 240D 3.0 de 1976, desafiante, marcante e com potencial para se transformar numa recuperação tão especial quanto exigente.
+      </p>
 
-   <figure class="post-figure">
-    <img class="post-img" src="/mercedes-w115-demo/assets/img/imagem33.jpg" alt="Linha completa">
-      <figcaption class="post-caption">Um coração com 80 cv - 1º automovel 5 cilindros diesel</figcaption>
-   </figure>
+      <p>
+        Este novo Mercedes representa mais do que uma simples continuação: é um desafio diferente, com outra escala, outras exigências e uma nova oportunidade para recuperar uma peça importante da história da marca.
+      </p>
 
-  
+      <p>
+        À primeira vista, é evidente que não será uma tarefa fácil. O estado do automóvel exige trabalho, paciência e capacidade para enfrentar problemas que surgem sempre num projeto desta idade. Mas é precisamente isso que também lhe dá valor.
+      </p>
+
+      <div class="callout">
+        <strong>Nova fase:</strong> este projeto não é apenas mais um restauro. É uma nova etapa, com ambição, dificuldade e o prazer próprio de devolver dignidade a um clássico raro.
+      </div>
+
+      <figure class="post-figure">
+        <img class="post-img" src="../assets/img/imagem31.jpg" alt="Mercedes 240D 3.0 em restauro">
+        <figcaption class="post-caption">Uma tarefa difícil...</figcaption>
+      </figure>
+
+      <p>
+        O objetivo passa por recuperar o automóvel com o mesmo respeito pelos detalhes, tentando preservar aquilo que o torna especial e devolvendo-lhe a presença que sempre mereceu.
+      </p>
+
+      <figure class="post-figure">
+        <img class="post-img" src="../assets/img/imagem32.jpg" alt="Estado do projeto 240D 3.0">
+        <figcaption class="post-caption">mas que certamente não será impossível.</figcaption>
+      </figure>
+
+      <p>
+        Para além da estética e da carroçaria, há também uma componente mecânica muito relevante. Este modelo distingue-se pelo seu carácter próprio e pelo motor que o torna especialmente interessante dentro da família W115.
+      </p>
+
+      <figure class="post-figure">
+        <img class="post-img" src="../assets/img/imagem33.jpg" alt="Motor 240D 3.0">
+        <figcaption class="post-caption">Um coração com 80 cv - 1º automóvel 5 cilindros diesel</figcaption>
+      </figure>
+
+      <p>
+        O 240D 3.0 ocupa um lugar especial na história da Mercedes-Benz por ter sido o primeiro automóvel de passageiros com motor diesel de cinco cilindros. Isso faz dele não só um clássico interessante, mas também uma peça com relevância técnica e histórica.
+      </p>
+
+      <p>
+        Este será, por isso, um projeto para acompanhar com atenção — tanto pela dificuldade como pela singularidade do modelo.
+      </p>
+
+    </div>
+  </article>
 </section>
 
 <footer>
@@ -59,6 +118,31 @@
     <p>© 2026 Mercedes W115 · Conteúdos e restauro: Pedro Gomes</p>
   </div>
 </footer>
+
+<button id="backToTop" class="back-to-top" aria-label="Voltar ao topo">
+  ↑
+</button>
+<script>
+  const backToTopBtn = document.getElementById("backToTop");
+
+  function toggleBackToTop() {
+    if (window.scrollY > 300) {
+      backToTopBtn.classList.add("show");
+    } else {
+      backToTopBtn.classList.remove("show");
+    }
+  }
+
+  backToTopBtn.addEventListener("click", () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  });
+
+  window.addEventListener("scroll", toggleBackToTop);
+  window.addEventListener("load", toggleBackToTop);
+</script>
 
 </body>
 </html>

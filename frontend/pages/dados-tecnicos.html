@@ -2,18 +2,42 @@
 <html lang="pt">
 <head>
   <meta charset="UTF-8">
-  <title>Dados Técnicos - Mercedes-Benz W115</title>
+  <title>Dados Técnicos - Mercedes W115</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Libre+Baskerville&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/mercedes-w115-demo/assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+
+  <style>
+    .callout {
+      margin: 28px 0;
+      padding: 16px 18px;
+      border-left: 4px solid #8d7747;
+      background: #f4eee3;
+      color: #3b342d;
+      border-radius: 8px;
+    }
+  </style>
 </head>
+
+<script>
+  function atualizarBarraScroll() {
+    const scrollTop = window.scrollY;
+    const alturaTotal = document.documentElement.scrollHeight - window.innerHeight;
+    const progresso = alturaTotal > 0 ? (scrollTop / alturaTotal) * 100 : 0;
+    document.documentElement.style.setProperty("--scroll", progresso + "%");
+  }
+
+  window.addEventListener("scroll", atualizarBarraScroll);
+  window.addEventListener("load", atualizarBarraScroll);
+</script>
+
 
 <body>
 
 <header>
   <div class="container">
-    <h1>Mercedes-Benz W115</h1>
+    <h1>Mercedes W 115</h1>
     <p class="subtitle">
       Este blogue pretende ser um testemunho sobre a minha experiência com o restauro de um Mercedes W115.
     </p>
@@ -22,38 +46,57 @@
 
 <nav class="topnav">
   <div class="container">
-    <a class="navlink" href="/mercedes-w115-demo/index.html">HOME</a>
-    <a class="navlink" href="/mercedes-w115-demo/pages/historia-classe-e.html">História Classe E</a>
-    <a class="navlink" href="/mercedes-w115-demo/pages/restauro-220d-1974.html">Restauro 220D (1974)</a>
-    <a class="navlink" href="/mercedes-w115-demo/pages/restauro-240d-30-1976.html">Restauro 240D 3.0 (1976)</a>
-    <a class="navlink" href="/mercedes-w115-demo/pages/faszinaton.html">Faszinaton</a>
-    <a class="navlink active" href="/mercedes-w115-demo/pages/dados-tecnicos.html">Dados Técnicos</a>
-    <a class="navlink" href="/mercedes-w115-demo/pages/contactos.html">Contactos</a>
+    <a class="navlink" href="../index.html">HOME</a>
+    <a class="navlink" href="./historia-classe-e.html">História Classe E</a>
+    <a class="navlink" href="./restauro-220d-1974.html">Restauro 220D (1974)</a>
+    <a class="navlink" href="./restauro-240d-30-1976.html">Restauro 240D 3.0 (1976)</a>
+    <a class="navlink" href="./faszinaton.html">Faszinaton</a>
+    <a class="navlink active" href="./dados-tecnicos.html">Dados Técnicos</a>
+    <a class="navlink" href="./contactos.html">Contactos</a>
   </div>
 </nav>
 
 <section class="content container">
-  <h2>Dados Técnicos</h2>
-  <figure class="post-figure">
-    <img class="post-img" src="/mercedes-w115-demo/assets/img/imagem35.jpg" alt="Mercedes série 200">
-  </figure>
+  <article class="page-shell">
+    <h2 class="page-title">Dados Técnicos</h2>
+    <hr class="sep">
 
-    <figure class="post-figure">
-    <img class="post-img" src="/mercedes-w115-demo/assets/img/imagem36.jpg" alt="Mercedes série 200">
-  </figure>
+    <div class="page-body">
 
-    <figure class="post-figure">
-    <img class="post-img" src="/mercedes-w115-demo/assets/img/imagem37.jpg" alt="Mercedes série 200">
-  </figure>
+      <p class="lead">
+        Nesta secção estão reunidas fichas, referências visuais e elementos técnicos que ajudam a compreender melhor a configuração, as variantes e as especificações do Mercedes W115.
+      </p>
 
-  <figure class="post-figure">
-    <img class="post-img" src="/mercedes-w115-demo/assets/img/imagem38.jpg" alt="Mercedes série 200">
-  </figure>  
+      <p>
+        Mais do que uma simples coleção de números, estes dados ajudam a contextualizar o modelo e a perceber aquilo que o distinguiu na sua época: motorização, dimensões, soluções mecânicas e detalhes de construção.
+      </p>
 
-  <figure class="post-figure">
-    <img class="post-img" src="/mercedes-w115-demo/assets/img/imagem39.jpg" alt="Mercedes série 200">
-  </figure>
+      <div class="callout">
+        <strong>Nota:</strong> estas referências técnicas complementam a parte histórica e os relatos de restauro, servindo como base para comparação, identificação e consulta.
+      </div>
 
+      <figure class="post-figure">
+        <img class="post-img" src="../assets/img/imagem35.jpg" alt="Dados técnicos Mercedes W115 1">
+      </figure>
+
+      <figure class="post-figure">
+        <img class="post-img" src="../assets/img/imagem36.jpg" alt="Dados técnicos Mercedes W115 2">
+      </figure>
+
+      <figure class="post-figure">
+        <img class="post-img" src="../assets/img/imagem37.jpg" alt="Dados técnicos Mercedes W115 3">
+      </figure>
+
+      <figure class="post-figure">
+        <img class="post-img" src="../assets/img/imagem38.jpg" alt="Dados técnicos Mercedes W115 4">
+      </figure>
+
+      <figure class="post-figure">
+        <img class="post-img" src="../assets/img/imagem39.jpg" alt="Dados técnicos Mercedes W115 5">
+      </figure>
+
+    </div>
+  </article>
 </section>
 
 <footer>
@@ -61,6 +104,34 @@
     <p>© 2026 Mercedes W115 · Conteúdos e restauro: Pedro Gomes</p>
   </div>
 </footer>
+
+<button id="backToTop" class="back-to-top" aria-label="Voltar ao topo">
+  ↑
+</button>
+
+<script>
+  const backToTopBtn = document.getElementById("backToTop");
+
+  function toggleBackToTop() {
+    if (window.scrollY > 300) {
+      backToTopBtn.classList.add("show");
+    } else {
+      backToTopBtn.classList.remove("show");
+    }
+  }
+
+  backToTopBtn.addEventListener("click", () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  });
+
+  window.addEventListener("scroll", toggleBackToTop);
+  window.addEventListener("load", toggleBackToTop);
+</script>
+
+
 
 </body>
 </html>

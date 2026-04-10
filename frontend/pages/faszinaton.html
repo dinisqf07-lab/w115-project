@@ -2,18 +2,42 @@
 <html lang="pt">
 <head>
   <meta charset="UTF-8">
-  <title>Faszinaton - Mercedes-Benz W115</title>
+  <title>Faszinaton - Mercedes W115</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Libre+Baskerville&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/mercedes-w115-demo/assets/css/style.css">
+  <link rel="stylesheet" href="../assets/css/style.css">
+
+  <style>
+    .callout {
+      margin: 28px 0;
+      padding: 16px 18px;
+      border-left: 4px solid #8d7747;
+      background: #f4eee3;
+      color: #3b342d;
+      border-radius: 8px;
+    }
+  </style>
 </head>
+
+<script>
+  function atualizarBarraScroll() {
+    const scrollTop = window.scrollY;
+    const alturaTotal = document.documentElement.scrollHeight - window.innerHeight;
+    const progresso = alturaTotal > 0 ? (scrollTop / alturaTotal) * 100 : 0;
+    document.documentElement.style.setProperty("--scroll", progresso + "%");
+  }
+
+  window.addEventListener("scroll", atualizarBarraScroll);
+  window.addEventListener("load", atualizarBarraScroll);
+</script>
+
 
 <body>
 
 <header>
   <div class="container">
-    <h1>Mercedes-Benz W115</h1>
+    <h1>Mercedes W 115</h1>
     <p class="subtitle">
       Este blogue pretende ser um testemunho sobre a minha experiência com o restauro de um Mercedes W115.
     </p>
@@ -22,23 +46,45 @@
 
 <nav class="topnav">
   <div class="container">
-    <a class="navlink" href="/mercedes-w115-demo/index.html">HOME</a>
-    <a class="navlink" href="/mercedes-w115-demo/pages/historia-classe-e.html">História Classe E</a>
-    <a class="navlink" href="/mercedes-w115-demo/pages/restauro-220d-1974.html">Restauro 220D (1974)</a>
-    <a class="navlink" href="/mercedes-w115-demo/pages/restauro-240d-30-1976.html">Restauro 240D 3.0 (1976)</a>
-    <a class="navlink active" href="/mercedes-w115-demo/pages/faszinaton.html">Faszinaton</a>
-    <a class="navlink" href="/mercedes-w115-demo/pages/dados-tecnicos.html">Dados Técnicos</a>
-    <a class="navlink" href="/mercedes-w115-demo/pages/contactos.html">Contactos</a>
+    <a class="navlink" href="../index.html">HOME</a>
+    <a class="navlink" href="./historia-classe-e.html">História Classe E</a>
+    <a class="navlink" href="./restauro-220d-1974.html">Restauro 220D (1974)</a>
+    <a class="navlink" href="./restauro-240d-30-1976.html">Restauro 240D 3.0 (1976)</a>
+    <a class="navlink active" href="./faszinaton.html">Faszinaton</a>
+    <a class="navlink" href="./dados-tecnicos.html">Dados Técnicos</a>
+    <a class="navlink" href="./contactos.html">Contactos</a>
   </div>
 </nav>
 
 <section class="content container">
-  <h2>Faszinaton</h2>
-  <figure class="post-figure">
-    <img class="post-img" src="/mercedes-w115-demo/assets/img/imagem34.jpg" alt="Mercedes série 200">
-  </figure>
+  <article class="page-shell">
+    <h2 class="page-title">Faszinaton</h2>
+    <hr class="sep">
 
-  
+    <div class="page-body">
+
+      <p class="lead">
+        Pequenos detalhes, pormenores de engenharia e características de época ajudam a explicar porque é que o W115 continua a exercer tanto fascínio décadas depois do seu lançamento.
+      </p>
+
+      <p>
+        O encanto deste modelo não está apenas na linha clássica ou na robustez mecânica. Está também nos detalhes: no desenho da grelha, na estrela sobre o capot, no tacto do volante, no som das portas a fechar e no ambiente interior tão característico da Mercedes-Benz desta época.
+      </p>
+
+      <div class="callout">
+        <strong>Faszinaton:</strong> é precisamente essa soma de presença, carácter e identidade que transforma um automóvel clássico em algo memorável.
+      </div>
+
+      <figure class="post-figure">
+        <img class="post-img" src="../assets/img/imagem34.jpg" alt="Detalhe Mercedes W115">
+      </figure>
+
+      <p>
+        Nesta secção reúnem-se alguns desses pormenores que tornam o W115 especial — não apenas como automóvel, mas como objecto de design, engenharia e memória.
+      </p>
+
+    </div>
+  </article>
 </section>
 
 <footer>
@@ -46,6 +92,33 @@
     <p>© 2026 Mercedes W115 · Conteúdos e restauro: Pedro Gomes</p>
   </div>
 </footer>
+
+<button id="backToTop" class="back-to-top" aria-label="Voltar ao topo">
+  ↑
+</button>
+
+<script>
+  const backToTopBtn = document.getElementById("backToTop");
+
+  function toggleBackToTop() {
+    if (window.scrollY > 300) {
+      backToTopBtn.classList.add("show");
+    } else {
+      backToTopBtn.classList.remove("show");
+    }
+  }
+
+  backToTopBtn.addEventListener("click", () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+  });
+
+  window.addEventListener("scroll", toggleBackToTop);
+  window.addEventListener("load", toggleBackToTop);
+</script>
+
 
 </body>
 </html>

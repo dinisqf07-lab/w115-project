@@ -1,128 +1,321 @@
 // # Importações
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
+const cookieParser = require("cookie-parser");
+const helmet = require("helmet");
+const rateLimit = require("express-rate-limit");
+const logger = require("./utils/logger");
 require("dotenv").config();
 
-const db = require("./db/database");
-db.prepare("DELETE FROM posts").run();
-db.prepare(`
-INSERT INTO posts (slug, title, excerpt)
-VALUES
-('historia-classe-e', 'História da Classe E', 'A série W114/W115 foi um marco na história da Mercedes-Benz.'),
-('restauro-220d', 'Restauro do 220D 1974', 'O processo completo de restauro de um Mercedes clássico.')
-`).run();
+// # Importar rotas
+const postsRoutes = require("./routes/postsRoutes");
+const uploadRoutes = require("./routes/uploadRoutes");
+const authRoutes = require("./routes/authRoutes");
+const contactRoutes = require("./routes/contactRoutes");
+const adminRoutes = require("./routes/adminRoutes");
 
 // # Criar app
 const app = express();
 
-// # Middleware
-app.use(cors());
-app.use(express.json());
+// # Proxy
+app.set("trust proxy", 1);
 
+// # Segurança base
+app.disable("x-powered-by");
 
-// # Rota para listar artigos
-app.get("/api/posts", (req, res) => {
+// # Ambiente
+const isProduction = process.env.NODE_ENV === "production";
 
-  const posts = db.prepare(`
-    SELECT * FROM posts
-  `).all();
+// # URLs do ambiente
+const FRONTEND_URL = process.env.FRONTEND_URL;
+const BACKEND_URL = process.env.BACKEND_URL;
 
-  res.json(posts);
+// # Validar variáveis importantes em produção
+if (isProduction) {
+  const requiredEnvVars = [
+    "FRONTEND_URL",
+    "BACKEND_URL"
+  ];
 
+  const missingEnvVars = requiredEnvVars.filter((key) => !process.env[key]);
+
+  if (missingEnvVars.length > 0) {
+    logger.error("MISSING_ENV_VARS", {
+      missing: missingEnvVars
+    });
+
+    process.exit(1);
+  }
+}
+
+// # Origins permitidos
+const allowedOrigins = [
+  "http://127.0.0.1:5500",
+  "http://localhost:5500",
+  FRONTEND_URL
+].filter(Boolean);
+
+// # Helmet + CSP
+app.use(
+  helmet({
+    crossOriginResourcePolicy: false,
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", "https://cdn.jsdelivr.net"],
+        styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
+        fontSrc: ["'self'", "https://fonts.gstatic.com", "data:"],
+        imgSrc: [
+          "'self'",
+          "data:",
+          "blob:",
+          "http://127.0.0.1:5000",
+          "http://localhost:5000",
+          BACKEND_URL
+        ].filter(Boolean),
+        connectSrc: [
+          "'self'",
+          "http://127.0.0.1:5000",
+          "http://localhost:5000",
+          BACKEND_URL,
+          FRONTEND_URL
+        ].filter(Boolean),
+        objectSrc: ["'none'"],
+        frameAncestors: ["'none'"],
+        baseUri: ["'self'"]
+      }
+    },
+    referrerPolicy: { policy: "no-referrer" }
+  })
+);
+
+// # Cookies
+app.use(cookieParser());
+
+// # CORS
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // # Permite requests sem origin (Postman, curl, server-to-server)
+      if (!origin) {
+        return callback(null, true);
+      }
+
+      if (allowedOrigins.includes(origin)) {
+        return callback(null, true);
+      }
+
+      logger.warn("CORS_BLOCKED", {
+        origin,
+        allowedOrigins
+      });
+
+      return callback(new Error("Origem não permitida pelo CORS."));
+    },
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+  })
+);
+
+// # Rate limit global
+const globalLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 300,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    ok: false,
+    message: "Demasiados pedidos. Tenta novamente daqui a pouco."
+  }
 });
 
+// # Rate limit para autenticação
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  standardHeaders: true,
+  legacyHeaders: false,
+  skipSuccessfulRequests: true,
+  message: {
+    ok: false,
+    message: "Demasiadas tentativas de autenticação. Tenta novamente daqui a pouco."
+  }
+});
 
-// # Rota para criar um novo artigo
-app.post("/api/posts", (req, res) => {
-  const { slug, title, excerpt, content } = req.body;
+// # Rate limit para contacto
+const contactLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 15,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    ok: false,
+    message: "Enviaste pedidos a mais. Aguarda antes de tentar outra vez."
+  }
+});
 
-  // # Validação simples
-  if (!slug || !title || !excerpt || !content) {
-    return res.status(400).json({
+// # Rate limit para uploads
+const uploadLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 20,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    ok: false,
+    message: "Demasiados uploads num curto espaço de tempo."
+  }
+});
+
+// # Rate limit para área de administração
+const adminLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 60,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    ok: false,
+    message: "Demasiados pedidos na área de administração."
+  }
+});
+
+app.use(globalLimiter);
+
+// # Parsers do body
+app.use(express.json({ limit: "2mb" }));
+app.use(express.urlencoded({ extended: true, limit: "2mb" }));
+
+// # Uploads estáticos
+app.use(
+  "/uploads",
+  express.static(path.join(__dirname, "uploads"), {
+    index: false,
+    extensions: false,
+    fallthrough: false,
+    setHeaders: (res) => {
+      // # Evita sniffing de conteúdo
+      res.setHeader("X-Content-Type-Options", "nosniff");
+
+      // # Cache para ficheiros estáticos
+      res.setHeader("Cache-Control", "public, max-age=86400");
+
+      // # Força comportamento mais previsível no browser
+      res.setHeader("Content-Disposition", "inline");
+    }
+  })
+);
+
+// # Rota base
+app.get("/", (req, res) => {
+  return res.json({
+    ok: true,
+    message: "Backend a funcionar"
+  });
+});
+
+// # Rotas da API
+app.use("/api/auth", authLimiter, authRoutes);
+app.use("/api/posts", postsRoutes);
+app.use("/api/upload", uploadLimiter, uploadRoutes);
+app.use("/api/contact", contactLimiter, contactRoutes);
+app.use("/api/admin", adminLimiter, adminRoutes);
+
+// # 404
+app.use((req, res) => {
+  logger.warn("ROUTE_NOT_FOUND", {
+    method: req.method,
+    route: req.originalUrl,
+    ip: req.ip
+  });
+
+  return res.status(404).json({
+    ok: false,
+    message: "Rota não encontrada."
+  });
+});
+
+// # Erros globais
+app.use((err, req, res, next) => {
+  logger.error("GLOBAL_ERROR", {
+    message: err.message,
+    code: err.code || null,
+    method: req.method,
+    route: req.originalUrl,
+    ip: req.ip
+  });
+
+  // # Erro de CORS
+  if (err.message === "Origem não permitida pelo CORS.") {
+    return res.status(403).json({
       ok: false,
-      message: "Slug, título, resumo e conteúdo são obrigatórios."
+      message: "Origem não permitida."
     });
   }
 
-  // # Inserir na base de dados
-  const stmt = db.prepare(`
-    INSERT INTO posts (slug, title, excerpt, content)
-    VALUES (?, ?, ?, ?)
-  `);
+  // # JSON inválido
+  if (err instanceof SyntaxError && err.status === 400 && "body" in err) {
+    return res.status(400).json({
+      ok: false,
+      message: "JSON inválido."
+    });
+  }
 
-  const result = stmt.run(slug, title, excerpt, content);
+  // # Payload demasiado grande
+  if (err.type === "entity.too.large") {
+    return res.status(413).json({
+      ok: false,
+      message: "Pedido demasiado grande."
+    });
+  }
 
-  // # Devolver resposta
-  res.status(201).json({
-    ok: true,
-    message: "Post criado com sucesso.",
-    id: result.lastInsertRowid
+  // # Erros personalizados de formato
+  if (err.message && err.message.includes("Formato inválido")) {
+    return res.status(400).json({
+      ok: false,
+      message: err.message
+    });
+  }
+
+  // # Ficheiro demasiado grande
+  if (err.code === "LIMIT_FILE_SIZE") {
+    return res.status(400).json({
+      ok: false,
+      message: "O ficheiro é demasiado grande (máx: 5MB)."
+    });
+  }
+
+  return res.status(500).json({
+    ok: false,
+    message: "Erro interno no servidor."
   });
+});
+
+// # Tratamento de erros fatais fora do Express
+process.on("unhandledRejection", (reason) => {
+  logger.error("UNHANDLED_REJECTION", {
+    reason: reason instanceof Error ? reason.message : String(reason)
+  });
+});
+
+process.on("uncaughtException", (error) => {
+  logger.error("UNCAUGHT_EXCEPTION", {
+    message: error.message,
+    stack: error.stack
+  });
+
+  process.exit(1);
 });
 
 // # Porta
 const PORT = process.env.PORT || 5000;
 
-// # Iniciar servidor
+// # Start
 app.listen(PORT, () => {
-  console.log(`Servidor a correr em http://localhost:${PORT}`);
-});
-
-// # Apagar artigo
-app.delete("/api/posts/:id", (req, res) => {
-
-  const id = req.params.id;
-
-  const stmt = db.prepare(`
-    DELETE FROM posts WHERE id = ?
-  `);
-
-  const result = stmt.run(id);
-
-  if (result.changes === 0) {
-    return res.status(404).json({
-      ok: false,
-      message: "Post não encontrado."
-    });
-  }
-
-  res.json({
-    ok: true,
-    message: "Post apagado com sucesso."
-  });
-
-});~
-
-
-// # Atualizar artigo
-app.put("/api/posts/:id", (req, res) => {
-  const id = req.params.id;
-  const { slug, title, excerpt, content } = req.body;
-
-  if (!slug || !title || !excerpt || !content) {
-    return res.status(400).json({
-      ok: false,
-      message: "Slug, título, resumo e conteúdo são obrigatórios."
-    });
-  }
-
-  const stmt = db.prepare(`
-    UPDATE posts
-    SET slug = ?, title = ?, excerpt = ?, content = ?
-    WHERE id = ?
-  `);
-
-  const result = stmt.run(slug, title, excerpt, content, id);
-
-  if (result.changes === 0) {
-    return res.status(404).json({
-      ok: false,
-      message: "Post não encontrado."
-    });
-  }
-
-  res.json({
-    ok: true,
-    message: "Post atualizado com sucesso."
+  logger.log("SERVER_STARTED", {
+    port: PORT,
+    environment: process.env.NODE_ENV || "development",
+    isProduction,
+    allowedOrigins
   });
 });
