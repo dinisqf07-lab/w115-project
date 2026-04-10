@@ -128,13 +128,8 @@
       color: #1f1a14;
     }
 
-    .contact-card a {
+    .contact-card span {
       color: #1f1a14;
-      text-decoration: none;
-    }
-
-    .contact-card a:hover {
-      text-decoration: underline;
     }
 
     .contact-list {
@@ -309,7 +304,7 @@
 
           <div class="contact-card">
             <strong>Pedro Gomes</strong>
-            <a href="mailto:pfcgomes@gmail.com">pfcgomes@gmail.com</a>
+            <span>pfcgomes@gmail.com</span>
           </div>
 
           <div class="contact-list">
@@ -349,6 +344,8 @@
 </button>
 
 <script>
+  const API_BASE = "https://w115-project.onrender.com";
+
   function atualizarBarraScroll() {
     const scrollTop = window.scrollY;
     const alturaTotal = document.documentElement.scrollHeight - window.innerHeight;
@@ -375,15 +372,12 @@
     });
   });
 
-  // # enviar formulário para o backend
   contactForm.addEventListener("submit", async function (e) {
     e.preventDefault();
 
-    // # limpar feedback anterior
     formFeedback.className = "form-feedback";
     formFeedback.textContent = "";
 
-    // # apanhar valores do formulário
     const formData = {
       name: document.getElementById("name").value.trim(),
       email: document.getElementById("email").value.trim(),
@@ -393,7 +387,7 @@
     };
 
     try {
-      const response = await fetch("http://localhost:5000/api/contact", {
+      const response = await fetch(`${API_BASE}/api/contact`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
