@@ -727,11 +727,13 @@
     const host = window.location.hostname;
     const protocol = window.location.protocol;
 
+    // # Ambiente local
     if (host === "localhost" || host === "127.0.0.1") {
       return `${protocol}//${host}:5000`;
     }
 
-    return window.location.origin;
+    // # Produção: backend no Render
+    return "https://w115-project.onrender.com";
   }
 
   const API_BASE = getApiBase();
