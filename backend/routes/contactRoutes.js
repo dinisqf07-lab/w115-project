@@ -1,5 +1,6 @@
 const express = require("express");
 const logger = require("../utils/logger");
+const db = require("../db/database");
 
 const router = express.Router();
 
@@ -10,16 +11,6 @@ const TIPOS_PERMITIDOS = [
   "partilha de restauro",
   "outro"
 ];
-
-// # Função simples para escapar HTML
-function escapeHtml(text) {
-  return String(text)
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#039;");
-}
 
 // # Remove quebras de linha e espaços estranhos de campos curtos
 function cleanSingleLine(text) {
@@ -72,7 +63,7 @@ function validateContactData({ name, email, phone, type, message, website }) {
 }
 
 // # POST /api/contact
-// # Recebe os dados do formulário e responde com sucesso em modo teste
+// # Guarda a mensagem na base de dados
 router.post("/", async (req, res) => {
   try {
     const body = req.body && typeof req.body === "object" ? req.body : {};
@@ -107,14 +98,24 @@ router.post("/", async (req, res) => {
       });
     }
 
-    // # Regista o contacto recebido em modo teste
-    logger.log("CONTACT_TEST_OK", {
-      ip: req.ip,
-      name: escapeHtml(name),
+    const insert = db.prepare(`
+      INSERT INTO contacts (name, email, phone, type, message)
+      VALUES (?, ?, ?, ?, ?)
+    `);
+
+    const result = insert.run(
+      name,
       email,
-      phone: phone || "nao-indicado",
-      type: type || "nao-indicado",
-      messagePreview: escapeHtml(message).slice(0, 200)
+      phone || null,
+      type || null,
+      message
+    );
+
+    logger.log("CONTACT_SAVED", {
+      id: result.lastInsertRowid,
+      ip: req.ip,
+      email,
+      type: type || "nao-indicado"
     });
 
     return res.json({
@@ -122,10 +123,9 @@ router.post("/", async (req, res) => {
       message: "Mensagem enviada com sucesso."
     });
   } catch (error) {
-    logger.error("CONTACT_TEST_ERROR", {
+    logger.error("CONTACT_SAVE_ERROR", {
       ip: req.ip,
-      message: error.message,
-      code: error.code || null
+      message: error.message
     });
 
     return res.status(500).json({

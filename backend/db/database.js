@@ -26,6 +26,20 @@ db.prepare(`
   )
 `).run();
 
+// # Criar tabela contacts se ainda não existir
+db.prepare(`
+  CREATE TABLE IF NOT EXISTS contacts (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    email TEXT NOT NULL,
+    phone TEXT,
+    type TEXT,
+    message TEXT NOT NULL,
+    is_read INTEGER DEFAULT 0,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP
+  )
+`).run();
+
 // # Função para verificar se uma coluna existe
 function hasColumn(tableName, columnName) {
   const columns = db.prepare(`PRAGMA table_info(${tableName})`).all();
@@ -66,6 +80,22 @@ if (!hasColumn("posts", "updated_at")) {
   db.prepare(`
     ALTER TABLE posts
     ADD COLUMN updated_at TEXT
+  `).run();
+}
+
+// # Garantir coluna is_read na tabela contacts
+if (!hasColumn("contacts", "is_read")) {
+  db.prepare(`
+    ALTER TABLE contacts
+    ADD COLUMN is_read INTEGER DEFAULT 0
+  `).run();
+}
+
+// # Garantir coluna created_at na tabela contacts
+if (!hasColumn("contacts", "created_at")) {
+  db.prepare(`
+    ALTER TABLE contacts
+    ADD COLUMN created_at TEXT
   `).run();
 }
 

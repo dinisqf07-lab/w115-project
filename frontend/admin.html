@@ -112,7 +112,7 @@
 
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
+      grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: 16px;
       margin-bottom: 22px;
     }
@@ -149,7 +149,8 @@
     }
 
     .editor-header,
-    .posts-header {
+    .posts-header,
+    .messages-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -348,20 +349,28 @@
       background: #fff;
     }
 
-    .posts-list {
+    .posts-list,
+    .messages-list {
       display: grid;
       gap: 14px;
       margin-top: 14px;
     }
 
-    .post-item {
+    .post-item,
+    .message-item {
       border: 1px solid #e1d8c9;
       padding: 16px;
       border-radius: 14px;
       background: #faf8f2;
     }
 
-    .post-item-top {
+    .message-item.unread {
+      border-left: 4px solid #8f7a49;
+      background: #fffaf0;
+    }
+
+    .post-item-top,
+    .message-item-top {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
@@ -369,13 +378,15 @@
       margin-bottom: 8px;
     }
 
-    .post-item h3 {
+    .post-item h3,
+    .message-item h3 {
       margin: 0 0 6px;
       font-size: 1.15rem;
       font-family: "Georgia", "Times New Roman", serif;
     }
 
-    .post-slug {
+    .post-slug,
+    .message-meta-badge {
       display: inline-block;
       margin-bottom: 8px;
       font-size: 0.85rem;
@@ -386,7 +397,8 @@
       border: 1px solid rgba(143, 122, 73, 0.14);
     }
 
-    .post-meta {
+    .post-meta,
+    .message-meta {
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
@@ -416,6 +428,18 @@
       border-color: #b7e0be;
     }
 
+    .meta-badge.unread {
+      background: #fff4dd;
+      color: #7b5a14;
+      border-color: #e3c889;
+    }
+
+    .meta-badge.read {
+      background: #eef9f0;
+      color: #1f6b2a;
+      border-color: #b7e0be;
+    }
+
     .post-cover-preview {
       display: block;
       width: 100%;
@@ -427,16 +451,28 @@
       background: #fff;
     }
 
-    .post-item p {
+    .post-item p,
+    .message-item p {
       margin: 0 0 12px;
       color: #4d473f;
       line-height: 1.55;
     }
 
-    .post-actions {
+    .post-actions,
+    .message-actions {
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
+    }
+
+    .message-body {
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: #fffdf9;
+      border: 1px solid #ebe2d3;
+      white-space: pre-wrap;
+      word-break: break-word;
+      margin-bottom: 12px;
     }
 
     .empty-state {
@@ -448,7 +484,8 @@
       color: var(--muted);
     }
 
-    .logs-panel {
+    .logs-panel,
+    .messages-panel {
       margin-top: 22px;
     }
 
@@ -553,6 +590,11 @@
       </div>
 
       <div class="stat-card">
+        <span>Mensagens por ler</span>
+        <strong id="stat-unread-messages">0</strong>
+      </div>
+
+      <div class="stat-card">
         <span>API</span>
         <strong id="stat-api-base">—</strong>
       </div>
@@ -602,7 +644,6 @@
           <button type="button" class="secondary-btn" onclick="removerImagemCapa()">Remover</button>
         </div>
 
-        <!-- # Input escondido para upload da capa -->
         <input id="cover-upload-input" type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" style="display:none;">
 
         <div id="cover-preview-wrap" class="cover-preview-wrap">
@@ -646,6 +687,23 @@
       </div>
     </div>
 
+    <div class="panel messages-panel">
+      <div class="messages-header">
+        <div>
+          <h2>Mensagens recebidas</h2>
+          <p class="muted">Submissões do formulário de contacto guardadas na base de dados.</p>
+        </div>
+
+        <div class="topbar-actions">
+          <button id="refresh-messages-btn" class="secondary-btn" onclick="carregarMensagens()">Atualizar mensagens</button>
+        </div>
+      </div>
+
+      <div id="messages-list" class="messages-list">
+        <p class="empty-state">A carregar mensagens...</p>
+      </div>
+    </div>
+
     <div class="panel logs-panel">
       <div class="logs-header">
         <div>
@@ -665,17 +723,14 @@
   </div>
 
 <script>
-  // # Configuração automática da API
   function getApiBase() {
     const host = window.location.hostname;
     const protocol = window.location.protocol;
 
-    // # Se estiveres em localhost, usa a porta 5000 do backend
     if (host === "localhost" || host === "127.0.0.1") {
       return `${protocol}//${host}:5000`;
     }
 
-    // # Em produção, assume mesmo domínio da página atual
     return window.location.origin;
   }
 
@@ -687,8 +742,10 @@
   const POSTS_ADMIN = `${API_BASE}/api/posts/admin/all`;
   const UPLOAD = `${API_BASE}/api/upload`;
   const ADMIN_LOGS = `${API_BASE}/api/admin/logs`;
+  const ADMIN_MESSAGES = `${API_BASE}/api/admin/messages`;
 
   let postsGuardados = [];
+  let mensagensGuardadas = [];
   let postEmEdicao = null;
   let loginEmCurso = false;
   let guardarEmCurso = false;
@@ -698,8 +755,8 @@
   let uploadCapaEmCurso = false;
   let editorPronto = false;
   let intervaloAutoSave = null;
+  let mensagemAcaoEmCurso = false;
 
-  // # Mostra mensagem de feedback
   function mostrarMensagem(elementId, tipo, texto) {
     const el = document.getElementById(elementId);
     if (!el) return;
@@ -709,7 +766,6 @@
     el.innerHTML = texto;
   }
 
-  // # Esconde mensagem de feedback
   function esconderMensagem(elementId) {
     const el = document.getElementById(elementId);
     if (!el) return;
@@ -719,7 +775,6 @@
     el.innerHTML = "";
   }
 
-  // # Escapa HTML simples para evitar injeção no painel
   function escapeHtml(text) {
     return String(text || "")
       .replace(/&/g, "&amp;")
@@ -729,18 +784,15 @@
       .replace(/'/g, "&#039;");
   }
 
-  // # Obtém o editor TinyMCE com segurança
   function getEditor() {
     return tinymce.get("content") || null;
   }
 
-  // # Obtém o conteúdo do editor com segurança
   function getEditorContent() {
     const editor = getEditor();
     return editor ? editor.getContent() : "";
   }
 
-  // # Define conteúdo do editor com segurança
   function setEditorContent(content) {
     const editor = getEditor();
     if (editor) {
@@ -748,7 +800,6 @@
     }
   }
 
-  // # Formata data ISO para input datetime-local
   function formatarDataInput(valor) {
     if (!valor) return "";
 
@@ -760,7 +811,6 @@
       .slice(0, 16);
   }
 
-  // # Formata data para texto legível
   function formatarDataTexto(valor) {
     if (!valor) return "Sem data";
 
@@ -770,7 +820,6 @@
     return data.toLocaleString("pt-PT");
   }
 
-  // # Normaliza URL/caminho de imagem para funcionar melhor no frontend
   function resolverImagem(url) {
     const valor = String(url || "").trim();
     if (!valor) return "";
@@ -786,7 +835,6 @@
     return `${API_BASE}/${valor}`;
   }
 
-  // # Atualiza preview da imagem de capa
   function atualizarPreviewCapa() {
     const wrap = document.getElementById("cover-preview-wrap");
     const img = document.getElementById("cover-preview");
@@ -802,7 +850,6 @@
     wrap.classList.add("active");
   }
 
-  // # Atualiza o estado visual do editor
   function atualizarEstadoEditor() {
     const mode = document.getElementById("editor-mode");
     const title = document.getElementById("editor-title");
@@ -829,14 +876,12 @@
     statLastSlug.innerText = document.getElementById("slug").value.trim() || "—";
   }
 
-  // # Atualiza botão de login
   function atualizarBotaoLogin(ativo) {
     const botao = document.getElementById("login-btn");
     botao.disabled = ativo;
     botao.innerText = ativo ? "A entrar..." : "Entrar";
   }
 
-  // # Atualiza botão de logout
   function atualizarBotaoLogout(ativo) {
     const botao = document.getElementById("logout-btn");
     if (!botao) return;
@@ -845,26 +890,28 @@
     botao.innerText = ativo ? "A sair..." : "Logout";
   }
 
-  // # Atualiza botões das ações dos posts
   function atualizarBotoesAcao(ativo) {
-    document.querySelectorAll(".danger-btn, .duplicate-btn, .edit-btn").forEach((btn) => {
+    document.querySelectorAll(".danger-btn, .duplicate-btn, .edit-btn, .message-read-btn, .message-delete-btn").forEach((btn) => {
       btn.disabled = ativo;
     });
   }
 
-  // # Seleciona ficheiro da capa
+  function atualizarStatsMensagens() {
+    const unread = mensagensGuardadas.filter((msg) => Number(msg.is_read) !== 1).length;
+    document.getElementById("stat-unread-messages").innerText = unread;
+  }
+
   function selecionarImagemCapa() {
     if (uploadCapaEmCurso) return;
     document.getElementById("cover-upload-input").click();
   }
 
-  // # Remove imagem de capa
   function removerImagemCapa() {
     document.getElementById("cover_image").value = "";
     document.getElementById("cover-upload-input").value = "";
     atualizarPreviewCapa();
     atualizarEstadoEditor();
-    // # FIX: limpar também o draft guardado para não restaurar a capa antiga
+
     try {
       const draft = JSON.parse(localStorage.getItem("draft-post") || "{}");
       draft.cover_image = "";
@@ -872,9 +919,7 @@
     } catch (_) {}
   }
 
-  // # Faz upload da imagem de capa
   async function uploadImagemCapa(file) {
-    // # FIX: rejeitar imediatamente se não houver ficheiro real
     if (!file || !file.size || uploadCapaEmCurso) return;
 
     const formData = new FormData();
@@ -911,14 +956,12 @@
       const coverInput = document.getElementById("cover_image");
       coverInput.value = imageValue;
 
-      // # FIX: actualizar o draft no localStorage imediatamente com o novo valor
       try {
         const draft = JSON.parse(localStorage.getItem("draft-post") || "{}");
         draft.cover_image = imageValue;
         localStorage.setItem("draft-post", JSON.stringify(draft));
       } catch (_) {}
 
-      // # Atualizar preview
       atualizarPreviewCapa();
 
       mostrarMensagem("msg", "success", "Imagem de capa enviada com sucesso.");
@@ -931,7 +974,6 @@
     }
   }
 
-  // # Verifica se a sessão do admin ainda existe
   async function verificarLogin() {
     try {
       const res = await fetch(AUTH_ME, {
@@ -948,6 +990,7 @@
       document.body.classList.add("admin-ready");
 
       await carregarPosts();
+      await carregarMensagens();
       await carregarLogs();
     } catch {
       document.getElementById("login-box").style.display = "block";
@@ -956,7 +999,6 @@
     }
   }
 
-  // # Faz login no admin
   async function loginAdmin() {
     if (loginEmCurso) return;
 
@@ -998,7 +1040,6 @@
     }
   }
 
-  // # Faz logout do admin
   async function logoutAdmin() {
     if (logoutEmCurso) return;
 
@@ -1017,7 +1058,6 @@
     }
   }
 
-  // # Inicializa o TinyMCE
   tinymce.init({
     selector: "#content",
     height: 380,
@@ -1076,7 +1116,6 @@
     }
   });
 
-  // # Limpa o formulário todo
   function limparFormulario() {
     document.getElementById("slug").value = "";
     document.getElementById("title").value = "";
@@ -1091,14 +1130,12 @@
     atualizarEstadoEditor();
   }
 
-  // # Cancela a edição atual
   function cancelarEdicao() {
     postEmEdicao = null;
     limparFormulario();
     atualizarEstadoEditor();
   }
 
-  // # Guarda um post novo ou atualiza um existente
   async function guardarPost() {
     if (guardarEmCurso) return;
 
@@ -1179,7 +1216,6 @@
     }
   }
 
-  // # Duplica um artigo existente
   async function duplicarPost(id) {
     if (duplicarEmCurso) return;
 
@@ -1216,7 +1252,6 @@
     }
   }
 
-  // # Carrega todos os posts para o admin
   async function carregarPosts() {
     const container = document.getElementById("posts-list");
 
@@ -1250,7 +1285,6 @@
     }
   }
 
-  // # Renderiza a lista de posts
   function renderizarPosts(lista) {
     const container = document.getElementById("posts-list");
     container.innerHTML = "";
@@ -1304,7 +1338,50 @@
     });
   }
 
-  // # Renderiza logs no painel
+  function renderizarMensagens(lista) {
+    const container = document.getElementById("messages-list");
+    container.innerHTML = "";
+
+    if (!lista || lista.length === 0) {
+      container.innerHTML = `<p class="empty-state">Ainda não existem mensagens.</p>`;
+      atualizarStatsMensagens();
+      return;
+    }
+
+    lista.forEach((msg) => {
+      const div = document.createElement("div");
+      const lida = Number(msg.is_read) === 1;
+      div.className = `message-item ${lida ? "" : "unread"}`;
+
+      div.innerHTML = `
+        <div class="message-item-top">
+          <div>
+            <h3>${escapeHtml(msg.name || "Sem nome")}</h3>
+            <div class="message-meta">
+              <span class="meta-badge ${lida ? "read" : "unread"}">${lida ? "Lida" : "Por ler"}</span>
+              <span class="meta-badge">${escapeHtml(msg.email || "Sem email")}</span>
+              <span class="meta-badge">${escapeHtml(msg.type || "Sem tipo")}</span>
+              <span class="meta-badge">${escapeHtml(formatarDataTexto(msg.created_at))}</span>
+            </div>
+          </div>
+        </div>
+
+        <p><strong>Telefone:</strong> ${escapeHtml(msg.phone || "Não indicado")}</p>
+
+        <div class="message-body">${escapeHtml(msg.message || "")}</div>
+
+        <div class="message-actions">
+          ${lida ? "" : `<button class="secondary-btn message-read-btn" onclick="marcarMensagemLida(${msg.id})">Marcar como lida</button>`}
+          <button class="danger-btn message-delete-btn" onclick="apagarMensagem(${msg.id})">Apagar</button>
+        </div>
+      `;
+
+      container.appendChild(div);
+    });
+
+    atualizarStatsMensagens();
+  }
+
   function renderizarLogs(logs) {
     const container = document.getElementById("logs-list");
     container.innerHTML = "";
@@ -1328,7 +1405,113 @@
     });
   }
 
-  // # Carrega logs do backend
+  async function carregarMensagens() {
+    const container = document.getElementById("messages-list");
+    const refreshBtn = document.getElementById("refresh-messages-btn");
+
+    try {
+      refreshBtn.disabled = true;
+      container.innerHTML = `<p class="empty-state">A carregar mensagens...</p>`;
+
+      const res = await fetch(ADMIN_MESSAGES, {
+        method: "GET",
+        credentials: "include"
+      });
+
+      const data = await res.json();
+
+      if (res.status === 401) {
+        await logoutAdmin();
+        return;
+      }
+
+      if (!res.ok) {
+        throw new Error(data.message || "Erro ao carregar mensagens.");
+      }
+
+      mensagensGuardadas = Array.isArray(data.messages) ? data.messages : [];
+      renderizarMensagens(mensagensGuardadas);
+    } catch (error) {
+      console.error("Erro ao carregar mensagens:", error);
+      container.innerHTML = `<p class="empty-state">Não foi possível carregar as mensagens.</p>`;
+      mensagensGuardadas = [];
+      atualizarStatsMensagens();
+    } finally {
+      refreshBtn.disabled = false;
+    }
+  }
+
+  async function marcarMensagemLida(id) {
+    if (mensagemAcaoEmCurso) return;
+
+    mensagemAcaoEmCurso = true;
+    atualizarBotoesAcao(true);
+
+    try {
+      const res = await fetch(`${ADMIN_MESSAGES}/${id}/read`, {
+        method: "PATCH",
+        credentials: "include"
+      });
+
+      const data = await res.json();
+
+      if (res.status === 401) {
+        await logoutAdmin();
+        return;
+      }
+
+      if (!res.ok) {
+        throw new Error(data.message || "Não foi possível marcar a mensagem como lida.");
+      }
+
+      await carregarMensagens();
+      await carregarLogs();
+    } catch (error) {
+      console.error("Erro ao marcar mensagem como lida:", error);
+      alert(error.message || "Não foi possível marcar a mensagem como lida.");
+    } finally {
+      mensagemAcaoEmCurso = false;
+      atualizarBotoesAcao(false);
+    }
+  }
+
+  async function apagarMensagem(id) {
+    if (mensagemAcaoEmCurso) return;
+
+    const confirmar = confirm("Tens a certeza que queres apagar esta mensagem?");
+    if (!confirmar) return;
+
+    mensagemAcaoEmCurso = true;
+    atualizarBotoesAcao(true);
+
+    try {
+      const res = await fetch(`${ADMIN_MESSAGES}/${id}`, {
+        method: "DELETE",
+        credentials: "include"
+      });
+
+      const data = await res.json();
+
+      if (res.status === 401) {
+        await logoutAdmin();
+        return;
+      }
+
+      if (!res.ok) {
+        throw new Error(data.message || "Não foi possível apagar a mensagem.");
+      }
+
+      await carregarMensagens();
+      await carregarLogs();
+    } catch (error) {
+      console.error("Erro ao apagar mensagem:", error);
+      alert(error.message || "Não foi possível apagar a mensagem.");
+    } finally {
+      mensagemAcaoEmCurso = false;
+      atualizarBotoesAcao(false);
+    }
+  }
+
   async function carregarLogs() {
     const container = document.getElementById("logs-list");
     const refreshBtn = document.getElementById("refresh-logs-btn");
@@ -1362,7 +1545,6 @@
     }
   }
 
-  // # Carrega os dados de um post no formulário
   function editarPost(id) {
     const post = postsGuardados.find((p) => Number(p.id) === Number(id));
     if (!post) return;
@@ -1386,7 +1568,6 @@
     });
   }
 
-  // # Apaga um post
   async function apagarPost(id) {
     if (apagarEmCurso) return;
 
@@ -1430,8 +1611,6 @@
     }
   }
 
-  // # Restaura rascunho local do browser
-  // # FIX: não restaurar se já houver um post em edição ou se o upload estiver em curso
   function restaurarDraftLocal() {
     const draft = localStorage.getItem("draft-post");
     if (!draft) return;
@@ -1443,7 +1622,7 @@
       document.getElementById("title").value = data.title || "";
       document.getElementById("excerpt").value = data.excerpt || "";
       document.getElementById("status").value = data.status || "draft";
-      // # FIX: só restaurar cover_image se tiver valor — nunca sobrescrever com vazio
+
       if (data.cover_image) {
         document.getElementById("cover_image").value = data.cover_image;
       }
@@ -1461,14 +1640,12 @@
     }
   }
 
-  // # Ativa auto-save local
   function iniciarAutoSave() {
     if (intervaloAutoSave) {
       clearInterval(intervaloAutoSave);
     }
 
     intervaloAutoSave = setInterval(() => {
-      // # FIX: não fazer auto-save durante um upload para não corromper o valor da capa
       if (uploadCapaEmCurso) return;
 
       const draft = {
@@ -1485,7 +1662,6 @@
     }, 5000);
   }
 
-  // # Atualiza slug automaticamente a partir do título
   document.getElementById("title").addEventListener("input", function () {
     if (postEmEdicao !== null) return;
 
@@ -1500,20 +1676,15 @@
     atualizarEstadoEditor();
   });
 
-  // # Atualiza stats e preview quando o slug muda
   document.getElementById("slug").addEventListener("input", atualizarEstadoEditor);
-
-  // # Atualiza preview da capa quando o campo muda manualmente
   document.getElementById("cover_image").addEventListener("input", atualizarPreviewCapa);
 
-  // # FIX: faz upload da capa apenas se houver ficheiro real (evita double-trigger ao limpar o input)
   document.getElementById("cover-upload-input").addEventListener("change", async function () {
     const file = this.files && this.files[0] && this.files[0].size > 0 ? this.files[0] : null;
     if (!file) return;
     await uploadImagemCapa(file);
   });
 
-  // # Pesquisa local na lista de posts
   document.getElementById("search-posts").addEventListener("input", function () {
     const termo = this.value.trim().toLowerCase();
 
@@ -1526,17 +1697,14 @@
     renderizarPosts(filtrados);
   });
 
-  // # Permite login com Enter
   document.getElementById("admin-password").addEventListener("keydown", function (e) {
     if (e.key === "Enter") {
       loginAdmin();
     }
   });
 
-  // # Guarda a API atual no cartão de stats
   document.getElementById("stat-api-base").innerText = API_BASE;
 
-  // # Arranque inicial
   restaurarDraftLocal();
   iniciarAutoSave();
   verificarLogin();
