@@ -1,8 +1,15 @@
-// # Importar biblioteca SQLite
+// # Importar bibliotecas
+const path = require("path");
 const Database = require("better-sqlite3");
 
+// # Caminho absoluto da base de dados
+const dbPath = path.join(__dirname, "database.db");
+
+// # Mostrar no terminal qual é a base de dados usada
+console.log("DB PATH:", dbPath);
+
 // # Criar ligação à base de dados
-const db = new Database("./db/database.db");
+const db = new Database(dbPath);
 
 // # Melhor desempenho e segurança básica
 db.pragma("journal_mode = WAL");
@@ -68,7 +75,6 @@ if (!hasColumn("posts", "published_at")) {
   `).run();
 }
 
-// # No SQLite, ALTER TABLE não aceita DEFAULT CURRENT_TIMESTAMP
 if (!hasColumn("posts", "created_at")) {
   db.prepare(`
     ALTER TABLE posts
@@ -83,7 +89,6 @@ if (!hasColumn("posts", "updated_at")) {
   `).run();
 }
 
-// # Garantir coluna is_read na tabela contacts
 if (!hasColumn("contacts", "is_read")) {
   db.prepare(`
     ALTER TABLE contacts
@@ -91,7 +96,6 @@ if (!hasColumn("contacts", "is_read")) {
   `).run();
 }
 
-// # Garantir coluna created_at na tabela contacts
 if (!hasColumn("contacts", "created_at")) {
   db.prepare(`
     ALTER TABLE contacts
