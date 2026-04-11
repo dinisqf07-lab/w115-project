@@ -13,7 +13,7 @@ function getCookieOptions() {
   return {
     httpOnly: true,
     secure: isProduction,
-    sameSite: "lax",
+    sameSite: isProduction ? "none" : "lax",
     maxAge: 12 * 60 * 60 * 1000, // # 12 horas
     path: "/"
   };
@@ -24,7 +24,7 @@ function getClearCookieOptions() {
   return {
     httpOnly: true,
     secure: isProduction,
-    sameSite: "lax",
+    sameSite: isProduction ? "none" : "lax",
     path: "/"
   };
 }
@@ -119,7 +119,9 @@ exports.loginAdmin = async (req, res) => {
 
     logger.log("LOGIN_SUCCESS", {
       ip: req.ip,
-      admin: "admin"
+      admin: "admin",
+      isProduction,
+      sameSite: getCookieOptions().sameSite
     });
 
     return res.json({
