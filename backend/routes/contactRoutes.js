@@ -1,5 +1,4 @@
 const express = require("express");
-const nodemailer = require("nodemailer");
 const logger = require("../utils/logger");
 
 const router = express.Router();
@@ -9,10 +8,6 @@ const TIPOS_PERMITIDOS = [
   "sugestao",
   "pergunta",
   "partilha de restauro",
-  "informacao",
-  "compra",
-  "venda",
-  "pecas",
   "outro"
 ];
 
@@ -76,25 +71,8 @@ function validateContactData({ name, email, phone, type, message, website }) {
   return null;
 }
 
-// # Verificar config mínima
-if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
-  logger.error("CONTACT_CONFIG_MISSING_ON_STARTUP", {
-    missingEmailUser: !process.env.EMAIL_USER,
-    missingEmailPass: !process.env.EMAIL_PASS
-  });
-}
-
-// # Criar transporter uma vez
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  }
-});
-
 // # POST /api/contact
-// # Recebe os dados do formulário e envia por email
+// # Recebe os dados do formulário e responde com sucesso em modo teste
 router.post("/", async (req, res) => {
   try {
     const body = req.body && typeof req.body === "object" ? req.body : {};
@@ -129,62 +107,14 @@ router.post("/", async (req, res) => {
       });
     }
 
-    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS || !process.env.EMAIL_TO) {
-      logger.error("CONTACT_CONFIG_MISSING", {
-        ip: req.ip,
-        missingEmailUser: !process.env.EMAIL_USER,
-        missingEmailPass: !process.env.EMAIL_PASS,
-        missingEmailTo: !process.env.EMAIL_TO
-      });
-
-      return res.status(500).json({
-        ok: false,
-        message: "Serviço de contacto indisponível."
-      });
-    }
-
-    const assunto = `Novo contacto do site Mercedes W115${type ? " - " + type : ""}`;
-
-    const texto = `Novo contacto recebido pelo site Mercedes W115
-
-Nome: ${name}
-Email: ${email}
-Telefone: ${phone || "Não indicado"}
-Tipo de contacto: ${type || "Não indicado"}
-
-Mensagem:
-${message}
-`;
-
-    const html = `
-      <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #222;">
-        <h2>Novo contacto recebido pelo site Mercedes W115</h2>
-
-        <p><strong>Nome:</strong> ${escapeHtml(name)}</p>
-        <p><strong>Email:</strong> ${escapeHtml(email)}</p>
-        <p><strong>Telefone:</strong> ${escapeHtml(phone || "Não indicado")}</p>
-        <p><strong>Tipo de contacto:</strong> ${escapeHtml(type || "Não indicado")}</p>
-
-        <hr>
-
-        <p><strong>Mensagem:</strong></p>
-        <p>${escapeHtml(message).replace(/\n/g, "<br>")}</p>
-      </div>
-    `;
-
-    await transporter.sendMail({
-      from: `"Mercedes W115 Site" <${process.env.EMAIL_USER}>`,
-      to: process.env.EMAIL_TO,
-      replyTo: email,
-      subject: assunto,
-      text: texto,
-      html
-    });
-
-    logger.log("CONTACT_SENT", {
+    // # Regista o contacto recebido em modo teste
+    logger.log("CONTACT_TEST_OK", {
+      ip: req.ip,
+      name: escapeHtml(name),
       email,
+      phone: phone || "nao-indicado",
       type: type || "nao-indicado",
-      ip: req.ip
+      messagePreview: escapeHtml(message).slice(0, 200)
     });
 
     return res.json({
@@ -192,11 +122,10 @@ ${message}
       message: "Mensagem enviada com sucesso."
     });
   } catch (error) {
-    logger.error("CONTACT_SEND_ERROR", {
+    logger.error("CONTACT_TEST_ERROR", {
       ip: req.ip,
       message: error.message,
-      code: error.code || null,
-      responseCode: error.responseCode || null
+      code: error.code || null
     });
 
     return res.status(500).json({
