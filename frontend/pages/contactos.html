@@ -244,29 +244,39 @@
     estado.className = "form-estado";
 
     try {
-      const res = await fetch(CONTACT_API, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dados)
-      });
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 30000);
 
-      const json = await res.json().catch(() => ({}));
+  const res = await fetch(CONTACT_API, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(dados),
+    signal: controller.signal
+  });
 
-      if (res.ok && json.ok) {
-        estado.textContent = "Mensagem enviada com sucesso. Obrigado pelo contacto!";
-        estado.className = "form-estado sucesso";
-        form.reset();
-      } else {
-        estado.textContent = json.message || "Não foi possível enviar a mensagem.";
-        estado.className = "form-estado erro";
-      }
-    } catch (err) {
-      console.error("Erro ao enviar contacto:", err);
-      estado.textContent = "Erro de ligação. Tenta novamente daqui a pouco.";
-      estado.className = "form-estado erro";
-    } finally {
-      botao.disabled = false;
-    }
+  clearTimeout(timeoutId);
+
+  const json = await res.json().catch(() => ({}));
+
+  if (res.ok && json.ok) {
+    estado.textContent = "Mensagem enviada com sucesso. Obrigado pelo contacto!";
+    estado.className = "form-estado sucesso";
+    form.reset();
+  } else {
+    estado.textContent = json.message || "Não foi possível enviar a mensagem.";
+    estado.className = "form-estado erro";
+  }
+} catch (err) {
+  console.error("Erro ao enviar contacto:", err);
+  if (err.name === "AbortError") {
+    estado.textContent = "O servidor demorou demasiado a responder. Tenta novamente.";
+  } else {
+    estado.textContent = "Erro de ligação. Tenta novamente daqui a pouco.";
+  }
+  estado.className = "form-estado erro";
+} finally {
+  botao.disabled = false;
+}
   });
 </script>
 
