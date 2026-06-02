@@ -1,7 +1,8 @@
 // # routes/contactRoutes.js
 const express = require("express");
 const router = express.Router();
-const transporter = require("../utils/mailer");
+const { Resend } = require("resend");
+const resend = new Resend(process.env.RESEND_API_KEY);
 const logger = require("../utils/logger");
 
 // # Sanitização básica para evitar HTML injection no email
@@ -51,24 +52,24 @@ router.post("/", async (req, res) => {
     }
 
     // # Envio do email
-    await transporter.sendMail({
-      from: `"Site Contactos" <${process.env.GMAIL_USER}>`,
-      to: process.env.EMAIL_DESTINO,
-      replyTo: email,
-      subject: `Nova mensagem de ${nome} — ${tipo_contacto || "sem tipo"}`,
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px;">
-          <h2>Nova mensagem do site</h2>
-          <p><strong>Nome:</strong> ${escapeHtml(nome)}</p>
-          <p><strong>Email:</strong> ${escapeHtml(email)}</p>
-          <p><strong>Telefone:</strong> ${escapeHtml(telefone) || "—"}</p>
-          <p><strong>Tipo de contacto:</strong> ${escapeHtml(tipo_contacto) || "—"}</p>
-          <hr>
-          <p><strong>Mensagem:</strong></p>
-          <p>${escapeHtml(mensagem).replace(/\n/g, "<br>")}</p>
-        </div>
-      `
-    });
+  await resend.emails.send({
+  from: "Site Contactos <onboarding@resend.dev>",
+  to: process.env.EMAIL_DESTINO,
+  replyTo: email,
+  subject: `Nova mensagem de ${nome} — ${tipo_contacto || "sem tipo"}`,
+  html: `
+    <div style="font-family: Arial, sans-serif; max-width: 600px;">
+      <h2>Nova mensagem do site</h2>
+      <p><strong>Nome:</strong> ${escapeHtml(nome)}</p>
+      <p><strong>Email:</strong> ${escapeHtml(email)}</p>
+      <p><strong>Telefone:</strong> ${escapeHtml(telefone) || "—"}</p>
+      <p><strong>Tipo de contacto:</strong> ${escapeHtml(tipo_contacto) || "—"}</p>
+      <hr>
+      <p><strong>Mensagem:</strong></p>
+      <p>${escapeHtml(mensagem).replace(/\n/g, "<br>")}</p>
+    </div>
+  `
+});
 
     logger.log("CONTACT_EMAIL_SENT", { from: email, nome });
 
