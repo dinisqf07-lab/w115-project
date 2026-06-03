@@ -245,7 +245,7 @@
 
     try {
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 30000);
+  const timeoutId = setTimeout(() => controller.abort(), 60000);
 
   const res = await fetch(CONTACT_API, {
     method: "POST",
@@ -275,7 +275,9 @@
   }
   estado.className = "form-estado erro";
 } finally {
-  botao.disabled = false;
+  botao.disabled = true;
+estado.textContent = "A enviar mensagem... (pode demorar até 1 minuto na primeira vez)";
+estado.className = "form-estado";
 }
   });
 </script>
