@@ -3,11 +3,10 @@
  * https://developers.cloudflare.com/workers/wrangler/configuration/
  */
 {
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "api-worker",
-  "account_id": "41c27ccfe9228337d600e3c60646d871",
-  "main": "src/index.js",
-  "compatibility_date": "2026-06-03",
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "api-worker",
+	"main": "src/index.js",
+	"compatibility_date": "2026-06-07",
 	"observability": {
 		"enabled": true
 	},
