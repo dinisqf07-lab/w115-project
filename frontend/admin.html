@@ -31,9 +31,7 @@
       --shadow: 0 14px 32px rgba(0, 0, 0, 0.08);
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       visibility: hidden;
@@ -48,18 +46,10 @@
       color: var(--text);
     }
 
-    body.admin-ready {
-      visibility: visible;
-    }
+    body.admin-ready { visibility: visible; }
 
-    h1, h2, h3 {
-      margin: 0 0 14px;
-      line-height: 1.2;
-    }
-
-    h1, h2 {
-      font-family: "Georgia", "Times New Roman", serif;
-    }
+    h1, h2, h3 { margin: 0 0 14px; line-height: 1.2; }
+    h1, h2 { font-family: "Georgia", "Times New Roman", serif; }
 
     .panel {
       background: var(--panel);
@@ -69,21 +59,9 @@
       box-shadow: var(--shadow);
     }
 
-    .login-shell {
-      max-width: 430px;
-      margin: 70px auto;
-    }
-
-    .login-shell h2 {
-      font-size: 2rem;
-      margin-bottom: 10px;
-    }
-
-    .login-help {
-      margin: 0 0 18px;
-      color: var(--muted);
-      line-height: 1.6;
-    }
+    .login-shell { max-width: 430px; margin: 70px auto; }
+    .login-shell h2 { font-size: 2rem; margin-bottom: 10px; }
+    .login-help { margin: 0 0 18px; color: var(--muted); line-height: 1.6; }
 
     .topbar {
       display: flex;
@@ -94,21 +72,9 @@
       margin-bottom: 22px;
     }
 
-    .topbar-left h1 {
-      font-size: 2.2rem;
-      margin-bottom: 6px;
-    }
-
-    .topbar-left p {
-      margin: 0;
-      color: var(--muted);
-    }
-
-    .topbar-actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
+    .topbar-left h1 { font-size: 2.2rem; margin-bottom: 6px; }
+    .topbar-left p { margin: 0; color: var(--muted); }
+    .topbar-actions { display: flex; gap: 10px; flex-wrap: wrap; }
 
     .stats-grid {
       display: grid;
@@ -135,11 +101,7 @@
       font-weight: 700;
     }
 
-    .stat-card strong {
-      font-size: 1.2rem;
-      color: var(--text);
-      word-break: break-word;
-    }
+    .stat-card strong { font-size: 1.2rem; color: var(--text); word-break: break-word; }
 
     .admin-grid {
       display: grid;
@@ -148,9 +110,7 @@
       align-items: start;
     }
 
-    .editor-header,
-    .posts-header,
-    .messages-header {
+    .editor-header, .posts-header, .messages-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -171,34 +131,13 @@
       border: 1px solid rgba(143, 122, 73, 0.18);
     }
 
-    .editor-mode.hidden {
-      display: none;
-    }
+    .editor-mode.hidden { display: none; }
 
-    .field-label {
-      display: block;
-      margin: 4px 0 6px;
-      font-size: 0.94rem;
-      font-weight: 700;
-      color: #332d26;
-    }
+    .field-label { display: block; margin: 4px 0 6px; font-size: 0.94rem; font-weight: 700; color: #332d26; }
+    .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .field-grid-3 { display: grid; grid-template-columns: 1fr auto auto; gap: 10px; align-items: end; }
 
-    .field-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
-
-    .field-grid-3 {
-      display: grid;
-      grid-template-columns: 1fr auto auto;
-      gap: 10px;
-      align-items: end;
-    }
-
-    input,
-    textarea,
-    select {
+    input, textarea, select {
       width: 100%;
       padding: 12px 13px;
       margin-bottom: 12px;
@@ -210,24 +149,15 @@
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
 
-    input:focus,
-    textarea:focus,
-    select:focus {
+    input:focus, textarea:focus, select:focus {
       outline: none;
       border-color: var(--gold);
       box-shadow: 0 0 0 3px rgba(143, 122, 73, 0.14);
     }
 
-    .search-input {
-      margin: 0;
-    }
+    .search-input { margin: 0; }
 
-    .actions {
-      display: flex;
-      gap: 10px;
-      margin-top: 10px;
-      flex-wrap: wrap;
-    }
+    .actions { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
 
     button {
       padding: 11px 16px;
@@ -240,38 +170,13 @@
       transition: transform 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease;
     }
 
-    button:hover {
-      background: #ece6dc;
-      transform: translateY(-1px);
-    }
+    button:hover { background: #ece6dc; transform: translateY(-1px); }
+    button:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
-    button:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    .primary-btn {
-      background: var(--gold);
-      color: white;
-      border-color: var(--gold);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.08);
-    }
-
-    .primary-btn:hover {
-      background: var(--gold-dark);
-    }
-
-    .secondary-btn {
-      background: #f6f3ec;
-      border-color: #d9cfbd;
-    }
-
-    .danger-btn {
-      background: var(--danger-bg);
-      border-color: var(--danger-border);
-      color: #7b2323;
-    }
+    .primary-btn { background: var(--gold); color: white; border-color: var(--gold); box-shadow: 0 10px 20px rgba(0,0,0,0.08); }
+    .primary-btn:hover { background: var(--gold-dark); }
+    .secondary-btn { background: #f6f3ec; border-color: #d9cfbd; }
+    .danger-btn { background: var(--danger-bg); border-color: var(--danger-border); color: #7b2323; }
 
     .ghost-link {
       text-decoration: none;
@@ -286,10 +191,7 @@
       transition: background-color 0.18s ease, transform 0.18s ease;
     }
 
-    .ghost-link:hover {
-      background: #f0e9de;
-      transform: translateY(-1px);
-    }
+    .ghost-link:hover { background: #f0e9de; transform: translateY(-1px); }
 
     .feedback {
       margin-top: 14px;
@@ -301,76 +203,21 @@
       line-height: 1.5;
     }
 
-    .feedback.success {
-      display: block;
-      background: var(--success-bg);
-      border-color: var(--success-border);
-      color: var(--success-text);
-    }
+    .feedback.success { display: block; background: var(--success-bg); border-color: var(--success-border); color: var(--success-text); }
+    .feedback.error { display: block; background: var(--error-bg); border-color: var(--error-border); color: var(--error-text); }
+    .feedback.info { display: block; background: var(--info-bg); border-color: var(--info-border); color: var(--info-text); }
 
-    .feedback.error {
-      display: block;
-      background: var(--error-bg);
-      border-color: var(--error-border);
-      color: var(--error-text);
-    }
+    .cover-preview-wrap { display: none; margin: 0 0 14px; }
+    .cover-preview-wrap.active { display: block; }
+    .cover-preview-label { display: block; margin-bottom: 8px; font-size: 0.9rem; font-weight: 700; color: var(--muted); }
+    .cover-preview { display: block; width: 100%; max-width: 280px; height: auto; border-radius: 12px; border: 1px solid #e1d8c9; background: #fff; }
 
-    .feedback.info {
-      display: block;
-      background: var(--info-bg);
-      border-color: var(--info-border);
-      color: var(--info-text);
-    }
+    .posts-list, .messages-list { display: grid; gap: 14px; margin-top: 14px; }
 
-    .cover-preview-wrap {
-      display: none;
-      margin: 0 0 14px;
-    }
+    .post-item, .message-item { border: 1px solid #e1d8c9; padding: 16px; border-radius: 14px; background: #faf8f2; }
+    .message-item.unread { border-left: 4px solid #8f7a49; background: #fffaf0; }
 
-    .cover-preview-wrap.active {
-      display: block;
-    }
-
-    .cover-preview-label {
-      display: block;
-      margin-bottom: 8px;
-      font-size: 0.9rem;
-      font-weight: 700;
-      color: var(--muted);
-    }
-
-    .cover-preview {
-      display: block;
-      width: 100%;
-      max-width: 280px;
-      height: auto;
-      border-radius: 12px;
-      border: 1px solid #e1d8c9;
-      background: #fff;
-    }
-
-    .posts-list,
-    .messages-list {
-      display: grid;
-      gap: 14px;
-      margin-top: 14px;
-    }
-
-    .post-item,
-    .message-item {
-      border: 1px solid #e1d8c9;
-      padding: 16px;
-      border-radius: 14px;
-      background: #faf8f2;
-    }
-
-    .message-item.unread {
-      border-left: 4px solid #8f7a49;
-      background: #fffaf0;
-    }
-
-    .post-item-top,
-    .message-item-top {
+    .post-item-top, .message-item-top {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
@@ -378,15 +225,9 @@
       margin-bottom: 8px;
     }
 
-    .post-item h3,
-    .message-item h3 {
-      margin: 0 0 6px;
-      font-size: 1.15rem;
-      font-family: "Georgia", "Times New Roman", serif;
-    }
+    .post-item h3, .message-item h3 { margin: 0 0 6px; font-size: 1.15rem; font-family: "Georgia", "Times New Roman", serif; }
 
-    .post-slug,
-    .message-meta-badge {
+    .post-slug, .message-meta-badge {
       display: inline-block;
       margin-bottom: 8px;
       font-size: 0.85rem;
@@ -397,13 +238,7 @@
       border: 1px solid rgba(143, 122, 73, 0.14);
     }
 
-    .post-meta,
-    .message-meta {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin: 0 0 10px;
-    }
+    .post-meta, .message-meta { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 10px; }
 
     .meta-badge {
       display: inline-flex;
@@ -417,53 +252,15 @@
       color: #5c4d2f;
     }
 
-    .meta-badge.draft {
-      background: #f3f0ea;
-      color: #6a6257;
-    }
+    .meta-badge.draft { background: #f3f0ea; color: #6a6257; }
+    .meta-badge.published { background: #eef9f0; color: #1f6b2a; border-color: #b7e0be; }
+    .meta-badge.unread { background: #fff4dd; color: #7b5a14; border-color: #e3c889; }
+    .meta-badge.read { background: #eef9f0; color: #1f6b2a; border-color: #b7e0be; }
 
-    .meta-badge.published {
-      background: #eef9f0;
-      color: #1f6b2a;
-      border-color: #b7e0be;
-    }
+    .post-cover-preview { display: block; width: 100%; max-width: 220px; height: auto; border-radius: 12px; border: 1px solid #e1d8c9; margin: 0 0 12px; background: #fff; }
 
-    .meta-badge.unread {
-      background: #fff4dd;
-      color: #7b5a14;
-      border-color: #e3c889;
-    }
-
-    .meta-badge.read {
-      background: #eef9f0;
-      color: #1f6b2a;
-      border-color: #b7e0be;
-    }
-
-    .post-cover-preview {
-      display: block;
-      width: 100%;
-      max-width: 220px;
-      height: auto;
-      border-radius: 12px;
-      border: 1px solid #e1d8c9;
-      margin: 0 0 12px;
-      background: #fff;
-    }
-
-    .post-item p,
-    .message-item p {
-      margin: 0 0 12px;
-      color: #4d473f;
-      line-height: 1.55;
-    }
-
-    .post-actions,
-    .message-actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
+    .post-item p, .message-item p { margin: 0 0 12px; color: #4d473f; line-height: 1.55; }
+    .post-actions, .message-actions { display: flex; gap: 8px; flex-wrap: wrap; }
 
     .message-body {
       padding: 12px 14px;
@@ -475,19 +272,10 @@
       margin-bottom: 12px;
     }
 
-    .empty-state {
-      color: var(--muted);
-      margin: 0;
-    }
+    .empty-state { color: var(--muted); margin: 0; }
+    .muted { color: var(--muted); }
 
-    .muted {
-      color: var(--muted);
-    }
-
-    .logs-panel,
-    .messages-panel {
-      margin-top: 22px;
-    }
+    .logs-panel, .messages-panel { margin-top: 22px; }
 
     .logs-header {
       display: flex;
@@ -518,27 +306,12 @@
       word-break: break-word;
     }
 
-    .log-item.info {
-      border-left: 4px solid #8f7a49;
-    }
-
-    .log-item.warn {
-      border-left: 4px solid #d3a323;
-      background: #fff9ea;
-    }
-
-    .log-item.error {
-      border-left: 4px solid #b64a4a;
-      background: #fff4f4;
-    }
+    .log-item.info { border-left: 4px solid #8f7a49; }
+    .log-item.warn { border-left: 4px solid #d3a323; background: #fff9ea; }
+    .log-item.error { border-left: 4px solid #b64a4a; background: #fff4f4; }
 
     @media (max-width: 980px) {
-      .admin-grid,
-      .stats-grid,
-      .field-grid,
-      .field-grid-3 {
-        grid-template-columns: 1fr;
-      }
+      .admin-grid, .stats-grid, .field-grid, .field-grid-3 { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -550,13 +323,10 @@
     <p class="login-help">
       Entra com a password de administração para gerir artigos, editar conteúdos e fazer uploads.
     </p>
-
     <input id="admin-password" type="password" placeholder="Password" autocomplete="current-password">
-
     <div class="actions">
       <button id="login-btn" class="primary-btn" onclick="loginAdmin()">Entrar</button>
     </div>
-
     <p id="login-msg" class="feedback"></p>
   </div>
 
@@ -566,7 +336,6 @@
         <h1>Painel de Administração</h1>
         <p>Gestão de artigos do projeto Mercedes W115.</p>
       </div>
-
       <div class="topbar-actions">
         <a class="ghost-link" href="./index.html" target="_blank" rel="noopener noreferrer">Ver site</a>
         <button id="logout-btn" class="secondary-btn" onclick="logoutAdmin()">Logout</button>
@@ -574,30 +343,11 @@
     </div>
 
     <div class="stats-grid">
-      <div class="stat-card">
-        <span>Total de posts</span>
-        <strong id="stat-total-posts">0</strong>
-      </div>
-
-      <div class="stat-card">
-        <span>Modo</span>
-        <strong id="stat-mode">Criação</strong>
-      </div>
-
-      <div class="stat-card">
-        <span>Último slug</span>
-        <strong id="stat-last-slug">—</strong>
-      </div>
-
-      <div class="stat-card">
-        <span>Mensagens por ler</span>
-        <strong id="stat-unread-messages">0</strong>
-      </div>
-
-      <div class="stat-card">
-        <span>API</span>
-        <strong id="stat-api-base">—</strong>
-      </div>
+      <div class="stat-card"><span>Total de posts</span><strong id="stat-total-posts">0</strong></div>
+      <div class="stat-card"><span>Modo</span><strong id="stat-mode">Criação</strong></div>
+      <div class="stat-card"><span>Último slug</span><strong id="stat-last-slug">—</strong></div>
+      <div class="stat-card"><span>Mensagens por ler</span><strong id="stat-unread-messages">0</strong></div>
+      <div class="stat-card"><span>API</span><strong id="stat-api-base">—</strong></div>
     </div>
 
     <div class="admin-grid">
@@ -614,7 +364,6 @@
             <label class="field-label" for="slug">Slug</label>
             <input id="slug" placeholder="historia-classe-e">
           </div>
-
           <div>
             <label class="field-label" for="title">Título</label>
             <input id="title" placeholder="Título">
@@ -629,7 +378,6 @@
               <option value="published">Publicado</option>
             </select>
           </div>
-
           <div>
             <label class="field-label" for="published_at">Data de publicação</label>
             <input id="published_at" type="datetime-local">
@@ -637,7 +385,6 @@
         </div>
 
         <label class="field-label" for="cover_image">Imagem de capa</label>
-
         <div class="field-grid-3">
           <input id="cover_image" placeholder="/uploads/exemplo.jpg ou URL completa">
           <button type="button" class="secondary-btn" onclick="selecionarImagemCapa()">Upload capa</button>
@@ -673,14 +420,7 @@
             <p class="muted">Pesquisa, edição rápida e acesso ao artigo publicado.</p>
           </div>
         </div>
-
-        <input
-          id="search-posts"
-          class="search-input"
-          type="text"
-          placeholder="Pesquisar por título ou slug..."
-        >
-
+        <input id="search-posts" class="search-input" type="text" placeholder="Pesquisar por título ou slug...">
         <div id="posts-list" class="posts-list">
           <p class="empty-state">A carregar artigos...</p>
         </div>
@@ -693,12 +433,10 @@
           <h2>Mensagens recebidas</h2>
           <p class="muted">Submissões do formulário de contacto guardadas na base de dados.</p>
         </div>
-
         <div class="topbar-actions">
           <button id="refresh-messages-btn" class="secondary-btn" onclick="carregarMensagens()">Atualizar mensagens</button>
         </div>
       </div>
-
       <div id="messages-list" class="messages-list">
         <p class="empty-state">A carregar mensagens...</p>
       </div>
@@ -708,14 +446,12 @@
       <div class="logs-header">
         <div>
           <h2>Logs do sistema</h2>
-          <p class="muted">Últimos 100 eventos do backend.</p>
+          <p class="muted">Últimos eventos registados.</p>
         </div>
-
         <div class="topbar-actions">
           <button id="refresh-logs-btn" class="secondary-btn" onclick="carregarLogs()">Atualizar logs</button>
         </div>
       </div>
-
       <div id="logs-list" class="logs-list">
         <p class="empty-state">A carregar logs...</p>
       </div>
@@ -723,29 +459,29 @@
   </div>
 
 <script>
-  function getApiBase() {
-    const host = window.location.hostname;
-    const protocol = window.location.protocol;
+  // ─── CONFIG ───────────────────────────────────────────
+  const API_BASE = "https://api-worker.dinisqf07.workers.dev";
+  const AUTH_LOGIN    = `${API_BASE}/api/auth/login`;
+  const AUTH_ME       = `${API_BASE}/api/auth/me`;
+  const AUTH_LOGOUT   = `${API_BASE}/api/auth/logout`;
+  const POSTS_ADMIN   = `${API_BASE}/api/admin/posts`;
+  const POSTS         = `${API_BASE}/api/posts`;
+  const UPLOAD        = `${API_BASE}/api/upload`;
+  const ADMIN_MESSAGES = `${API_BASE}/api/admin/messages`;
+  const ADMIN_LOGS    = `${API_BASE}/api/admin/logs`;
 
-    // # Ambiente local
-    if (host === "localhost" || host === "127.0.0.1") {
-      return `${protocol}//${host}:5000`;
-    }
+  // ─── TOKEN ────────────────────────────────────────────
+  function getToken() { return sessionStorage.getItem("admin_token") || ""; }
+  function setToken(t) { sessionStorage.setItem("admin_token", t); }
+  function clearToken() { sessionStorage.removeItem("admin_token"); }
 
-    // # Produção: backend no Render
-    return "https://api-worker.dinisqf07.workers.dev";
+  function authHeaders(isJson = true) {
+    const h = { "Authorization": `Bearer ${getToken()}` };
+    if (isJson) h["Content-Type"] = "application/json";
+    return h;
   }
 
- const API_BASE = "https://api-worker.dinisqf07.workers.dev";
-  const AUTH_LOGIN = `${API_BASE}/api/auth/login`;
-  const AUTH_ME = `${API_BASE}/api/auth/me`;
-  const AUTH_LOGOUT = `${API_BASE}/api/auth/logout`;
-  const POSTS = `${API_BASE}/api/posts`;
-  const POSTS_ADMIN = `${API_BASE}/api/posts/admin/all`;
-  const UPLOAD = `${API_BASE}/api/upload`;
-  const ADMIN_LOGS = `${API_BASE}/api/admin/logs`;
-  const ADMIN_MESSAGES = `${API_BASE}/api/admin/messages`;
-
+  // ─── ESTADO ───────────────────────────────────────────
   let postsGuardados = [];
   let mensagensGuardadas = [];
   let postEmEdicao = null;
@@ -759,10 +495,10 @@
   let intervaloAutoSave = null;
   let mensagemAcaoEmCurso = false;
 
+  // ─── UI HELPERS ───────────────────────────────────────
   function mostrarMensagem(elementId, tipo, texto) {
     const el = document.getElementById(elementId);
     if (!el) return;
-
     el.style.display = "block";
     el.className = `feedback ${tipo}`;
     el.innerHTML = texto;
@@ -771,7 +507,6 @@
   function esconderMensagem(elementId) {
     const el = document.getElementById(elementId);
     if (!el) return;
-
     el.style.display = "none";
     el.className = "feedback";
     el.innerHTML = "";
@@ -786,68 +521,37 @@
       .replace(/'/g, "&#039;");
   }
 
-  function getEditor() {
-    return tinymce.get("content") || null;
-  }
-
-  function getEditorContent() {
-    const editor = getEditor();
-    return editor ? editor.getContent() : "";
-  }
-
-  function setEditorContent(content) {
-    const editor = getEditor();
-    if (editor) {
-      editor.setContent(content || "");
-    }
-  }
+  function getEditor() { return tinymce.get("content") || null; }
+  function getEditorContent() { const e = getEditor(); return e ? e.getContent() : ""; }
+  function setEditorContent(c) { const e = getEditor(); if (e) e.setContent(c || ""); }
 
   function formatarDataInput(valor) {
     if (!valor) return "";
-
-    const data = new Date(valor);
-    if (Number.isNaN(data.getTime())) return "";
-
-    return new Date(data.getTime() - data.getTimezoneOffset() * 60000)
-      .toISOString()
-      .slice(0, 16);
+    const d = new Date(valor);
+    if (isNaN(d.getTime())) return "";
+    return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
   }
 
   function formatarDataTexto(valor) {
     if (!valor) return "Sem data";
-
-    const data = new Date(valor);
-    if (Number.isNaN(data.getTime())) return valor;
-
-    return data.toLocaleString("pt-PT");
+    const d = new Date(valor);
+    if (isNaN(d.getTime())) return valor;
+    return d.toLocaleString("pt-PT");
   }
 
   function resolverImagem(url) {
-    const valor = String(url || "").trim();
-    if (!valor) return "";
-
-    if (/^https?:\/\//i.test(valor)) {
-      return valor;
-    }
-
-    if (valor.startsWith("/")) {
-      return `${API_BASE}${valor}`;
-    }
-
-    return `${API_BASE}/${valor}`;
+    const v = String(url || "").trim();
+    if (!v) return "";
+    if (/^https?:\/\//i.test(v)) return v;
+    if (v.startsWith("/")) return `${API_BASE}${v}`;
+    return `${API_BASE}/${v}`;
   }
 
   function atualizarPreviewCapa() {
     const wrap = document.getElementById("cover-preview-wrap");
     const img = document.getElementById("cover-preview");
     const valor = document.getElementById("cover_image").value.trim();
-
-    if (!valor) {
-      wrap.classList.remove("active");
-      img.removeAttribute("src");
-      return;
-    }
-
+    if (!valor) { wrap.classList.remove("active"); img.removeAttribute("src"); return; }
     img.src = resolverImagem(valor);
     wrap.classList.add("active");
   }
@@ -879,30 +583,28 @@
   }
 
   function atualizarBotaoLogin(ativo) {
-    const botao = document.getElementById("login-btn");
-    botao.disabled = ativo;
-    botao.innerText = ativo ? "A entrar..." : "Entrar";
+    const b = document.getElementById("login-btn");
+    b.disabled = ativo;
+    b.innerText = ativo ? "A entrar..." : "Entrar";
   }
 
   function atualizarBotaoLogout(ativo) {
-    const botao = document.getElementById("logout-btn");
-    if (!botao) return;
-
-    botao.disabled = ativo;
-    botao.innerText = ativo ? "A sair..." : "Logout";
+    const b = document.getElementById("logout-btn");
+    if (!b) return;
+    b.disabled = ativo;
+    b.innerText = ativo ? "A sair..." : "Logout";
   }
 
   function atualizarBotoesAcao(ativo) {
-    document.querySelectorAll(".danger-btn, .duplicate-btn, .edit-btn, .message-read-btn, .message-delete-btn").forEach((btn) => {
-      btn.disabled = ativo;
-    });
+    document.querySelectorAll(".danger-btn, .duplicate-btn, .edit-btn, .message-read-btn, .message-delete-btn").forEach(btn => btn.disabled = ativo);
   }
 
   function atualizarStatsMensagens() {
-    const unread = mensagensGuardadas.filter((msg) => Number(msg.is_read) !== 1).length;
+    const unread = mensagensGuardadas.filter(m => Number(m.is_read) !== 1).length;
     document.getElementById("stat-unread-messages").innerText = unread;
   }
 
+  // ─── UPLOAD CAPA ──────────────────────────────────────
   function selecionarImagemCapa() {
     if (uploadCapaEmCurso) return;
     document.getElementById("cover-upload-input").click();
@@ -913,12 +615,6 @@
     document.getElementById("cover-upload-input").value = "";
     atualizarPreviewCapa();
     atualizarEstadoEditor();
-
-    try {
-      const draft = JSON.parse(localStorage.getItem("draft-post") || "{}");
-      draft.cover_image = "";
-      localStorage.setItem("draft-post", JSON.stringify(draft));
-    } catch (_) {}
   }
 
   async function uploadImagemCapa(file) {
@@ -934,38 +630,19 @@
     try {
       const res = await fetch(UPLOAD, {
         method: "POST",
-        credentials: "include",
+        headers: { "Authorization": `Bearer ${getToken()}` },
         body: formData
       });
 
       const data = await res.json();
-
-      if (res.status === 401) {
-        await logoutAdmin();
-        return;
-      }
-
-      if (!res.ok) {
-        throw new Error(data.message || "Erro no upload da capa.");
-      }
+      if (res.status === 401) { await logoutAdmin(); return; }
+      if (!res.ok) throw new Error(data.message || "Erro no upload da capa.");
 
       const imageValue = data.location || data.path || "";
+      if (!imageValue) throw new Error("O servidor não devolveu o caminho da imagem.");
 
-      if (!imageValue) {
-        throw new Error("O servidor não devolveu o caminho da imagem.");
-      }
-
-      const coverInput = document.getElementById("cover_image");
-      coverInput.value = imageValue;
-
-      try {
-        const draft = JSON.parse(localStorage.getItem("draft-post") || "{}");
-        draft.cover_image = imageValue;
-        localStorage.setItem("draft-post", JSON.stringify(draft));
-      } catch (_) {}
-
+      document.getElementById("cover_image").value = imageValue;
       atualizarPreviewCapa();
-
       mostrarMensagem("msg", "success", "Imagem de capa enviada com sucesso.");
     } catch (error) {
       console.error("Erro no upload da capa:", error);
@@ -976,16 +653,15 @@
     }
   }
 
+  // ─── AUTH ─────────────────────────────────────────────
   async function verificarLogin() {
     try {
       const res = await fetch(AUTH_ME, {
         method: "GET",
-        credentials: "include"
+        headers: authHeaders(false)
       });
 
-      if (!res.ok) {
-        throw new Error("Sessão inválida.");
-      }
+      if (!res.ok) throw new Error("Sessão inválida.");
 
       document.getElementById("login-box").style.display = "none";
       document.getElementById("admin-app").style.display = "block";
@@ -993,7 +669,7 @@
 
       await carregarPosts();
       await carregarMensagens();
-      await carregarLogs();
+      carregarLogs();
     } catch {
       document.getElementById("login-box").style.display = "block";
       document.getElementById("admin-app").style.display = "none";
@@ -1005,11 +681,7 @@
     if (loginEmCurso) return;
 
     const password = document.getElementById("admin-password").value.trim();
-
-    if (!password) {
-      mostrarMensagem("login-msg", "error", "Introduz a password.");
-      return;
-    }
+    if (!password) { mostrarMensagem("login-msg", "error", "Introduz a password."); return; }
 
     esconderMensagem("login-msg");
     loginEmCurso = true;
@@ -1018,19 +690,14 @@
     try {
       const res = await fetch(AUTH_LOGIN, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        credentials: "include",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ password })
       });
 
       const data = await res.json();
+      if (!res.ok) throw new Error(data.message || "Erro no login.");
 
-      if (!res.ok) {
-        throw new Error(data.message || "Erro no login.");
-      }
-
+      setToken(data.token);
       document.getElementById("admin-password").value = "";
       await verificarLogin();
     } catch (error) {
@@ -1044,240 +711,26 @@
 
   async function logoutAdmin() {
     if (logoutEmCurso) return;
-
     logoutEmCurso = true;
     atualizarBotaoLogout(true);
-
     try {
-      await fetch(AUTH_LOGOUT, {
-        method: "POST",
-        credentials: "include"
-      });
-    } catch (error) {
-      console.error("Erro no logout:", error);
-    } finally {
-      window.location.reload();
-    }
+      await fetch(AUTH_LOGOUT, { method: "POST", headers: authHeaders(false) });
+    } catch (e) { console.error("Erro no logout:", e); }
+    finally { clearToken(); window.location.reload(); }
   }
 
-  tinymce.init({
-    selector: "#content",
-    height: 380,
-    menubar: false,
-    plugins: [
-      "lists",
-      "link",
-      "image",
-      "table",
-      "code"
-    ],
-    toolbar:
-      "undo redo | styles | bold italic | alignleft aligncenter alignright | bullist numlist | link image | code",
-    automatic_uploads: true,
-    file_picker_types: "image",
-
-    images_upload_handler: async (blobInfo) => {
-      const formData = new FormData();
-      formData.append("image", blobInfo.blob(), blobInfo.filename());
-
-      const res = await fetch(UPLOAD, {
-        method: "POST",
-        credentials: "include",
-        body: formData
-      });
-
-      let data = {};
-      try {
-        data = await res.json();
-      } catch (jsonError) {
-        console.error("Resposta não JSON no upload do editor:", jsonError);
-      }
-
-      if (res.status === 401) {
-        await logoutAdmin();
-        throw new Error("Sessão expirada. Inicia sessão novamente.");
-      }
-
-      const imagePath = data.location || data.path || data.url || "";
-
-      if (!res.ok || !imagePath) {
-        throw new Error(data.message || "Erro no upload.");
-      }
-
-      return resolverImagem(imagePath);
-    },
-
-    setup: function (editor) {
-      editor.on("init", function () {
-        editorPronto = true;
-      });
-
-      editor.on("change keyup", function () {
-        editor.save();
-      });
-    }
-  });
-
-  function limparFormulario() {
-    document.getElementById("slug").value = "";
-    document.getElementById("title").value = "";
-    document.getElementById("excerpt").value = "";
-    document.getElementById("status").value = "draft";
-    document.getElementById("cover_image").value = "";
-    document.getElementById("published_at").value = "";
-    document.getElementById("cover-upload-input").value = "";
-    setEditorContent("");
-    esconderMensagem("msg");
-    atualizarPreviewCapa();
-    atualizarEstadoEditor();
-  }
-
-  function cancelarEdicao() {
-    postEmEdicao = null;
-    limparFormulario();
-    atualizarEstadoEditor();
-  }
-
-  async function guardarPost() {
-    if (guardarEmCurso) return;
-
-    const slug = document.getElementById("slug").value.trim();
-    const title = document.getElementById("title").value.trim();
-    const excerpt = document.getElementById("excerpt").value.trim();
-    const content = getEditorContent();
-    const status = document.getElementById("status").value;
-    const cover_image = document.getElementById("cover_image").value.trim();
-    const publishedAtValue = document.getElementById("published_at").value;
-    const published_at = publishedAtValue ? new Date(publishedAtValue).toISOString() : null;
-
-    if (!slug || !title || !excerpt || !content) {
-      mostrarMensagem("msg", "error", "Preenche slug, título, resumo e conteúdo.");
-      return;
-    }
-
-    let url = POSTS;
-    let method = "POST";
-    let successText = "Post criado com sucesso.";
-
-    if (postEmEdicao !== null) {
-      url = `${POSTS}/${postEmEdicao}`;
-      method = "PUT";
-      successText = "Post atualizado com sucesso.";
-    }
-
-    guardarEmCurso = true;
-    atualizarEstadoEditor();
-    esconderMensagem("msg");
-
-    try {
-      const res = await fetch(url, {
-        method,
-        credentials: "include",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          slug,
-          title,
-          excerpt,
-          content,
-          status,
-          cover_image,
-          published_at
-        })
-      });
-
-      const data = await res.json();
-
-      if (res.status === 401) {
-        await logoutAdmin();
-        return;
-      }
-
-      if (!res.ok) {
-        throw new Error(data.message || "Não foi possível guardar o artigo.");
-      }
-
-      mostrarMensagem(
-        "msg",
-        "success",
-        `${successText}${status === "published" ? `<br><a href="./post.html?slug=${encodeURIComponent(slug)}" target="_blank" rel="noopener noreferrer">Ver artigo</a>` : ""}`
-      );
-
-      localStorage.removeItem("draft-post");
-      postEmEdicao = null;
-      limparFormulario();
-      await carregarPosts();
-      await carregarLogs();
-    } catch (error) {
-      console.error("Erro ao guardar artigo:", error);
-      mostrarMensagem("msg", "error", error.message || "Não foi possível guardar o artigo.");
-    } finally {
-      guardarEmCurso = false;
-      atualizarEstadoEditor();
-    }
-  }
-
-  async function duplicarPost(id) {
-    if (duplicarEmCurso) return;
-
-    duplicarEmCurso = true;
-    atualizarBotoesAcao(true);
-    mostrarMensagem("msg", "info", "A duplicar artigo...");
-
-    try {
-      const res = await fetch(`${POSTS}/${id}/duplicate`, {
-        method: "POST",
-        credentials: "include"
-      });
-
-      const data = await res.json();
-
-      if (res.status === 401) {
-        await logoutAdmin();
-        return;
-      }
-
-      if (!res.ok) {
-        throw new Error(data.message || "Não foi possível duplicar o artigo.");
-      }
-
-      mostrarMensagem("msg", "success", "Post duplicado com sucesso.");
-      await carregarPosts();
-      await carregarLogs();
-    } catch (error) {
-      console.error("Erro ao duplicar artigo:", error);
-      mostrarMensagem("msg", "error", error.message || "Não foi possível duplicar o artigo.");
-    } finally {
-      duplicarEmCurso = false;
-      atualizarBotoesAcao(false);
-    }
-  }
-
+  // ─── POSTS ────────────────────────────────────────────
   async function carregarPosts() {
     const container = document.getElementById("posts-list");
-
     try {
-      const res = await fetch(POSTS_ADMIN, {
-        credentials: "include"
-      });
-
-      if (res.status === 401) {
-        await logoutAdmin();
-        return;
-      }
-
-      if (!res.ok) {
-        throw new Error("Erro ao carregar artigos.");
-      }
+      const res = await fetch(POSTS_ADMIN, { headers: authHeaders(false) });
+      if (res.status === 401) { await logoutAdmin(); return; }
+      if (!res.ok) throw new Error("Erro ao carregar artigos.");
 
       const posts = await res.json();
       postsGuardados = Array.isArray(posts) ? posts : [];
-
       document.getElementById("stat-total-posts").innerText = postsGuardados.length;
-      document.getElementById("stat-last-slug").innerText =
-        postsGuardados.length > 0 ? (postsGuardados[0].slug || "—") : "—";
-
+      document.getElementById("stat-last-slug").innerText = postsGuardados.length > 0 ? (postsGuardados[0].slug || "—") : "—";
       renderizarPosts(postsGuardados);
     } catch (error) {
       console.error("Erro ao carregar artigos:", error);
@@ -1296,7 +749,7 @@
       return;
     }
 
-    lista.forEach((post) => {
+    lista.forEach(post => {
       const div = document.createElement("div");
       div.className = "post-item";
 
@@ -1318,16 +771,12 @@
             <span class="post-slug">${escapeHtml(post.slug || "sem-slug")}</span>
           </div>
         </div>
-
         <div class="post-meta">
           <span class="meta-badge ${statusClass}">${statusLabel}</span>
           <span class="meta-badge">Publicação: ${escapeHtml(formatarDataTexto(post.published_at))}</span>
         </div>
-
         ${coverHtml}
-
         <p>${escapeHtml(post.excerpt || "")}</p>
-
         <div class="post-actions">
           <button class="secondary-btn edit-btn" onclick="editarPost(${post.id})">Editar</button>
           <button class="secondary-btn duplicate-btn" onclick="duplicarPost(${post.id})">Duplicar</button>
@@ -1335,9 +784,177 @@
           <button class="danger-btn" onclick="apagarPost(${post.id})">Apagar</button>
         </div>
       `;
-
       container.appendChild(div);
     });
+  }
+
+  async function guardarPost() {
+    if (guardarEmCurso) return;
+
+    const slug = document.getElementById("slug").value.trim();
+    const title = document.getElementById("title").value.trim();
+    const excerpt = document.getElementById("excerpt").value.trim();
+    const content = getEditorContent();
+    const status = document.getElementById("status").value;
+    const cover_image = document.getElementById("cover_image").value.trim();
+    const publishedAtValue = document.getElementById("published_at").value;
+    const published_at = publishedAtValue ? new Date(publishedAtValue).toISOString() : null;
+
+    if (!slug || !title || !excerpt || !content) {
+      mostrarMensagem("msg", "error", "Preenche slug, título, resumo e conteúdo.");
+      return;
+    }
+
+    let url = POSTS_ADMIN;
+    let method = "POST";
+    let successText = "Post criado com sucesso.";
+
+    if (postEmEdicao !== null) {
+      url = `${POSTS_ADMIN}/${postEmEdicao}`;
+      method = "PUT";
+      successText = "Post atualizado com sucesso.";
+    }
+
+    guardarEmCurso = true;
+    atualizarEstadoEditor();
+    esconderMensagem("msg");
+
+    try {
+      const res = await fetch(url, {
+        method,
+        headers: authHeaders(),
+        body: JSON.stringify({ slug, title, excerpt, content, status, cover_image, published_at })
+      });
+
+      const data = await res.json();
+      if (res.status === 401) { await logoutAdmin(); return; }
+      if (!res.ok) throw new Error(data.message || "Não foi possível guardar o artigo.");
+
+      mostrarMensagem("msg", "success", `${successText}${status === "published" ? `<br><a href="./post.html?slug=${encodeURIComponent(slug)}" target="_blank" rel="noopener noreferrer">Ver artigo</a>` : ""}`);
+      postEmEdicao = null;
+      limparFormulario();
+      await carregarPosts();
+    } catch (error) {
+      console.error("Erro ao guardar artigo:", error);
+      mostrarMensagem("msg", "error", error.message || "Não foi possível guardar o artigo.");
+    } finally {
+      guardarEmCurso = false;
+      atualizarEstadoEditor();
+    }
+  }
+
+  async function duplicarPost(id) {
+    if (duplicarEmCurso) return;
+    duplicarEmCurso = true;
+    atualizarBotoesAcao(true);
+    mostrarMensagem("msg", "info", "A duplicar artigo...");
+
+    try {
+      const res = await fetch(`${POSTS_ADMIN}/${id}/duplicate`, {
+        method: "POST",
+        headers: authHeaders(false)
+      });
+      const data = await res.json();
+      if (res.status === 401) { await logoutAdmin(); return; }
+      if (!res.ok) throw new Error(data.message || "Não foi possível duplicar o artigo.");
+      mostrarMensagem("msg", "success", "Post duplicado com sucesso.");
+      await carregarPosts();
+    } catch (error) {
+      console.error("Erro ao duplicar artigo:", error);
+      mostrarMensagem("msg", "error", error.message || "Não foi possível duplicar o artigo.");
+    } finally {
+      duplicarEmCurso = false;
+      atualizarBotoesAcao(false);
+    }
+  }
+
+  async function apagarPost(id) {
+    if (apagarEmCurso) return;
+    const confirmar = confirm("Tens a certeza que queres apagar este artigo?");
+    if (!confirmar) return;
+
+    apagarEmCurso = true;
+    atualizarBotoesAcao(true);
+    mostrarMensagem("msg", "info", "A apagar artigo...");
+
+    try {
+      const res = await fetch(`${POSTS_ADMIN}/${id}`, {
+        method: "DELETE",
+        headers: authHeaders(false)
+      });
+      const data = await res.json();
+      if (res.status === 401) { await logoutAdmin(); return; }
+      if (!res.ok) throw new Error(data.message || "Erro ao apagar artigo.");
+      if (postEmEdicao === id) cancelarEdicao();
+      mostrarMensagem("msg", "success", "Post apagado com sucesso.");
+      await carregarPosts();
+    } catch (error) {
+      console.error("Erro ao apagar artigo:", error);
+      mostrarMensagem("msg", "error", error.message || "Não foi possível apagar o artigo.");
+    } finally {
+      apagarEmCurso = false;
+      atualizarBotoesAcao(false);
+    }
+  }
+
+  function editarPost(id) {
+    const post = postsGuardados.find(p => Number(p.id) === Number(id));
+    if (!post) return;
+    document.getElementById("slug").value = post.slug || "";
+    document.getElementById("title").value = post.title || "";
+    document.getElementById("excerpt").value = post.excerpt || "";
+    document.getElementById("status").value = post.status || "draft";
+    document.getElementById("cover_image").value = post.cover_image || "";
+    document.getElementById("published_at").value = formatarDataInput(post.published_at);
+    setEditorContent(post.content || "");
+    postEmEdicao = id;
+    atualizarPreviewCapa();
+    atualizarEstadoEditor();
+    esconderMensagem("msg");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
+  function limparFormulario() {
+    document.getElementById("slug").value = "";
+    document.getElementById("title").value = "";
+    document.getElementById("excerpt").value = "";
+    document.getElementById("status").value = "draft";
+    document.getElementById("cover_image").value = "";
+    document.getElementById("published_at").value = "";
+    document.getElementById("cover-upload-input").value = "";
+    setEditorContent("");
+    esconderMensagem("msg");
+    atualizarPreviewCapa();
+    atualizarEstadoEditor();
+  }
+
+  function cancelarEdicao() {
+    postEmEdicao = null;
+    limparFormulario();
+    atualizarEstadoEditor();
+  }
+
+  // ─── MENSAGENS ────────────────────────────────────────
+  async function carregarMensagens() {
+    const container = document.getElementById("messages-list");
+    const refreshBtn = document.getElementById("refresh-messages-btn");
+    try {
+      refreshBtn.disabled = true;
+      container.innerHTML = `<p class="empty-state">A carregar mensagens...</p>`;
+      const res = await fetch(ADMIN_MESSAGES, { headers: authHeaders(false) });
+      const data = await res.json();
+      if (res.status === 401) { await logoutAdmin(); return; }
+      if (!res.ok) throw new Error(data.message || "Erro ao carregar mensagens.");
+      mensagensGuardadas = Array.isArray(data.messages) ? data.messages : (Array.isArray(data) ? data : []);
+      renderizarMensagens(mensagensGuardadas);
+    } catch (error) {
+      console.error("Erro ao carregar mensagens:", error);
+      container.innerHTML = `<p class="empty-state">Não foi possível carregar as mensagens.</p>`;
+      mensagensGuardadas = [];
+      atualizarStatsMensagens();
+    } finally {
+      refreshBtn.disabled = false;
+    }
   }
 
   function renderizarMensagens(lista) {
@@ -1350,11 +967,10 @@
       return;
     }
 
-    lista.forEach((msg) => {
+    lista.forEach(msg => {
       const div = document.createElement("div");
       const lida = Number(msg.is_read) === 1;
       div.className = `message-item ${lida ? "" : "unread"}`;
-
       div.innerHTML = `
         <div class="message-item-top">
           <div>
@@ -1367,109 +983,33 @@
             </div>
           </div>
         </div>
-
         <p><strong>Telefone:</strong> ${escapeHtml(msg.phone || "Não indicado")}</p>
-
         <div class="message-body">${escapeHtml(msg.message || "")}</div>
-
         <div class="message-actions">
           ${lida ? "" : `<button class="secondary-btn message-read-btn" onclick="marcarMensagemLida(${msg.id})">Marcar como lida</button>`}
           <button class="danger-btn message-delete-btn" onclick="apagarMensagem(${msg.id})">Apagar</button>
         </div>
       `;
-
       container.appendChild(div);
     });
-
     atualizarStatsMensagens();
-  }
-
-  function renderizarLogs(logs) {
-    const container = document.getElementById("logs-list");
-    container.innerHTML = "";
-
-    if (!logs || logs.length === 0) {
-      container.innerHTML = `<p class="empty-state">Ainda não existem logs.</p>`;
-      return;
-    }
-
-    logs.forEach((linha) => {
-      const div = document.createElement("div");
-
-      let tipo = "info";
-      if (linha.includes("[WARN]")) tipo = "warn";
-      if (linha.includes("[ERROR]")) tipo = "error";
-
-      div.className = `log-item ${tipo}`;
-      div.textContent = linha;
-
-      container.appendChild(div);
-    });
-  }
-
-  async function carregarMensagens() {
-    const container = document.getElementById("messages-list");
-    const refreshBtn = document.getElementById("refresh-messages-btn");
-
-    try {
-      refreshBtn.disabled = true;
-      container.innerHTML = `<p class="empty-state">A carregar mensagens...</p>`;
-
-      const res = await fetch(ADMIN_MESSAGES, {
-        method: "GET",
-        credentials: "include"
-      });
-
-      const data = await res.json();
-
-      if (res.status === 401) {
-        await logoutAdmin();
-        return;
-      }
-
-      if (!res.ok) {
-        throw new Error(data.message || "Erro ao carregar mensagens.");
-      }
-
-      mensagensGuardadas = Array.isArray(data.messages) ? data.messages : [];
-      renderizarMensagens(mensagensGuardadas);
-    } catch (error) {
-      console.error("Erro ao carregar mensagens:", error);
-      container.innerHTML = `<p class="empty-state">Não foi possível carregar as mensagens.</p>`;
-      mensagensGuardadas = [];
-      atualizarStatsMensagens();
-    } finally {
-      refreshBtn.disabled = false;
-    }
   }
 
   async function marcarMensagemLida(id) {
     if (mensagemAcaoEmCurso) return;
-
     mensagemAcaoEmCurso = true;
     atualizarBotoesAcao(true);
-
     try {
       const res = await fetch(`${ADMIN_MESSAGES}/${id}/read`, {
         method: "PATCH",
-        credentials: "include"
+        headers: authHeaders(false)
       });
-
       const data = await res.json();
-
-      if (res.status === 401) {
-        await logoutAdmin();
-        return;
-      }
-
-      if (!res.ok) {
-        throw new Error(data.message || "Não foi possível marcar a mensagem como lida.");
-      }
-
+      if (res.status === 401) { await logoutAdmin(); return; }
+      if (!res.ok) throw new Error(data.message || "Não foi possível marcar a mensagem como lida.");
       await carregarMensagens();
-      await carregarLogs();
     } catch (error) {
-      console.error("Erro ao marcar mensagem como lida:", error);
+      console.error("Erro:", error);
       alert(error.message || "Não foi possível marcar a mensagem como lida.");
     } finally {
       mensagemAcaoEmCurso = false;
@@ -1479,34 +1019,20 @@
 
   async function apagarMensagem(id) {
     if (mensagemAcaoEmCurso) return;
-
-    const confirmar = confirm("Tens a certeza que queres apagar esta mensagem?");
-    if (!confirmar) return;
-
+    if (!confirm("Tens a certeza que queres apagar esta mensagem?")) return;
     mensagemAcaoEmCurso = true;
     atualizarBotoesAcao(true);
-
     try {
       const res = await fetch(`${ADMIN_MESSAGES}/${id}`, {
         method: "DELETE",
-        credentials: "include"
+        headers: authHeaders(false)
       });
-
       const data = await res.json();
-
-      if (res.status === 401) {
-        await logoutAdmin();
-        return;
-      }
-
-      if (!res.ok) {
-        throw new Error(data.message || "Não foi possível apagar a mensagem.");
-      }
-
+      if (res.status === 401) { await logoutAdmin(); return; }
+      if (!res.ok) throw new Error(data.message || "Não foi possível apagar a mensagem.");
       await carregarMensagens();
-      await carregarLogs();
     } catch (error) {
-      console.error("Erro ao apagar mensagem:", error);
+      console.error("Erro:", error);
       alert(error.message || "Não foi possível apagar a mensagem.");
     } finally {
       mensagemAcaoEmCurso = false;
@@ -1514,30 +1040,17 @@
     }
   }
 
+  // ─── LOGS ─────────────────────────────────────────────
   async function carregarLogs() {
     const container = document.getElementById("logs-list");
     const refreshBtn = document.getElementById("refresh-logs-btn");
-
     try {
       refreshBtn.disabled = true;
       container.innerHTML = `<p class="empty-state">A carregar logs...</p>`;
-
-      const res = await fetch(ADMIN_LOGS, {
-        method: "GET",
-        credentials: "include"
-      });
-
+      const res = await fetch(ADMIN_LOGS, { headers: authHeaders(false) });
       const data = await res.json();
-
-      if (res.status === 401) {
-        await logoutAdmin();
-        return;
-      }
-
-      if (!res.ok) {
-        throw new Error(data.message || "Erro ao carregar logs.");
-      }
-
+      if (res.status === 401) { await logoutAdmin(); return; }
+      if (!res.ok) throw new Error(data.message || "Erro ao carregar logs.");
       renderizarLogs(data.logs || []);
     } catch (error) {
       console.error("Erro ao carregar logs:", error);
@@ -1547,133 +1060,58 @@
     }
   }
 
-  function editarPost(id) {
-    const post = postsGuardados.find((p) => Number(p.id) === Number(id));
-    if (!post) return;
-
-    document.getElementById("slug").value = post.slug || "";
-    document.getElementById("title").value = post.title || "";
-    document.getElementById("excerpt").value = post.excerpt || "";
-    document.getElementById("status").value = post.status || "draft";
-    document.getElementById("cover_image").value = post.cover_image || "";
-    document.getElementById("published_at").value = formatarDataInput(post.published_at);
-    setEditorContent(post.content || "");
-
-    postEmEdicao = id;
-    atualizarPreviewCapa();
-    atualizarEstadoEditor();
-    esconderMensagem("msg");
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
+  function renderizarLogs(logs) {
+    const container = document.getElementById("logs-list");
+    container.innerHTML = "";
+    if (!logs || logs.length === 0) {
+      container.innerHTML = `<p class="empty-state">Ainda não existem logs.</p>`;
+      return;
+    }
+    logs.forEach(linha => {
+      const div = document.createElement("div");
+      let tipo = "info";
+      if (linha.includes("[WARN]")) tipo = "warn";
+      if (linha.includes("[ERROR]")) tipo = "error";
+      div.className = `log-item ${tipo}`;
+      div.textContent = linha;
+      container.appendChild(div);
     });
   }
 
-  async function apagarPost(id) {
-    if (apagarEmCurso) return;
-
-    const confirmar = confirm("Tens a certeza que queres apagar este artigo?");
-    if (!confirmar) return;
-
-    apagarEmCurso = true;
-    atualizarBotoesAcao(true);
-    mostrarMensagem("msg", "info", "A apagar artigo...");
-
-    try {
-      const res = await fetch(`${POSTS}/${id}`, {
-        method: "DELETE",
-        credentials: "include"
+  // ─── TINYMCE ──────────────────────────────────────────
+  tinymce.init({
+    selector: "#content",
+    height: 380,
+    menubar: false,
+    plugins: ["lists", "link", "image", "table", "code"],
+    toolbar: "undo redo | styles | bold italic | alignleft aligncenter alignright | bullist numlist | link image | code",
+    automatic_uploads: true,
+    file_picker_types: "image",
+    images_upload_handler: async (blobInfo) => {
+      const formData = new FormData();
+      formData.append("image", blobInfo.blob(), blobInfo.filename());
+      const res = await fetch(UPLOAD, {
+        method: "POST",
+        headers: { "Authorization": `Bearer ${getToken()}` },
+        body: formData
       });
-
-      const data = await res.json();
-
-      if (res.status === 401) {
-        await logoutAdmin();
-        return;
-      }
-
-      if (!res.ok) {
-        throw new Error(data.message || "Erro ao apagar artigo.");
-      }
-
-      if (postEmEdicao === id) {
-        cancelarEdicao();
-      }
-
-      mostrarMensagem("msg", "success", "Post apagado com sucesso.");
-      await carregarPosts();
-      await carregarLogs();
-    } catch (error) {
-      console.error("Erro ao apagar artigo:", error);
-      mostrarMensagem("msg", "error", error.message || "Não foi possível apagar o artigo.");
-    } finally {
-      apagarEmCurso = false;
-      atualizarBotoesAcao(false);
+      let data = {};
+      try { data = await res.json(); } catch (e) {}
+      if (res.status === 401) { await logoutAdmin(); throw new Error("Sessão expirada."); }
+      const imagePath = data.location || data.path || data.url || "";
+      if (!res.ok || !imagePath) throw new Error(data.message || "Erro no upload.");
+      return resolverImagem(imagePath);
+    },
+    setup: function(editor) {
+      editor.on("init", function() { editorPronto = true; });
+      editor.on("change keyup", function() { editor.save(); });
     }
-  }
+  });
 
-  function restaurarDraftLocal() {
-    const draft = localStorage.getItem("draft-post");
-    if (!draft) return;
-
-    try {
-      const data = JSON.parse(draft);
-
-      document.getElementById("slug").value = data.slug || "";
-      document.getElementById("title").value = data.title || "";
-      document.getElementById("excerpt").value = data.excerpt || "";
-      document.getElementById("status").value = data.status || "draft";
-
-      if (data.cover_image) {
-        document.getElementById("cover_image").value = data.cover_image;
-      }
-      document.getElementById("published_at").value = data.published_at || "";
-
-      setTimeout(() => {
-        if (data.content) {
-          setEditorContent(data.content);
-        }
-        atualizarPreviewCapa();
-        atualizarEstadoEditor();
-      }, 500);
-    } catch (error) {
-      console.error("Erro ao restaurar rascunho:", error);
-    }
-  }
-
-  function iniciarAutoSave() {
-    if (intervaloAutoSave) {
-      clearInterval(intervaloAutoSave);
-    }
-
-    intervaloAutoSave = setInterval(() => {
-      if (uploadCapaEmCurso) return;
-
-      const draft = {
-        slug: document.getElementById("slug").value,
-        title: document.getElementById("title").value,
-        excerpt: document.getElementById("excerpt").value,
-        status: document.getElementById("status").value,
-        cover_image: document.getElementById("cover_image").value,
-        published_at: document.getElementById("published_at").value,
-        content: getEditorContent()
-      };
-
-      localStorage.setItem("draft-post", JSON.stringify(draft));
-    }, 5000);
-  }
-
-  document.getElementById("title").addEventListener("input", function () {
+  // ─── EVENTOS ──────────────────────────────────────────
+  document.getElementById("title").addEventListener("input", function() {
     if (postEmEdicao !== null) return;
-
-    const slug = this.value
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/[^a-z0-9]+/g, "-")
-      .replace(/^-+|-+$/g, "");
-
+    const slug = this.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
     document.getElementById("slug").value = slug;
     atualizarEstadoEditor();
   });
@@ -1681,34 +1119,26 @@
   document.getElementById("slug").addEventListener("input", atualizarEstadoEditor);
   document.getElementById("cover_image").addEventListener("input", atualizarPreviewCapa);
 
-  document.getElementById("cover-upload-input").addEventListener("change", async function () {
+  document.getElementById("cover-upload-input").addEventListener("change", async function() {
     const file = this.files && this.files[0] && this.files[0].size > 0 ? this.files[0] : null;
     if (!file) return;
     await uploadImagemCapa(file);
   });
 
-  document.getElementById("search-posts").addEventListener("input", function () {
+  document.getElementById("search-posts").addEventListener("input", function() {
     const termo = this.value.trim().toLowerCase();
-
-    const filtrados = postsGuardados.filter((post) => {
-      const titulo = String(post.title || "").toLowerCase();
-      const slug = String(post.slug || "").toLowerCase();
-      return titulo.includes(termo) || slug.includes(termo);
+    const filtrados = postsGuardados.filter(post => {
+      return String(post.title || "").toLowerCase().includes(termo) || String(post.slug || "").toLowerCase().includes(termo);
     });
-
     renderizarPosts(filtrados);
   });
 
-  document.getElementById("admin-password").addEventListener("keydown", function (e) {
-    if (e.key === "Enter") {
-      loginAdmin();
-    }
+  document.getElementById("admin-password").addEventListener("keydown", function(e) {
+    if (e.key === "Enter") loginAdmin();
   });
 
+  // ─── INIT ─────────────────────────────────────────────
   document.getElementById("stat-api-base").innerText = API_BASE;
-
-  restaurarDraftLocal();
-  iniciarAutoSave();
   verificarLogin();
   atualizarEstadoEditor();
 </script>
