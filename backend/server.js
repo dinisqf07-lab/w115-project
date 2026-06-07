@@ -29,7 +29,7 @@ const isProduction = process.env.NODE_ENV === "production";
 
 // # URLs do ambiente
 const FRONTEND_URL = process.env.FRONTEND_URL;
-const BACKEND_URL = process.env.BACKEND_URL || "https://w115-project.onrender.com";
+const BACKEND_URL = process.env.BACKEND_URL || "https://api-worker.dinisqf07.workers.dev";
 
 // # Validar variáveis importantes em produção
 if (isProduction) {
