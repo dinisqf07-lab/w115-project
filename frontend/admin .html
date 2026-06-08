@@ -4,10 +4,7 @@
   <meta charset="UTF-8">
   <title>Painel de Administração - Mercedes W115</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <!-- # TinyMCE -->
   <script src="https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js"></script>
-
   <style>
     :root {
       --bg: #f6f3ec;
@@ -30,9 +27,7 @@
       --info-text: #334;
       --shadow: 0 14px 32px rgba(0, 0, 0, 0.08);
     }
-
     * { box-sizing: border-box; }
-
     body {
       visibility: hidden;
       font-family: Arial, sans-serif;
@@ -45,12 +40,9 @@
         #f4f0e8;
       color: var(--text);
     }
-
     body.admin-ready { visibility: visible; }
-
     h1, h2, h3 { margin: 0 0 14px; line-height: 1.2; }
     h1, h2 { font-family: "Georgia", "Times New Roman", serif; }
-
     .panel {
       background: var(--panel);
       border: 1px solid var(--border);
@@ -58,11 +50,9 @@
       padding: 22px;
       box-shadow: var(--shadow);
     }
-
     .login-shell { max-width: 430px; margin: 70px auto; }
     .login-shell h2 { font-size: 2rem; margin-bottom: 10px; }
     .login-help { margin: 0 0 18px; color: var(--muted); line-height: 1.6; }
-
     .topbar {
       display: flex;
       align-items: center;
@@ -71,18 +61,15 @@
       flex-wrap: wrap;
       margin-bottom: 22px;
     }
-
     .topbar-left h1 { font-size: 2.2rem; margin-bottom: 6px; }
     .topbar-left p { margin: 0; color: var(--muted); }
     .topbar-actions { display: flex; gap: 10px; flex-wrap: wrap; }
-
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(5, minmax(0, 1fr));
       gap: 16px;
       margin-bottom: 22px;
     }
-
     .stat-card {
       background: var(--panel);
       border: 1px solid var(--border);
@@ -90,7 +77,6 @@
       padding: 18px;
       box-shadow: var(--shadow);
     }
-
     .stat-card span {
       display: block;
       font-size: 0.78rem;
@@ -100,16 +86,22 @@
       margin-bottom: 8px;
       font-weight: 700;
     }
-
     .stat-card strong { font-size: 1.2rem; color: var(--text); word-break: break-word; }
-
+    .stat-card a {
+      display: inline-block;
+      margin-top: 8px;
+      font-size: 0.82rem;
+      color: var(--gold);
+      text-decoration: none;
+      font-weight: 700;
+    }
+    .stat-card a:hover { text-decoration: underline; }
     .admin-grid {
       display: grid;
       grid-template-columns: 1.08fr 0.92fr;
       gap: 22px;
       align-items: start;
     }
-
     .editor-header, .posts-header, .messages-header {
       display: flex;
       align-items: center;
@@ -118,7 +110,6 @@
       flex-wrap: wrap;
       margin-bottom: 14px;
     }
-
     .editor-mode {
       display: inline-flex;
       align-items: center;
@@ -130,13 +121,10 @@
       color: #5f4f2d;
       border: 1px solid rgba(143, 122, 73, 0.18);
     }
-
     .editor-mode.hidden { display: none; }
-
     .field-label { display: block; margin: 4px 0 6px; font-size: 0.94rem; font-weight: 700; color: #332d26; }
     .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
     .field-grid-3 { display: grid; grid-template-columns: 1fr auto auto; gap: 10px; align-items: end; }
-
     input, textarea, select {
       width: 100%;
       padding: 12px 13px;
@@ -148,17 +136,13 @@
       color: var(--text);
       transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
-
     input:focus, textarea:focus, select:focus {
       outline: none;
       border-color: var(--gold);
       box-shadow: 0 0 0 3px rgba(143, 122, 73, 0.14);
     }
-
     .search-input { margin: 0; }
-
     .actions { display: flex; gap: 10px; margin-top: 10px; flex-wrap: wrap; }
-
     button {
       padding: 11px 16px;
       border-radius: 10px;
@@ -169,15 +153,12 @@
       cursor: pointer;
       transition: transform 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease;
     }
-
     button:hover { background: #ece6dc; transform: translateY(-1px); }
     button:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-
     .primary-btn { background: var(--gold); color: white; border-color: var(--gold); box-shadow: 0 10px 20px rgba(0,0,0,0.08); }
     .primary-btn:hover { background: var(--gold-dark); }
     .secondary-btn { background: #f6f3ec; border-color: #d9cfbd; }
     .danger-btn { background: var(--danger-bg); border-color: var(--danger-border); color: #7b2323; }
-
     .ghost-link {
       text-decoration: none;
       color: var(--text);
@@ -190,9 +171,7 @@
       background: #fbf8f1;
       transition: background-color 0.18s ease, transform 0.18s ease;
     }
-
     .ghost-link:hover { background: #f0e9de; transform: translateY(-1px); }
-
     .feedback {
       margin-top: 14px;
       padding: 12px 14px;
@@ -202,21 +181,16 @@
       display: none;
       line-height: 1.5;
     }
-
     .feedback.success { display: block; background: var(--success-bg); border-color: var(--success-border); color: var(--success-text); }
     .feedback.error { display: block; background: var(--error-bg); border-color: var(--error-border); color: var(--error-text); }
     .feedback.info { display: block; background: var(--info-bg); border-color: var(--info-border); color: var(--info-text); }
-
     .cover-preview-wrap { display: none; margin: 0 0 14px; }
     .cover-preview-wrap.active { display: block; }
     .cover-preview-label { display: block; margin-bottom: 8px; font-size: 0.9rem; font-weight: 700; color: var(--muted); }
     .cover-preview { display: block; width: 100%; max-width: 280px; height: auto; border-radius: 12px; border: 1px solid #e1d8c9; background: #fff; }
-
     .posts-list, .messages-list { display: grid; gap: 14px; margin-top: 14px; }
-
     .post-item, .message-item { border: 1px solid #e1d8c9; padding: 16px; border-radius: 14px; background: #faf8f2; }
     .message-item.unread { border-left: 4px solid #8f7a49; background: #fffaf0; }
-
     .post-item-top, .message-item-top {
       display: flex;
       align-items: flex-start;
@@ -224,10 +198,8 @@
       gap: 14px;
       margin-bottom: 8px;
     }
-
     .post-item h3, .message-item h3 { margin: 0 0 6px; font-size: 1.15rem; font-family: "Georgia", "Times New Roman", serif; }
-
-    .post-slug, .message-meta-badge {
+    .post-slug {
       display: inline-block;
       margin-bottom: 8px;
       font-size: 0.85rem;
@@ -237,9 +209,7 @@
       border-radius: 999px;
       border: 1px solid rgba(143, 122, 73, 0.14);
     }
-
     .post-meta, .message-meta { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 10px; }
-
     .meta-badge {
       display: inline-flex;
       align-items: center;
@@ -251,17 +221,13 @@
       background: #f7f2e8;
       color: #5c4d2f;
     }
-
     .meta-badge.draft { background: #f3f0ea; color: #6a6257; }
     .meta-badge.published { background: #eef9f0; color: #1f6b2a; border-color: #b7e0be; }
     .meta-badge.unread { background: #fff4dd; color: #7b5a14; border-color: #e3c889; }
     .meta-badge.read { background: #eef9f0; color: #1f6b2a; border-color: #b7e0be; }
-
     .post-cover-preview { display: block; width: 100%; max-width: 220px; height: auto; border-radius: 12px; border: 1px solid #e1d8c9; margin: 0 0 12px; background: #fff; }
-
     .post-item p, .message-item p { margin: 0 0 12px; color: #4d473f; line-height: 1.55; }
     .post-actions, .message-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-
     .message-body {
       padding: 12px 14px;
       border-radius: 12px;
@@ -271,30 +237,91 @@
       word-break: break-word;
       margin-bottom: 12px;
     }
-
     .empty-state { color: var(--muted); margin: 0; }
     .muted { color: var(--muted); }
-
-  
-
-    .log-item {
-      padding: 12px 14px;
-      border-radius: 12px;
-      border: 1px solid #e4dccf;
-      background: #faf8f2;
-      font-family: Consolas, Monaco, monospace;
-      font-size: 0.84rem;
-      line-height: 1.5;
-      white-space: pre-wrap;
-      word-break: break-word;
+    .messages-panel { margin-top: 22px; }
+    .messages-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
     }
 
-    .log-item.info { border-left: 4px solid #8f7a49; }
-    .log-item.warn { border-left: 4px solid #d3a323; background: #fff9ea; }
-    .log-item.error { border-left: 4px solid #b64a4a; background: #fff4f4; }
+    /* ── MODAL PREVIEW ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 1000;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 40px 16px;
+      overflow-y: auto;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-box {
+      background: #fffdf8;
+      border-radius: 18px;
+      max-width: 820px;
+      width: 100%;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.18);
+      overflow: hidden;
+    }
+    .modal-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 22px;
+      border-bottom: 1px solid #e8e0d0;
+      background: #f7f3ea;
+    }
+    .modal-topbar h3 { margin: 0; font-size: 1rem; color: var(--muted); }
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 1.4rem;
+      cursor: pointer;
+      color: var(--muted);
+      padding: 4px 8px;
+      border-radius: 8px;
+    }
+    .modal-close:hover { background: #ece6dc; transform: none; }
+    .modal-content {
+      padding: 32px 40px;
+      font-family: "Libre Baskerville", Georgia, serif;
+      color: #2a2520;
+      line-height: 1.75;
+    }
+    .modal-cover {
+      width: 100%;
+      max-height: 340px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 28px;
+    }
+    .modal-title {
+      font-family: "Playfair Display", Georgia, serif;
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 0 0 10px;
+      color: #1f1a14;
+    }
+    .modal-excerpt {
+      font-size: 1.08rem;
+      color: var(--muted);
+      margin: 0 0 24px;
+      font-style: italic;
+    }
+    .modal-body h1, .modal-body h2, .modal-body h3 { font-family: "Playfair Display", Georgia, serif; }
+    .modal-body img { max-width: 100%; border-radius: 8px; }
+    .modal-body p { margin: 0 0 16px; }
 
     @media (max-width: 980px) {
       .admin-grid, .stats-grid, .field-grid, .field-grid-3 { grid-template-columns: 1fr; }
+      .modal-content { padding: 24px 20px; }
     }
   </style>
 </head>
@@ -303,9 +330,7 @@
 
   <div id="login-box" class="panel login-shell">
     <h2>Login de Administração</h2>
-    <p class="login-help">
-      Entra com a password de administração para gerir artigos, editar conteúdos e fazer uploads.
-    </p>
+    <p class="login-help">Entra com a password de administração para gerir artigos, editar conteúdos e fazer uploads.</p>
     <input id="admin-password" type="password" placeholder="Password" autocomplete="current-password">
     <div class="actions">
       <button id="login-btn" class="primary-btn" onclick="loginAdmin()">Entrar</button>
@@ -327,10 +352,14 @@
 
     <div class="stats-grid">
       <div class="stat-card"><span>Total de posts</span><strong id="stat-total-posts">0</strong></div>
-      <div class="stat-card"><span>Modo</span><strong id="stat-mode">Criação</strong></div>
-      <div class="stat-card"><span>Último slug</span><strong id="stat-last-slug">—</strong></div>
+      <div class="stat-card"><span>Publicados</span><strong id="stat-published">0</strong></div>
+      <div class="stat-card"><span>Rascunhos</span><strong id="stat-drafts">0</strong></div>
       <div class="stat-card"><span>Mensagens por ler</span><strong id="stat-unread-messages">0</strong></div>
-      <div class="stat-card"><span>API</span><strong id="stat-api-base">—</strong></div>
+      <div class="stat-card">
+        <span>Analytics</span>
+        <strong>Cloudflare</strong>
+        <a href="https://dash.cloudflare.com/41c27ccfe9228337d600e3c60646d871/workers/services/view/api-worker/production/observability/logs" target="_blank" rel="noopener noreferrer">→ Ver métricas</a>
+      </div>
     </div>
 
     <div class="admin-grid">
@@ -367,14 +396,12 @@
           </div>
         </div>
 
-        <label class="field-label" for="cover_image">Imagem de capa</label>
+        <label class="field-label" for="cover_image">Imagem de capa (URL)</label>
         <div class="field-grid-3">
-          <input id="cover_image" placeholder="/uploads/exemplo.jpg ou URL completa">
-          <button type="button" class="secondary-btn" onclick="selecionarImagemCapa()">Upload capa</button>
+          <input id="cover_image" placeholder="https://exemplo.com/imagem.jpg">
+          <button type="button" class="secondary-btn" onclick="atualizarPreviewCapa()">Pré-ver</button>
           <button type="button" class="secondary-btn" onclick="removerImagemCapa()">Remover</button>
         </div>
-
-        <input id="cover-upload-input" type="file" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" style="display:none;">
 
         <div id="cover-preview-wrap" class="cover-preview-wrap">
           <span class="cover-preview-label">Pré-visualização da capa</span>
@@ -389,6 +416,7 @@
 
         <div class="actions">
           <button id="submit-btn" class="primary-btn" onclick="guardarPost()">Criar post</button>
+          <button id="preview-btn" class="secondary-btn" onclick="abrirPreview()">Pré-visualizar</button>
           <button id="cancel-edit-btn" class="secondary-btn" onclick="cancelarEdicao()" style="display:none;">Cancelar edição</button>
           <button class="secondary-btn" onclick="limparFormulario()">Limpar</button>
         </div>
@@ -414,36 +442,47 @@
       <div class="messages-header">
         <div>
           <h2>Mensagens recebidas</h2>
-          <p class="muted">Submissões do formulário de contacto guardadas na base de dados.</p>
+          <p class="muted">Submissões do formulário de contacto.</p>
         </div>
         <div class="topbar-actions">
-          <button id="refresh-messages-btn" class="secondary-btn" onclick="carregarMensagens()">Atualizar mensagens</button>
+          <button id="refresh-messages-btn" class="secondary-btn" onclick="carregarMensagens()">Atualizar</button>
         </div>
       </div>
       <div id="messages-list" class="messages-list">
         <p class="empty-state">A carregar mensagens...</p>
       </div>
     </div>
+  </div>
 
-    
+  <!-- MODAL PRÉ-VISUALIZAÇÃO -->
+  <div id="preview-modal" class="modal-overlay" onclick="fecharPreviewFora(event)">
+    <div class="modal-box">
+      <div class="modal-topbar">
+        <h3>Pré-visualização do artigo</h3>
+        <button class="modal-close" onclick="fecharPreview()">✕</button>
+      </div>
+      <div class="modal-content">
+        <img id="preview-cover" class="modal-cover" alt="Capa" style="display:none;">
+        <h1 id="preview-title" class="modal-title"></h1>
+        <p id="preview-excerpt" class="modal-excerpt"></p>
+        <div id="preview-body" class="modal-body"></div>
+      </div>
+    </div>
+  </div>
 
 <script>
   // ─── CONFIG ───────────────────────────────────────────
-  const API_BASE = "https://api-worker.dinisqf07.workers.dev";
-  const AUTH_LOGIN    = `${API_BASE}/api/auth/login`;
-  const AUTH_ME       = `${API_BASE}/api/auth/me`;
-  const AUTH_LOGOUT   = `${API_BASE}/api/auth/logout`;
-  const POSTS_ADMIN   = `${API_BASE}/api/admin/posts`;
-  const POSTS         = `${API_BASE}/api/posts`;
-  const UPLOAD        = `${API_BASE}/api/upload`;
+  const API_BASE       = "https://api-worker.dinisqf07.workers.dev";
+  const AUTH_LOGIN     = `${API_BASE}/api/auth/login`;
+  const AUTH_ME        = `${API_BASE}/api/auth/me`;
+  const AUTH_LOGOUT    = `${API_BASE}/api/auth/logout`;
+  const POSTS_ADMIN    = `${API_BASE}/api/admin/posts`;
   const ADMIN_MESSAGES = `${API_BASE}/api/admin/messages`;
-  
 
   // ─── TOKEN ────────────────────────────────────────────
   function getToken() { return sessionStorage.getItem("admin_token") || ""; }
   function setToken(t) { sessionStorage.setItem("admin_token", t); }
   function clearToken() { sessionStorage.removeItem("admin_token"); }
-
   function authHeaders(isJson = true) {
     const h = { "Authorization": `Bearer ${getToken()}` };
     if (isJson) h["Content-Type"] = "application/json";
@@ -459,9 +498,7 @@
   let apagarEmCurso = false;
   let duplicarEmCurso = false;
   let logoutEmCurso = false;
-  let uploadCapaEmCurso = false;
   let editorPronto = false;
-  let intervaloAutoSave = null;
   let mensagemAcaoEmCurso = false;
 
   // ─── UI HELPERS ───────────────────────────────────────
@@ -472,7 +509,6 @@
     el.className = `feedback ${tipo}`;
     el.innerHTML = texto;
   }
-
   function esconderMensagem(elementId) {
     const el = document.getElementById(elementId);
     if (!el) return;
@@ -480,34 +516,26 @@
     el.className = "feedback";
     el.innerHTML = "";
   }
-
   function escapeHtml(text) {
     return String(text || "")
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#039;");
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;").replace(/'/g, "&#039;");
   }
-
   function getEditor() { return tinymce.get("content") || null; }
   function getEditorContent() { const e = getEditor(); return e ? e.getContent() : ""; }
   function setEditorContent(c) { const e = getEditor(); if (e) e.setContent(c || ""); }
-
   function formatarDataInput(valor) {
     if (!valor) return "";
     const d = new Date(valor);
     if (isNaN(d.getTime())) return "";
     return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
   }
-
   function formatarDataTexto(valor) {
     if (!valor) return "Sem data";
     const d = new Date(valor);
     if (isNaN(d.getTime())) return valor;
     return d.toLocaleString("pt-PT");
   }
-
   function resolverImagem(url) {
     const v = String(url || "").trim();
     if (!v) return "";
@@ -516,6 +544,7 @@
     return `${API_BASE}/${v}`;
   }
 
+  // ─── PREVIEW CAPA ─────────────────────────────────────
   function atualizarPreviewCapa() {
     const wrap = document.getElementById("cover-preview-wrap");
     const img = document.getElementById("cover-preview");
@@ -524,167 +553,139 @@
     img.src = resolverImagem(valor);
     wrap.classList.add("active");
   }
+  function removerImagemCapa() {
+    document.getElementById("cover_image").value = "";
+    atualizarPreviewCapa();
+    atualizarEstadoEditor();
+  }
 
+  // ─── MODAL PRÉ-VISUALIZAÇÃO ───────────────────────────
+  function abrirPreview() {
+    const title   = document.getElementById("title").value.trim();
+    const excerpt = document.getElementById("excerpt").value.trim();
+    const content = getEditorContent();
+    const cover   = document.getElementById("cover_image").value.trim();
+
+    const coverEl  = document.getElementById("preview-cover");
+    const titleEl  = document.getElementById("preview-title");
+    const excerptEl = document.getElementById("preview-excerpt");
+    const bodyEl   = document.getElementById("preview-body");
+
+    if (cover) { coverEl.src = resolverImagem(cover); coverEl.style.display = "block"; }
+    else { coverEl.style.display = "none"; }
+
+    titleEl.textContent  = title || "(sem título)";
+    excerptEl.textContent = excerpt || "";
+    bodyEl.innerHTML     = content || "<p><em>(sem conteúdo)</em></p>";
+
+    document.getElementById("preview-modal").classList.add("active");
+    document.body.style.overflow = "hidden";
+  }
+  function fecharPreview() {
+    document.getElementById("preview-modal").classList.remove("active");
+    document.body.style.overflow = "";
+  }
+  function fecharPreviewFora(e) {
+    if (e.target === document.getElementById("preview-modal")) fecharPreview();
+  }
+  document.addEventListener("keydown", function(e) {
+    if (e.key === "Escape") fecharPreview();
+  });
+
+  // ─── ESTADO EDITOR ────────────────────────────────────
   function atualizarEstadoEditor() {
-    const mode = document.getElementById("editor-mode");
-    const title = document.getElementById("editor-title");
+    const mode      = document.getElementById("editor-mode");
+    const title     = document.getElementById("editor-title");
     const submitBtn = document.getElementById("submit-btn");
     const cancelBtn = document.getElementById("cancel-edit-btn");
-    const statMode = document.getElementById("stat-mode");
-    const statLastSlug = document.getElementById("stat-last-slug");
+    const statMode  = document.getElementById("stat-mode") || {};
 
     if (postEmEdicao !== null) {
       mode.classList.remove("hidden");
       title.innerText = "Editar artigo";
       submitBtn.innerText = guardarEmCurso ? "A atualizar..." : "Atualizar post";
       cancelBtn.style.display = "inline-flex";
-      statMode.innerText = "Edição";
+      if (statMode.innerText !== undefined) statMode.innerText = "Edição";
     } else {
       mode.classList.add("hidden");
       title.innerText = "Criar artigo";
       submitBtn.innerText = guardarEmCurso ? "A guardar..." : "Criar post";
       cancelBtn.style.display = "none";
-      statMode.innerText = "Criação";
+      if (statMode.innerText !== undefined) statMode.innerText = "Criação";
     }
-
-    submitBtn.disabled = guardarEmCurso || uploadCapaEmCurso;
-    statLastSlug.innerText = document.getElementById("slug").value.trim() || "—";
+    submitBtn.disabled = guardarEmCurso;
   }
-
   function atualizarBotaoLogin(ativo) {
     const b = document.getElementById("login-btn");
-    b.disabled = ativo;
-    b.innerText = ativo ? "A entrar..." : "Entrar";
+    b.disabled = ativo; b.innerText = ativo ? "A entrar..." : "Entrar";
   }
-
   function atualizarBotaoLogout(ativo) {
     const b = document.getElementById("logout-btn");
     if (!b) return;
-    b.disabled = ativo;
-    b.innerText = ativo ? "A sair..." : "Logout";
+    b.disabled = ativo; b.innerText = ativo ? "A sair..." : "Logout";
   }
-
   function atualizarBotoesAcao(ativo) {
     document.querySelectorAll(".danger-btn, .duplicate-btn, .edit-btn, .message-read-btn, .message-delete-btn").forEach(btn => btn.disabled = ativo);
   }
-
+  function atualizarStats() {
+    const total     = postsGuardados.length;
+    const published = postsGuardados.filter(p => p.status === "published").length;
+    const drafts    = postsGuardados.filter(p => p.status !== "published").length;
+    document.getElementById("stat-total-posts").innerText = total;
+    document.getElementById("stat-published").innerText   = published;
+    document.getElementById("stat-drafts").innerText      = drafts;
+  }
   function atualizarStatsMensagens() {
     const unread = mensagensGuardadas.filter(m => Number(m.is_read) !== 1).length;
     document.getElementById("stat-unread-messages").innerText = unread;
   }
 
-  // ─── UPLOAD CAPA ──────────────────────────────────────
-  function selecionarImagemCapa() {
-    if (uploadCapaEmCurso) return;
-    document.getElementById("cover-upload-input").click();
-  }
-
-  function removerImagemCapa() {
-    document.getElementById("cover_image").value = "";
-    document.getElementById("cover-upload-input").value = "";
-    atualizarPreviewCapa();
-    atualizarEstadoEditor();
-  }
-
-  async function uploadImagemCapa(file) {
-    if (!file || !file.size || uploadCapaEmCurso) return;
-
-    const formData = new FormData();
-    formData.append("image", file);
-
-    uploadCapaEmCurso = true;
-    mostrarMensagem("msg", "info", "A fazer upload da imagem de capa...");
-    atualizarEstadoEditor();
-
-    try {
-      const res = await fetch(UPLOAD, {
-        method: "POST",
-        headers: { "Authorization": `Bearer ${getToken()}` },
-        body: formData
-      });
-
-      const data = await res.json();
-      if (res.status === 401) { await logoutAdmin(); return; }
-      if (!res.ok) throw new Error(data.message || "Erro no upload da capa.");
-
-      const imageValue = data.location || data.path || "";
-      if (!imageValue) throw new Error("O servidor não devolveu o caminho da imagem.");
-
-      document.getElementById("cover_image").value = imageValue;
-      atualizarPreviewCapa();
-      mostrarMensagem("msg", "success", "Imagem de capa enviada com sucesso.");
-    } catch (error) {
-      console.error("Erro no upload da capa:", error);
-      mostrarMensagem("msg", "error", error.message || "Não foi possível enviar a imagem de capa.");
-    } finally {
-      uploadCapaEmCurso = false;
-      atualizarEstadoEditor();
-    }
-  }
-
   // ─── AUTH ─────────────────────────────────────────────
   async function verificarLogin() {
     try {
-      const res = await fetch(AUTH_ME, {
-        method: "GET",
-        headers: authHeaders(false)
-      });
-
+      const res = await fetch(AUTH_ME, { method: "GET", headers: authHeaders(false) });
       if (!res.ok) throw new Error("Sessão inválida.");
-
       document.getElementById("login-box").style.display = "none";
       document.getElementById("admin-app").style.display = "block";
       document.body.classList.add("admin-ready");
-
       await carregarPosts();
       await carregarMensagens();
-
     } catch {
       document.getElementById("login-box").style.display = "block";
       document.getElementById("admin-app").style.display = "none";
       document.body.classList.add("admin-ready");
     }
   }
-
   async function loginAdmin() {
     if (loginEmCurso) return;
-
     const password = document.getElementById("admin-password").value.trim();
     if (!password) { mostrarMensagem("login-msg", "error", "Introduz a password."); return; }
-
     esconderMensagem("login-msg");
     loginEmCurso = true;
     atualizarBotaoLogin(true);
-
     try {
       const res = await fetch(AUTH_LOGIN, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ password })
       });
-
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || "Erro no login.");
-
       setToken(data.token);
       document.getElementById("admin-password").value = "";
       await verificarLogin();
     } catch (error) {
-      console.error("Erro no login:", error);
       mostrarMensagem("login-msg", "error", error.message || "Não foi possível iniciar sessão.");
     } finally {
       loginEmCurso = false;
       atualizarBotaoLogin(false);
     }
   }
-
   async function logoutAdmin() {
     if (logoutEmCurso) return;
     logoutEmCurso = true;
     atualizarBotaoLogout(true);
-    try {
-      await fetch(AUTH_LOGOUT, { method: "POST", headers: authHeaders(false) });
-    } catch (e) { console.error("Erro no logout:", e); }
+    try { await fetch(AUTH_LOGOUT, { method: "POST", headers: authHeaders(false) }); } catch (e) {}
     finally { clearToken(); window.location.reload(); }
   }
 
@@ -695,44 +696,34 @@
       const res = await fetch(POSTS_ADMIN, { headers: authHeaders(false) });
       if (res.status === 401) { await logoutAdmin(); return; }
       if (!res.ok) throw new Error("Erro ao carregar artigos.");
-
       const posts = await res.json();
       postsGuardados = Array.isArray(posts) ? posts : [];
-      document.getElementById("stat-total-posts").innerText = postsGuardados.length;
-      document.getElementById("stat-last-slug").innerText = postsGuardados.length > 0 ? (postsGuardados[0].slug || "—") : "—";
+      atualizarStats();
       renderizarPosts(postsGuardados);
     } catch (error) {
-      console.error("Erro ao carregar artigos:", error);
       container.innerHTML = `<p class="empty-state">Não foi possível carregar os artigos.</p>`;
-      document.getElementById("stat-total-posts").innerText = "0";
-      document.getElementById("stat-last-slug").innerText = "—";
+      postsGuardados = [];
+      atualizarStats();
     }
   }
-
   function renderizarPosts(lista) {
     const container = document.getElementById("posts-list");
     container.innerHTML = "";
-
     if (!lista || lista.length === 0) {
       container.innerHTML = `<p class="empty-state">Ainda não existem artigos.</p>`;
       return;
     }
-
     lista.forEach(post => {
       const div = document.createElement("div");
       div.className = "post-item";
-
       const statusClass = post.status === "published" ? "published" : "draft";
       const statusLabel = post.status === "published" ? "Publicado" : "Rascunho";
-
       const verArtigo = post.status === "published"
         ? `<a class="ghost-link" href="./post.html?slug=${encodeURIComponent(post.slug || "")}" target="_blank" rel="noopener noreferrer">Ver artigo</a>`
         : `<span class="ghost-link" style="opacity:0.6; cursor:default;">Rascunho</span>`;
-
       const coverHtml = post.cover_image
-        ? `<img class="post-cover-preview" src="${escapeHtml(resolverImagem(post.cover_image))}" alt="Imagem de capa">`
+        ? `<img class="post-cover-preview" src="${escapeHtml(resolverImagem(post.cover_image))}" alt="Capa">`
         : "";
-
       div.innerHTML = `
         <div class="post-item-top">
           <div>
@@ -756,101 +747,78 @@
       container.appendChild(div);
     });
   }
-
   async function guardarPost() {
     if (guardarEmCurso) return;
-
-    const slug = document.getElementById("slug").value.trim();
-    const title = document.getElementById("title").value.trim();
-    const excerpt = document.getElementById("excerpt").value.trim();
-    const content = getEditorContent();
-    const status = document.getElementById("status").value;
+    const slug        = document.getElementById("slug").value.trim();
+    const title       = document.getElementById("title").value.trim();
+    const excerpt     = document.getElementById("excerpt").value.trim();
+    const content     = getEditorContent();
+    const status      = document.getElementById("status").value;
     const cover_image = document.getElementById("cover_image").value.trim();
     const publishedAtValue = document.getElementById("published_at").value;
     const published_at = publishedAtValue ? new Date(publishedAtValue).toISOString() : null;
-
     if (!slug || !title || !excerpt || !content) {
       mostrarMensagem("msg", "error", "Preenche slug, título, resumo e conteúdo.");
       return;
     }
-
     let url = POSTS_ADMIN;
     let method = "POST";
     let successText = "Post criado com sucesso.";
-
     if (postEmEdicao !== null) {
       url = `${POSTS_ADMIN}/${postEmEdicao}`;
       method = "PUT";
       successText = "Post atualizado com sucesso.";
     }
-
     guardarEmCurso = true;
     atualizarEstadoEditor();
     esconderMensagem("msg");
-
     try {
       const res = await fetch(url, {
         method,
         headers: authHeaders(),
         body: JSON.stringify({ slug, title, excerpt, content, status, cover_image, published_at })
       });
-
       const data = await res.json();
       if (res.status === 401) { await logoutAdmin(); return; }
       if (!res.ok) throw new Error(data.message || "Não foi possível guardar o artigo.");
-
-      mostrarMensagem("msg", "success", `${successText}${status === "published" ? `<br><a href="./post.html?slug=${encodeURIComponent(slug)}" target="_blank" rel="noopener noreferrer">Ver artigo</a>` : ""}`);
+      mostrarMensagem("msg", "success", `${successText}${status === "published" ? `<br><a href="./post.html?slug=${encodeURIComponent(slug)}" target="_blank">Ver artigo</a>` : ""}`);
       postEmEdicao = null;
       limparFormulario();
       await carregarPosts();
     } catch (error) {
-      console.error("Erro ao guardar artigo:", error);
       mostrarMensagem("msg", "error", error.message || "Não foi possível guardar o artigo.");
     } finally {
       guardarEmCurso = false;
       atualizarEstadoEditor();
     }
   }
-
   async function duplicarPost(id) {
     if (duplicarEmCurso) return;
     duplicarEmCurso = true;
     atualizarBotoesAcao(true);
     mostrarMensagem("msg", "info", "A duplicar artigo...");
-
     try {
-      const res = await fetch(`${POSTS_ADMIN}/${id}/duplicate`, {
-        method: "POST",
-        headers: authHeaders(false)
-      });
+      const res = await fetch(`${POSTS_ADMIN}/${id}/duplicate`, { method: "POST", headers: authHeaders(false) });
       const data = await res.json();
       if (res.status === 401) { await logoutAdmin(); return; }
       if (!res.ok) throw new Error(data.message || "Não foi possível duplicar o artigo.");
       mostrarMensagem("msg", "success", "Post duplicado com sucesso.");
       await carregarPosts();
     } catch (error) {
-      console.error("Erro ao duplicar artigo:", error);
       mostrarMensagem("msg", "error", error.message || "Não foi possível duplicar o artigo.");
     } finally {
       duplicarEmCurso = false;
       atualizarBotoesAcao(false);
     }
   }
-
   async function apagarPost(id) {
     if (apagarEmCurso) return;
-    const confirmar = confirm("Tens a certeza que queres apagar este artigo?");
-    if (!confirmar) return;
-
+    if (!confirm("Tens a certeza que queres apagar este artigo?")) return;
     apagarEmCurso = true;
     atualizarBotoesAcao(true);
     mostrarMensagem("msg", "info", "A apagar artigo...");
-
     try {
-      const res = await fetch(`${POSTS_ADMIN}/${id}`, {
-        method: "DELETE",
-        headers: authHeaders(false)
-      });
+      const res = await fetch(`${POSTS_ADMIN}/${id}`, { method: "DELETE", headers: authHeaders(false) });
       const data = await res.json();
       if (res.status === 401) { await logoutAdmin(); return; }
       if (!res.ok) throw new Error(data.message || "Erro ao apagar artigo.");
@@ -858,21 +826,19 @@
       mostrarMensagem("msg", "success", "Post apagado com sucesso.");
       await carregarPosts();
     } catch (error) {
-      console.error("Erro ao apagar artigo:", error);
       mostrarMensagem("msg", "error", error.message || "Não foi possível apagar o artigo.");
     } finally {
       apagarEmCurso = false;
       atualizarBotoesAcao(false);
     }
   }
-
   function editarPost(id) {
     const post = postsGuardados.find(p => Number(p.id) === Number(id));
     if (!post) return;
-    document.getElementById("slug").value = post.slug || "";
-    document.getElementById("title").value = post.title || "";
-    document.getElementById("excerpt").value = post.excerpt || "";
-    document.getElementById("status").value = post.status || "draft";
+    document.getElementById("slug").value        = post.slug || "";
+    document.getElementById("title").value       = post.title || "";
+    document.getElementById("excerpt").value     = post.excerpt || "";
+    document.getElementById("status").value      = post.status || "draft";
     document.getElementById("cover_image").value = post.cover_image || "";
     document.getElementById("published_at").value = formatarDataInput(post.published_at);
     setEditorContent(post.content || "");
@@ -882,7 +848,6 @@
     esconderMensagem("msg");
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
-
   function limparFormulario() {
     document.getElementById("slug").value = "";
     document.getElementById("title").value = "";
@@ -890,13 +855,11 @@
     document.getElementById("status").value = "draft";
     document.getElementById("cover_image").value = "";
     document.getElementById("published_at").value = "";
-    document.getElementById("cover-upload-input").value = "";
     setEditorContent("");
     esconderMensagem("msg");
     atualizarPreviewCapa();
     atualizarEstadoEditor();
   }
-
   function cancelarEdicao() {
     postEmEdicao = null;
     limparFormulario();
@@ -905,19 +868,18 @@
 
   // ─── MENSAGENS ────────────────────────────────────────
   async function carregarMensagens() {
-    const container = document.getElementById("messages-list");
+    const container  = document.getElementById("messages-list");
     const refreshBtn = document.getElementById("refresh-messages-btn");
     try {
       refreshBtn.disabled = true;
       container.innerHTML = `<p class="empty-state">A carregar mensagens...</p>`;
-      const res = await fetch(ADMIN_MESSAGES, { headers: authHeaders(false) });
+      const res  = await fetch(ADMIN_MESSAGES, { headers: authHeaders(false) });
       const data = await res.json();
       if (res.status === 401) { await logoutAdmin(); return; }
       if (!res.ok) throw new Error(data.message || "Erro ao carregar mensagens.");
       mensagensGuardadas = Array.isArray(data.messages) ? data.messages : (Array.isArray(data) ? data : []);
       renderizarMensagens(mensagensGuardadas);
     } catch (error) {
-      console.error("Erro ao carregar mensagens:", error);
       container.innerHTML = `<p class="empty-state">Não foi possível carregar as mensagens.</p>`;
       mensagensGuardadas = [];
       atualizarStatsMensagens();
@@ -925,19 +887,16 @@
       refreshBtn.disabled = false;
     }
   }
-
   function renderizarMensagens(lista) {
     const container = document.getElementById("messages-list");
     container.innerHTML = "";
-
     if (!lista || lista.length === 0) {
       container.innerHTML = `<p class="empty-state">Ainda não existem mensagens.</p>`;
       atualizarStatsMensagens();
       return;
     }
-
     lista.forEach(msg => {
-      const div = document.createElement("div");
+      const div  = document.createElement("div");
       const lida = Number(msg.is_read) === 1;
       div.className = `message-item ${lida ? "" : "unread"}`;
       div.innerHTML = `
@@ -963,52 +922,41 @@
     });
     atualizarStatsMensagens();
   }
-
   async function marcarMensagemLida(id) {
     if (mensagemAcaoEmCurso) return;
     mensagemAcaoEmCurso = true;
     atualizarBotoesAcao(true);
     try {
-      const res = await fetch(`${ADMIN_MESSAGES}/${id}/read`, {
-        method: "PATCH",
-        headers: authHeaders(false)
-      });
+      const res  = await fetch(`${ADMIN_MESSAGES}/${id}/read`, { method: "PATCH", headers: authHeaders(false) });
       const data = await res.json();
       if (res.status === 401) { await logoutAdmin(); return; }
-      if (!res.ok) throw new Error(data.message || "Não foi possível marcar a mensagem como lida.");
+      if (!res.ok) throw new Error(data.message || "Erro.");
       await carregarMensagens();
     } catch (error) {
-      console.error("Erro:", error);
-      alert(error.message || "Não foi possível marcar a mensagem como lida.");
+      alert(error.message || "Não foi possível marcar como lida.");
     } finally {
       mensagemAcaoEmCurso = false;
       atualizarBotoesAcao(false);
     }
   }
-
   async function apagarMensagem(id) {
     if (mensagemAcaoEmCurso) return;
     if (!confirm("Tens a certeza que queres apagar esta mensagem?")) return;
     mensagemAcaoEmCurso = true;
     atualizarBotoesAcao(true);
     try {
-      const res = await fetch(`${ADMIN_MESSAGES}/${id}`, {
-        method: "DELETE",
-        headers: authHeaders(false)
-      });
+      const res  = await fetch(`${ADMIN_MESSAGES}/${id}`, { method: "DELETE", headers: authHeaders(false) });
       const data = await res.json();
       if (res.status === 401) { await logoutAdmin(); return; }
-      if (!res.ok) throw new Error(data.message || "Não foi possível apagar a mensagem.");
+      if (!res.ok) throw new Error(data.message || "Erro.");
       await carregarMensagens();
     } catch (error) {
-      console.error("Erro:", error);
       alert(error.message || "Não foi possível apagar a mensagem.");
     } finally {
       mensagemAcaoEmCurso = false;
       atualizarBotoesAcao(false);
     }
   }
-
 
   // ─── TINYMCE ──────────────────────────────────────────
   tinymce.init({
@@ -1017,23 +965,6 @@
     menubar: false,
     plugins: ["lists", "link", "image", "table", "code"],
     toolbar: "undo redo | styles | bold italic | alignleft aligncenter alignright | bullist numlist | link image | code",
-    automatic_uploads: true,
-    file_picker_types: "image",
-    images_upload_handler: async (blobInfo) => {
-      const formData = new FormData();
-      formData.append("image", blobInfo.blob(), blobInfo.filename());
-      const res = await fetch(UPLOAD, {
-        method: "POST",
-        headers: { "Authorization": `Bearer ${getToken()}` },
-        body: formData
-      });
-      let data = {};
-      try { data = await res.json(); } catch (e) {}
-      if (res.status === 401) { await logoutAdmin(); throw new Error("Sessão expirada."); }
-      const imagePath = data.location || data.path || data.url || "";
-      if (!res.ok || !imagePath) throw new Error(data.message || "Erro no upload.");
-      return resolverImagem(imagePath);
-    },
     setup: function(editor) {
       editor.on("init", function() { editorPronto = true; });
       editor.on("change keyup", function() { editor.save(); });
@@ -1047,30 +978,21 @@
     document.getElementById("slug").value = slug;
     atualizarEstadoEditor();
   });
-
   document.getElementById("slug").addEventListener("input", atualizarEstadoEditor);
   document.getElementById("cover_image").addEventListener("input", atualizarPreviewCapa);
-
-  document.getElementById("cover-upload-input").addEventListener("change", async function() {
-    const file = this.files && this.files[0] && this.files[0].size > 0 ? this.files[0] : null;
-    if (!file) return;
-    await uploadImagemCapa(file);
-  });
-
   document.getElementById("search-posts").addEventListener("input", function() {
     const termo = this.value.trim().toLowerCase();
-    const filtrados = postsGuardados.filter(post => {
-      return String(post.title || "").toLowerCase().includes(termo) || String(post.slug || "").toLowerCase().includes(termo);
-    });
+    const filtrados = postsGuardados.filter(post =>
+      String(post.title || "").toLowerCase().includes(termo) ||
+      String(post.slug || "").toLowerCase().includes(termo)
+    );
     renderizarPosts(filtrados);
   });
-
   document.getElementById("admin-password").addEventListener("keydown", function(e) {
     if (e.key === "Enter") loginAdmin();
   });
 
   // ─── INIT ─────────────────────────────────────────────
-  document.getElementById("stat-api-base").innerText = API_BASE;
   verificarLogin();
   atualizarEstadoEditor();
 </script>
