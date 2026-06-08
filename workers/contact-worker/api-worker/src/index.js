@@ -1,5 +1,6 @@
 import { createClient } from "@libsql/client";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
 
 // # CORS headers
 function corsHeaders(env) {
@@ -55,7 +56,6 @@ function validarSlug(slug) {
   const s = slug.trim();
   return s.length >= 3 && s.length <= 180 && /^[a-z0-9-]+$/.test(s);
 }
-
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -78,7 +78,7 @@ export default {
         return json({ ok: false, message: "Password obrigatória." }, 400, env);
       }
 
-      const { default: bcrypt } = await import("bcryptjs");
+   
       const ok = await bcrypt.compare(password, env.ADMIN_PASSWORD_HASH);
       if (!ok) return json({ ok: false, message: "Credenciais inválidas." }, 401, env);
 

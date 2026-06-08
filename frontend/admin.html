@@ -275,24 +275,7 @@
     .empty-state { color: var(--muted); margin: 0; }
     .muted { color: var(--muted); }
 
-    .logs-panel, .messages-panel { margin-top: 22px; }
-
-    .logs-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 14px;
-    }
-
-    .logs-list {
-      display: grid;
-      gap: 10px;
-      max-height: 420px;
-      overflow-y: auto;
-      padding-right: 4px;
-    }
+  
 
     .log-item {
       padding: 12px 14px;
@@ -442,21 +425,7 @@
       </div>
     </div>
 
-    <div class="panel logs-panel">
-      <div class="logs-header">
-        <div>
-          <h2>Logs do sistema</h2>
-          <p class="muted">Últimos eventos registados.</p>
-        </div>
-        <div class="topbar-actions">
-          <button id="refresh-logs-btn" class="secondary-btn" onclick="carregarLogs()">Atualizar logs</button>
-        </div>
-      </div>
-      <div id="logs-list" class="logs-list">
-        <p class="empty-state">A carregar logs...</p>
-      </div>
-    </div>
-  </div>
+    
 
 <script>
   // ─── CONFIG ───────────────────────────────────────────
@@ -468,7 +437,7 @@
   const POSTS         = `${API_BASE}/api/posts`;
   const UPLOAD        = `${API_BASE}/api/upload`;
   const ADMIN_MESSAGES = `${API_BASE}/api/admin/messages`;
-  const ADMIN_LOGS    = `${API_BASE}/api/admin/logs`;
+  
 
   // ─── TOKEN ────────────────────────────────────────────
   function getToken() { return sessionStorage.getItem("admin_token") || ""; }
@@ -669,7 +638,7 @@
 
       await carregarPosts();
       await carregarMensagens();
-      carregarLogs();
+
     } catch {
       document.getElementById("login-box").style.display = "block";
       document.getElementById("admin-app").style.display = "none";
@@ -1040,43 +1009,6 @@
     }
   }
 
-  // ─── LOGS ─────────────────────────────────────────────
-  async function carregarLogs() {
-    const container = document.getElementById("logs-list");
-    const refreshBtn = document.getElementById("refresh-logs-btn");
-    try {
-      refreshBtn.disabled = true;
-      container.innerHTML = `<p class="empty-state">A carregar logs...</p>`;
-      const res = await fetch(ADMIN_LOGS, { headers: authHeaders(false) });
-      const data = await res.json();
-      if (res.status === 401) { await logoutAdmin(); return; }
-      if (!res.ok) throw new Error(data.message || "Erro ao carregar logs.");
-      renderizarLogs(data.logs || []);
-    } catch (error) {
-      console.error("Erro ao carregar logs:", error);
-      container.innerHTML = `<p class="empty-state">Não foi possível carregar os logs.</p>`;
-    } finally {
-      refreshBtn.disabled = false;
-    }
-  }
-
-  function renderizarLogs(logs) {
-    const container = document.getElementById("logs-list");
-    container.innerHTML = "";
-    if (!logs || logs.length === 0) {
-      container.innerHTML = `<p class="empty-state">Ainda não existem logs.</p>`;
-      return;
-    }
-    logs.forEach(linha => {
-      const div = document.createElement("div");
-      let tipo = "info";
-      if (linha.includes("[WARN]")) tipo = "warn";
-      if (linha.includes("[ERROR]")) tipo = "error";
-      div.className = `log-item ${tipo}`;
-      div.textContent = linha;
-      container.appendChild(div);
-    });
-  }
 
   // ─── TINYMCE ──────────────────────────────────────────
   tinymce.init({
