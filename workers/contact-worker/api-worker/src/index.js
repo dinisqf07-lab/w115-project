@@ -204,6 +204,58 @@ export default {
       if (result.rowsAffected === 0) return json({ ok: false, message: "Post não encontrado." }, 404, env);
       return json({ ok: true, message: "Post apagado." }, 200, env);
     }
+// # POST /api/contact
+if (path === "/api/contact" && method === "POST") {
+  const { nome, email, telefone, tipo_contacto, mensagem, botcheck } = await request.json();
+
+  if (botcheck) return json({ ok: true }, 200, env);
+
+  if (!nome || !email || !mensagem) {
+    return json({ ok: false, message: "Preenche os campos obrigatórios." }, 400, env);
+  }
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return json({ ok: false, message: "Email inválido." }, 400, env);
+  }
+
+  // # Guardar na DB
+  await db.execute({
+    sql: `INSERT INTO contacts (name, email, phone, type, message) VALUES (?, ?, ?, ?, ?)`,
+    args: [nome, email, telefone || null, tipo_contacto || null, mensagem]
+  });
+
+  // # Enviar email via Resend
+  const resendRes = await fetch("https://api.resend.com/emails", {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${env.RESEND_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      from: "Site Contactos <onboarding@resend.dev>",
+      to: env.EMAIL_DESTINO,
+      reply_to: email,
+      subject: `Nova mensagem de ${nome} — ${tipo_contacto || "sem tipo"}`,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px;">
+          <h2>Nova mensagem do site</h2>
+          <p><strong>Nome:</strong> ${nome}</p>
+          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Telefone:</strong> ${telefone || "—"}</p>
+          <p><strong>Tipo:</strong> ${tipo_contacto || "—"}</p>
+          <hr>
+          <p>${mensagem.replace(/\n/g, "<br>")}</p>
+        </div>
+      `,
+    }),
+  });
+
+  if (!resendRes.ok) {
+    return json({ ok: false, message: "Erro ao enviar email." }, 500, env);
+  }
+
+  return json({ ok: true, message: "Mensagem enviada com sucesso." }, 200, env);
+}
 
     // # 404
     return json({ ok: false, message: "Rota não encontrada." }, 404, env);
